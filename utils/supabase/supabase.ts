@@ -67,34 +67,6 @@ export interface Database {
           }
         ]
       }
-      front_colors: {
-        Row: {
-          color_code: string | null
-          front_id: number
-          id: number
-          name: string | null
-        }
-        Insert: {
-          color_code?: string | null
-          front_id: number
-          id?: number
-          name?: string | null
-        }
-        Update: {
-          color_code?: string | null
-          front_id?: number
-          id?: number
-          name?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "front_colors_front_id_fkey"
-            columns: ["front_id"]
-            referencedRelation: "fronts"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
       front_options: {
         Row: {
           front_id: number | null
@@ -129,7 +101,7 @@ export interface Database {
           }
         ]
       }
-      fronts: {
+      front_types: {
         Row: {
           id: number
           name: string
@@ -144,27 +116,55 @@ export interface Database {
         }
         Relationships: []
       }
+      fronts: {
+        Row: {
+          color_code: string | null
+          front_type_id: number
+          id: number
+          name: string | null
+        }
+        Insert: {
+          color_code?: string | null
+          front_type_id: number
+          id?: number
+          name?: string | null
+        }
+        Update: {
+          color_code?: string | null
+          front_type_id?: number
+          id?: number
+          name?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fronts_front_type_id_fkey"
+            columns: ["front_type_id"]
+            referencedRelation: "front_types"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       kitchen_types: {
         Row: {
           id: number
           name: string | null
           project_id: number
-          standard_front: number | null
-          standard_worktop: number | null
+          standard_front_id: number | null
+          standard_worktop_id: number | null
         }
         Insert: {
           id?: number
           name?: string | null
           project_id: number
-          standard_front?: number | null
-          standard_worktop?: number | null
+          standard_front_id?: number | null
+          standard_worktop_id?: number | null
         }
         Update: {
           id?: number
           name?: string | null
           project_id?: number
-          standard_front?: number | null
-          standard_worktop?: number | null
+          standard_front_id?: number | null
+          standard_worktop_id?: number | null
         }
         Relationships: [
           {
@@ -174,14 +174,14 @@ export interface Database {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "kitchen_types_standard_front_fkey"
-            columns: ["standard_front"]
+            foreignKeyName: "kitchen_types_standard_front_id_fkey"
+            columns: ["standard_front_id"]
             referencedRelation: "fronts"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "kitchen_types_standard_worktop_fkey"
-            columns: ["standard_worktop"]
+            foreignKeyName: "kitchen_types_standard_worktop_id_fkey"
+            columns: ["standard_worktop_id"]
             referencedRelation: "worktops"
             referencedColumns: ["id"]
           }
@@ -230,34 +230,6 @@ export interface Database {
           }
         ]
       }
-      worktop_colors: {
-        Row: {
-          color: string | null
-          id: number
-          name: string | null
-          worktop_id: number
-        }
-        Insert: {
-          color?: string | null
-          id?: number
-          name?: string | null
-          worktop_id: number
-        }
-        Update: {
-          color?: string | null
-          id?: number
-          name?: string | null
-          worktop_id?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "worktop_colors_worktop_id_fkey"
-            columns: ["worktop_id"]
-            referencedRelation: "worktops"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
       worktop_options: {
         Row: {
           id: number
@@ -292,7 +264,7 @@ export interface Database {
           }
         ]
       }
-      worktops: {
+      worktop_types: {
         Row: {
           id: number
           make: string
@@ -306,6 +278,34 @@ export interface Database {
           make?: string
         }
         Relationships: []
+      }
+      worktops: {
+        Row: {
+          color: string | null
+          id: number
+          name: string | null
+          worktop_type_id: number
+        }
+        Insert: {
+          color?: string | null
+          id?: number
+          name?: string | null
+          worktop_type_id: number
+        }
+        Update: {
+          color?: string | null
+          id?: number
+          name?: string | null
+          worktop_type_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "worktops_worktop_type_id_fkey"
+            columns: ["worktop_type_id"]
+            referencedRelation: "worktop_types"
+            referencedColumns: ["id"]
+          }
+        ]
       }
     }
     Views: {
