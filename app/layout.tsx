@@ -1,6 +1,7 @@
-import { Database } from '../src/utils/supabase/supabaseDB'
+import { Database } from '@/utils/supabase/supabase'
 import './globals.css'
 import { createClient } from '@supabase/supabase-js'
+import AuthButton from './_components/AuthButton'
 
 export const dynamic = 'force-dynamic'
 
@@ -16,7 +17,11 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className="bg-background text-foreground">
-        <main className="min-h-screen flex flex-col items-center">
+        <main className="min-h-screen flex flex-col items-center mx-12">
+          <header className='flex felx-row justify-between w-full'>
+            <h1 className="text-3xl font-bold">Optionaid</h1>
+            <AuthButton />
+          </header>
           {children}
         </main>
       </body>
