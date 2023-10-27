@@ -37,7 +37,7 @@ const KitchenTypes = (props: KitchenTypesProps) => {
 
   useEffect(() => {
     const fetchKitchenTypes = async () => {
-        const { data: kitchenTypes } = await supabase.from('kitchen_types').select('*, apartments(*,users(*)),fronts(*),worktops(*)').eq('project_id', props.project.id);
+        const { data: kitchenTypes } = await supabase.from('kitchen_types').select('*,apartments(*,users(*)),worktops(*),fronts(*)').eq('project_id', props.project.id);
         setKitchenTypes(kitchenTypes as any)
     }
     fetchKitchenTypes();

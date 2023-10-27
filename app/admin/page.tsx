@@ -34,7 +34,6 @@ const Admin = () => {
         setLoading(false);
     },[selectedProject]);
  
-    console.log(selectedProject, loading);
     return (
         <section className='flex flex-row justify-start gap-12 self-start w-full'>
             <div className='flex flex-col'>
