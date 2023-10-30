@@ -3,6 +3,7 @@ import React, {useState, useEffect } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { Project } from '../admin/page';
 import Apartments from './Apartments';
+import KitchenTypesCreator from './KitchenTypesCreator';
 
 export type KitchenTypesProps = {
   project: Project;
@@ -34,6 +35,7 @@ const KitchenTypes = (props: KitchenTypesProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedType, setSelectedType] = useState<KitchenType | null>(null);
   const [editing , setEditing] = useState<boolean>(false)
+  const [creating, setCreating] = useState<boolean>(false)
 
   useEffect(() => {
     const fetchKitchenTypes = async () => {
@@ -42,7 +44,7 @@ const KitchenTypes = (props: KitchenTypesProps) => {
     }
     fetchKitchenTypes();
   },[]);
-
+  console.log('kitchenTypes', kitchenTypes)
   useEffect(() => {
     setLoading(false);
   },[selectedType]);
@@ -56,7 +58,14 @@ const KitchenTypes = (props: KitchenTypesProps) => {
   }
   const handleTypeClick = (kitchenType: KitchenType) =>{
     setEditing(true)
+    setCreating(false)
     handleSelectType(kitchenType)
+    props.handleProjectEditorClose()
+  }
+  const handleOpenKitchenTypeCreator = () => {
+    setEditing(false)
+    setCreating(true)
+    setSelectedType(null)
     props.handleProjectEditorClose()
   }
     return (
@@ -66,16 +75,19 @@ const KitchenTypes = (props: KitchenTypesProps) => {
                 <button className={selectedType?.id == kitchenType.id ? 'bg-white text-black' : ''} onClick={() => handleTypeClick(kitchenType)} key={kitchenType.id}>type {kitchenType.name}</button>
                 ))}
           
-          <button> Add new Type + </button>
+          <button onClick={handleOpenKitchenTypeCreator}> Add new Type + </button>
         </div>
-        {selectedType && !loading && (
-          <Apartments kitchenType={selectedType} handleTypeEditorClose={handleTypeEditorClose}/>
+          {selectedType && !loading && (
+            <Apartments kitchenType={selectedType} handleTypeEditorClose={handleTypeEditorClose}/>
           )}
 
           {editing && (
             <div className='self-end bg-slate-500 h-40 w-full'>
-            editing types here
-        </div>
+              editing types here
+            </div>
+          )}
+          {creating && (
+            <KitchenTypesCreator project={props.project} />
           )}
         </>
     );
