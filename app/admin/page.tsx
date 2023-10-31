@@ -3,13 +3,12 @@ import React, {useState, useEffect, use } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import KitchenTypes from '../_components/KitchenTypes';
 import ProjectCreator from '../_components/ProjectCreator';
+import ProjectEditor from '../_components/ProjectEditor';
+import classNames from 'classnames'; 
+import { Project } from '@/app/types';
 
-export type Project = {
-    id: number,
-    name: string | null,
-}
 
-const Admin = ({data} : any) => {
+const Admin = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [projects, setProjects] = useState<Project[] | null>([]);
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -45,19 +44,19 @@ const Admin = ({data} : any) => {
         setLoading(false);
     },[selectedProject]);
  
-    return (
-        <section className='flex flex-row justify-start gap-12 self-start w-full'>
-            <div className='flex flex-col'>
+    return (   
+        <section className='flex flex-row justify-start gap-2 self-start w-full h-full'>
+            <div className='flex flex-col bg-secondary p-4 rounded min-w-fit gap-1 overflow-y-auto scrollbar-thin scrollbar-track-secondary scrollbar-thumb-secondaryHover'>
             {projects && projects.map((project: any) => (
-                    <button className={selectedProject?.id == project.id ?'bg-white text-black' : 'text-white'}key={project.id} onClick={() => handleSelectProject(project)}>{project.name}</button>
+                    <button className={classNames({ 'bg-primary': selectedProject?.id === project.id }, 'p-2 rounded text-lg font-semibold hover:bg-primaryHover')} key={project.id} onClick={() => handleSelectProject(project)}>{project.name}</button>
                 ))}
-                <button className='bg-black text-white' onClick={handleProjectCreatorOpen}>add new project +</button>
+                <button className={classNames({ 'bg-primary': creating},'p-2 rounded text-lg font-semibold hover:bg-primaryHover')} onClick={handleProjectCreatorOpen}>+ Project</button>
             </div>
                 {selectedProject && !loading && (
                     <KitchenTypes project={selectedProject} handleProjectEditorClose={handleProjectEditorClose}/>
                 )}
                 {editing && (
-                    <div>Editing = true</div>
+                    <ProjectEditor />
                 )}
                 {creating && (
                     <ProjectCreator />

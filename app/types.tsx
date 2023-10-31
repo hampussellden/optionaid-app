@@ -1,0 +1,59 @@
+export type ClientUser = {
+  id: string;
+  email: string;
+  full_name: string;
+  app_role: 'client'
+}
+
+export type Apartment = {
+id:number;
+kitchen_type_id: number;
+name: string;
+front_id: number;
+worktop_id: number;
+user_id: string;
+users?: User;
+}
+
+export type CreationMessage = {
+  message: string;
+  type: 'success' | 'error';
+}
+
+export type App_role = 'client' | 'admin'
+export type User = {
+  id: string;
+  email: string;
+  full_name: string;
+  app_role: App_role;
+};
+export type KitchenType = {
+  id: number;
+  name: string | null;
+  project_id: number;
+  standard_front_id: number | null;
+  standard_worktop_id: number | null;
+  apartments?: any;
+  fronts?: any;
+  worktops?: any;
+  users: any;
+}
+export type Project = {
+  id: number,
+  name: string | null,
+}
+
+export type Front = {
+  id: number;
+  name: string;
+  front_type_id: number;
+  color: string;
+  front_types: {id:number, name:string};
+}
+export type Worktop = {
+  id:number;
+  worktop_type_id: number;
+  color: string;
+  name: string;
+  worktop_types: {id:number, make:string};
+}

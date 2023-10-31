@@ -1,33 +1,15 @@
 'use client'
 import React, {useState, useEffect } from 'react';
 import { createClient } from '@/utils/supabase/client';
-import { Project } from '../admin/page';
+import { Project, KitchenType} from '@/app/types'
 import Apartments from './Apartments';
 import KitchenTypesCreator from './KitchenTypesCreator';
+import classNames from 'classnames';
 
 export type KitchenTypesProps = {
   project: Project;
   handleProjectEditorClose: () => void
 } 
-export type App_role = 'client' | 'admin'
-export type User = {
-  id: string;
-  email: string;
-  full_name: string;
-  app_role: App_role;
-};
-export type KitchenType = {
-  id: number;
-  name: string | null;
-  project_id: number;
-  standard_front_id: number | null;
-  standard_worktop_id: number | null;
-  apartments?: any;
-  fronts?: any;
-  worktops?: any;
-  users: any;
-}
-
 
 const KitchenTypes = (props: KitchenTypesProps) => {
   const [kitchenTypes, setKitchenTypes] = useState<KitchenType[] | null>(null);
@@ -39,12 +21,12 @@ const KitchenTypes = (props: KitchenTypesProps) => {
 
   useEffect(() => {
     const fetchKitchenTypes = async () => {
-        const { data: kitchenTypes } = await supabase.from('kitchen_types').select('*,apartments(*,users(*)),worktops(*),fronts(*)').eq('project_id', props.project.id);
-        setKitchenTypes(kitchenTypes as any)
+        const { data: kitchenTypes } = await supabase.from('kitchen_types').select('*,worktops(*),fronts(*)').eq('project_id', props.project.id).order('id', { ascending: true });
+        setKitchenTypes(kitchenTypes as KitchenType[])
     }
     fetchKitchenTypes();
   },[]);
-  console.log('kitchenTypes', kitchenTypes)
+
   useEffect(() => {
     setLoading(false);
   },[selectedType]);
@@ -70,12 +52,12 @@ const KitchenTypes = (props: KitchenTypesProps) => {
   }
     return (
       <>
-        <div className='flex flex-col items-start min-w-fit'>
+          <div className='flex flex-col items-start min-w-fit rounded bg-secondary p-4  gap-1 max-h-96 scroll-smooth overflow-y-auto scrollbar-thin scrollbar-track-secondary scrollbar-thumb-secondaryHover'>
               {kitchenTypes && kitchenTypes.map((kitchenType: any) => (
-                <button className={selectedType?.id == kitchenType.id ? 'bg-white text-black' : ''} onClick={() => handleTypeClick(kitchenType)} key={kitchenType.id}>type {kitchenType.name}</button>
+                <button className={classNames({ 'bg-primary': selectedType?.id === kitchenType.id }, 'p-2 rounded text-lg font-semibold hover:bg-primaryHover')} onClick={() => handleTypeClick(kitchenType)} key={kitchenType.id}>type {kitchenType.name}</button>
                 ))}
           
-          <button onClick={handleOpenKitchenTypeCreator}> Add new Type + </button>
+          <button className={classNames({ 'bg-primary': creating},'p-2 rounded text-lg font-semibold hover:bg-primaryHover')}onClick={handleOpenKitchenTypeCreator}> + Type </button>
         </div>
           {selectedType && !loading && (
             <Apartments kitchenType={selectedType} handleTypeEditorClose={handleTypeEditorClose}/>
