@@ -10,12 +10,12 @@ export async function middleware(req: NextRequest) {
   const {
     data: { user },
   } = await supabase.auth.getUser()
-
+  const {data: {session}} = await supabase.auth.getSession()
   const {data: role, error} = await supabase.from('users').select('app_role').eq('id', user?.id).single()
   const app_role = role?.app_role;
 
   // if user is signed in and the current path is / redirect the user to /dashboard
-  if (user && req.nextUrl.pathname === '/') {
+  if (user && session && req.nextUrl.pathname === '/') {
     if(app_role === 'admin'){
       return NextResponse.redirect(new URL('/admin', req.url))
     } else if(app_role === 'client'){
