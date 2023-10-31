@@ -10,8 +10,11 @@
     --text: 218 35% 6%;
     --background: 216 33% 97%;
     --primary: 36 35% 72%;
+    --primary-hover: 36 35% 72% / .45;
     --secondary: 70 35% 86%;
+    --secondary-hover: 70 35% 86% / .45;
     --accent: 8 35% 46%;
+    --accent-hover: 8 35% 46% / .45;
   }
   @media (prefers-color-scheme: dark) {
     :root {

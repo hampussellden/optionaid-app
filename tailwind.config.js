@@ -13,6 +13,9 @@ module.exports = {
         primary: 'hsl(var(--primary))',
         secondary: 'hsl(var(--secondary))',
         accent: 'hsl(var(--accent))',
+        primaryHover: 'hsl(var(--primary-hover))',
+        secondaryHover: 'hsl(var(--secondary-hover))',
+        accentHover: 'hsl(var(--accent-hover))',
         btn: {
           background: 'hsl(var(--btn-background))',
           'background-hover': 'hsl(var(--btn-background-hover))',
@@ -20,7 +23,9 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar'),
+  ],
 }
 
  
