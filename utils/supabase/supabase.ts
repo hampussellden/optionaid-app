@@ -118,19 +118,19 @@ export interface Database {
       }
       fronts: {
         Row: {
-          color_code: string | null
+          color: string | null
           front_type_id: number
           id: number
           name: string | null
         }
         Insert: {
-          color_code?: string | null
+          color?: string | null
           front_type_id: number
           id?: number
           name?: string | null
         }
         Update: {
-          color_code?: string | null
+          color?: string | null
           front_type_id?: number
           id?: number
           name?: string | null
