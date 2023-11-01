@@ -42,18 +42,40 @@ export type Project = {
   id: number,
   name: string | null,
 }
-
+export type FrontType = {
+  id: number;
+  name: string;
+}
 export type Front = {
   id: number;
   name: string;
   front_type_id: number;
   color: string;
-  front_types: {id:number, name:string};
+  front_types: FrontType
+}
+export type WorktopType = {
+  id: number;
+  make: string;
 }
 export type Worktop = {
   id:number;
   worktop_type_id: number;
   color: string;
   name: string;
-  worktop_types: {id:number, make:string};
+  worktop_types: WorktopType
+}
+export type FrontOption = {
+  front_id: number;
+  id: number;
+  kitchen_type_id: number;
+  price: number | null;
+  fronts?: Front | null;
+  
+}
+export type WorktopOption = {
+  id: number;
+  kitchen_type_id: number;
+  worktop_id: number;
+  price: number;
+  worktops?: Worktop;
 }
