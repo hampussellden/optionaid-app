@@ -68,15 +68,18 @@ const KitchenTypesEditor = (props: KitchenTypesEditorProps) => {
         <div className='w-full h-fill flex flex-col p-4 bg-primary rounded gap-6 justify-start'>
            <div className='flex flex-row justify-between'>
             <h4 className='text-2xl font-bold'>Editing kitchen type</h4>
-            <p className='text-xl font-semibold mx-auto'>{props.project.name} - {props.kitchenType.name}</p>
+            <p className='text-xl font-semibold ml-auto'>{props.project.name} - type {props.kitchenType.name}</p>
           </div>
           {message && <p className={classNames({'text-accent' : message.type == 'error','text-secondary': message.type == 'success'}, 'text-lg font-semibold')}>{message.message}</p> }
           <div className='flex flex-row gap-2 items-center'>
-            <p className='text-lg font-bold text-text'>Project Name</p>
+            <p className='text-lg font-bold text-text'>Type Name</p>
             <input className='bg-background text-text p-2 rounded' type="text" value={typeNameInputValue} onChange={handleTypeNameInputChange}/>
           </div>
+          <hr className='border-background'></hr>
             <FrontOptionsEditor kitchenType={props.kitchenType}/>
+            <hr className='border-background'></hr>
             <WorktopOptionsEditor kitchenType={props.kitchenType}/>
+          <hr className='border-background'></hr>
             <button className='self-end mt-auto py-2 px-4 rounded text-lg font-bold bg-accent hover:bg-accentHover' onClick={handleTypeUpdate}>Save Changes</button>
         </div>
     );

@@ -39,7 +39,7 @@ const ProjectEditor = (props: ProjectEditorProps) => {
       <div className='w-full h-fill flex flex-col p-4 bg-primary rounded gap-6 justify-start'>
           <div className='flex flex-row justify-between'>
             <h4 className='text-2xl font-bold'>Editing Project</h4>
-            <p className='text-xl font-semibold mx-auto'>{props.project.name}</p>
+            <p className='text-xl font-semibold ml-auto'>{props.project.name}</p>
           </div>
           {message && <p className={classNames({'text-accent' : message.type == 'error','text-secondary': message.type == 'success'}, 'text-lg font-semibold')}>{message.message}</p> }
         <div className='flex flex-row gap-2 items-center'>

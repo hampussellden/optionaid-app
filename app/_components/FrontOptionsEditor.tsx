@@ -87,10 +87,10 @@ const FrontOptionsEditor = (props: FrontOptionsEditorProps) => {
         <div className=''>
           <p className='text-xl font-bold my-2'>Current front options on this type</p>
             {frontOptions && (
-              <div className='flex flex-col gap-2 items-start'>
+              <div className='flex flex-col gap-2 items-start mb-8'>
                 { frontOptions.map((frontOption: FrontOption) => (
                   <div className='flex flex-row justify-between gap-4 min-w-1/2 w-full max-w-xs' key={frontOption.id}>
-                    <div className='flex flex-row justify-between rounded bg-secondary p-2 gap-4' key={frontOption.id}>
+                    <div className='flex flex-row justify-between rounded bg-secondary py-2 px-4 gap-4' key={frontOption.id}>
                       <p className='text-lg font-semibold'>{frontOption.fronts?.front_types.name} {frontOption.fronts?.name}</p>
                       <p className='text-lg font-semibold'>{frontOption.price}:-</p>
                     </div>

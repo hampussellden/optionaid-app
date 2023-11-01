@@ -62,7 +62,7 @@ const KitchenTypes = (props: KitchenTypesProps) => {
           <button className={classNames({ 'bg-primary': creating},'p-2 rounded text-lg font-semibold hover:bg-primaryHover')}onClick={handleOpenKitchenTypeCreator}> + Type </button>
         </div>
           {selectedType && !loading && (
-            <Apartments kitchenType={selectedType} handleTypeEditorClose={handleTypeEditorClose}/>
+            <Apartments project={props.project} kitchenType={selectedType} handleTypeEditorClose={handleTypeEditorClose}/>
           )}
 
           {editing && selectedType && (

@@ -2,12 +2,13 @@
 import React, {useEffect, useState} from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { KitchenType } from '@/app/types';
-import {User, Apartment} from '@/app/types';
+import {User, Apartment, Project} from '@/app/types';
 import ApartmentsCreator from './ApartmentsCreator';
 import classNames from 'classnames';
 import ApartmentEditor from './ApartmentEditor';
 
 export type ApartmentsProps = {
+  project: Project;
   kitchenType: KitchenType;
   handleTypeEditorClose: () => void
 }
@@ -53,8 +54,8 @@ const Apartments = (props:ApartmentsProps) => {
         }
           <button className={classNames({ 'bg-primary': creating},'p-2 rounded text-lg font-semibold hover:bg-primaryHover')} onClick={handleOpenApartmentCreator}>+ Apartment</button>
       </div>
-      {editing && (
-        <ApartmentEditor />
+      {editing && selectedApartment && (
+        <ApartmentEditor kitchenType={props.kitchenType} apartment={selectedApartment} project={props.project} />
       )}
       {creating && (
         <ApartmentsCreator kitchenType={props.kitchenType}/>  

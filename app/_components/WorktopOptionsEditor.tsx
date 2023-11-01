@@ -87,7 +87,7 @@ const WorktopOptionsEditor = (props: WorktopOptionsEditor) => {
         <div className=''>
           <p className='text-xl font-bold my-2'>Current Front options on this type</p>
             {worktopOptions && (
-              <div className='flex flex-col gap-2 items-start'>
+              <div className='flex flex-col gap-2 items-start mb-8'>
                 { worktopOptions.map((worktopOption: WorktopOption) => (
                   <div className='flex flex-row justify-between gap-4 min-w-1/2 w-full max-w-xs' key={worktopOption.id}>
                     <div className='flex flex-row justify-between rounded bg-secondary p-2 gap-4' key={worktopOption.id}>
