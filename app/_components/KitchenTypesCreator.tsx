@@ -4,6 +4,8 @@ import { createClient } from '@/utils/supabase/client';
 import { Project } from '@/app/types';
 import classNames from 'classnames';
 import { CreationMessage, Front, Worktop } from '@/app/types';
+import Button from './Button';
+import { AddOutlined, AddRounded } from '@mui/icons-material';
 
 
 export type KitchenTypesCreatorProps = {
@@ -66,7 +68,7 @@ const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {
     })
   };
     return (
-      <div className='w-full h-fill  flex flex-col p-4 bg-primary rounded items-start gap-6'>
+      <div className='grow flex flex-col p-4 bg-primary rounded items-start gap-6'>
 
         <h4 className='text-2xl font-bold' >Creating New Kitchen Type</h4>
         {message && <p className={classNames({'text-accent' : message.type == 'error','text-secondary': message.type == 'success'}, 'text-lg font-semibold')}>{message.message}</p> }
@@ -78,8 +80,8 @@ const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {
         <div className='flex flex-row items-center gap-2'>
           <p className='text-lg font-semibold text-text'>Standard Front</p>
           <select className='rounded w-1/2 px-4 py-2 text-text font-semibold bg-background' name="standard-front-picker" id="standard-front-picker" value={standardFront?.id} onChange={handleStandardFront}>
-            {fronts && fronts.map((front: Front) => (
-              <option value={front.id} key={front.id}>{front.front_types.name + ' ' + front.name}</option>
+            {fronts && fronts.map((front: Front, index: number) => (
+              <option value={front.id} selected={index == 0 ? true : false} key={front.id}>{front.front_types.name + ' ' + front.name}</option>
             ))}
           </select>
         </div>
@@ -87,12 +89,12 @@ const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {
         <div className='flex flex-row items-center gap-2'>
           <p className='text-lg font-semibold text-text'>Standard Worktop</p>
           <select className='rounded px-4 py-2 text-text font-semibold bg-background' name="standard-front-picker" id="standard-front-picker" value={standardWorktop?.id} onChange={handleStandardWorktop}>
-            {worktops && worktops.map((worktop: Worktop) => (
-              <option  value={worktop.id} key={worktop.id}>{worktop.worktop_types.make + ' ' + worktop.name}</option>
+            {worktops && worktops.map((worktop: Worktop, index:number) => (
+              <option  value={worktop.id} selected={index == 0 ? true : false} key={worktop.id}>{worktop.worktop_types.make + ' ' + worktop.name}</option>
             ))}
           </select>
         </div>
-        <button className='rounded bg-accent mt-auto py-2 px-4 text-xl w-fit font-semibold self-end hover:bg-accentHover' onClick={handleCreateNewKitchenType}>Create new kitchentype</button>
+        <Button icon={AddRounded} text='Save new Type' onClick={handleCreateNewKitchenType}/>
       </div>
     );
 };

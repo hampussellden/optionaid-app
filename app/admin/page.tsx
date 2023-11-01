@@ -6,6 +6,8 @@ import ProjectCreator from '../_components/ProjectCreator';
 import ProjectEditor from '../_components/ProjectEditor';
 import classNames from 'classnames'; 
 import { Project } from '@/app/types';
+import { AddRounded } from '@mui/icons-material';
+import MenuItem from '../_components/MenuItem';
 
 
 const Admin = () => {
@@ -44,12 +46,14 @@ const Admin = () => {
     },[selectedProject]);
  
     return (   
-        <section className='flex flex-row justify-start gap-2 self-start w-full h-full'>
+        <section className='flex flex-row justify-start gap-2 self-start w-full h-full overflow-y-auto'>
             <div className='flex flex-col bg-secondary p-4 rounded min-w-fit gap-1 overflow-y-auto scrollbar-thin scrollbar-track-secondary scrollbar-thumb-secondaryHover'>
             {projects && projects.map((project: any) => (
-                    <button className={classNames({ 'bg-primary': selectedProject?.id === project.id }, 'p-2 rounded text-lg font-semibold hover:bg-primaryHover')} key={project.id} onClick={() => handleSelectProject(project)}>{project.name}</button>
+                    <MenuItem active={selectedProject?.id === project.id ? true : false} key={project.id} onClick={() => handleSelectProject(project)} text={project.name} />
                 ))}
-                <button className={classNames({ 'bg-primary': creating},'p-2 rounded text-lg font-semibold hover:bg-primaryHover')} onClick={handleProjectCreatorOpen}>+ Project</button>
+                
+                <MenuItem onClick={handleProjectCreatorOpen} icon={AddRounded} text='Project' active={creating} />
+
             </div>
                 {selectedProject && !loading && (
                     <KitchenTypes project={selectedProject} handleProjectEditorClose={handleProjectEditorClose}/>

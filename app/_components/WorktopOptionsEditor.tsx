@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import { createClient } from '@/utils/supabase/client';
 import { CreationMessage, KitchenType, Project, FrontOption, WorktopOption, FrontType,WorktopType, Front,Worktop} from '@/app/types';
+import WorktopOptionItem from './WorktopOptionItem';
+import Button from './Button';
+import { AddRounded } from '@mui/icons-material';
 
 type WorktopOptionsEditor = {
     kitchenType: KitchenType;
@@ -89,13 +92,7 @@ const WorktopOptionsEditor = (props: WorktopOptionsEditor) => {
             {worktopOptions && (
               <div className='flex flex-col gap-2 items-start mb-8'>
                 { worktopOptions.map((worktopOption: WorktopOption) => (
-                  <div className='flex flex-row justify-between gap-4 min-w-1/2 w-full max-w-xs' key={worktopOption.id}>
-                    <div className='flex flex-row justify-between rounded bg-secondary p-2 gap-4' key={worktopOption.id}>
-                      <p className='text-lg font-semibold'>{worktopOption.worktops?.worktop_types.make} {worktopOption.worktops?.name}</p>
-                      <p className='text-lg font-semibold'>{worktopOption.price}:-</p>
-                    </div>
-                    <button className='bg-accent px-4 py-2 rounded font-bold hover:bg-accentHover' onClick={() => handleRemoveExistingOption(worktopOption.id)}> X </button>
-                  </div>
+                  <WorktopOptionItem worktopOption={worktopOption} handleRemoveExistingOption={handleRemoveExistingOption} key={worktopOption.id}/> 
                 ))}
               </div>
             )} 
@@ -115,8 +112,8 @@ const WorktopOptionsEditor = (props: WorktopOptionsEditor) => {
                 <div className='flex flex-col gap-2'>
                   <p className='text-lg font-semibold'>Worktop</p>
                   <select className='rounded py-2 px-4 text-text font-semibold text-lg bg-background' name="newFrontOptionFront" id="newFrontOptionFront" value={addWorktop?.id} onChange={handleAddWorktopChange}>
-                    {worktops.filter((worktop: Worktop) => worktop.worktop_type_id === addWorktopTypeId ).map((worktop: Worktop) => (
-                      <option value={worktop.id} key={worktop.id}>{worktop.name}</option>
+                    {worktops.filter((worktop: Worktop) => worktop.worktop_type_id === addWorktopTypeId ).map((worktop: Worktop, index: number) => (
+                      <option value={worktop.id} selected={ index==0 ? true : false} key={worktop.id}>{worktop.name}</option>
                       ))}
                   </select>
                 </div>
@@ -125,7 +122,7 @@ const WorktopOptionsEditor = (props: WorktopOptionsEditor) => {
                   <p className='text-lg font-semibold'>Price</p>
                   <input className='py-2 px-4 rounded text-text font-semibold text-lg bg-background' type="number" value={priceInputValue} onChange={handlePriceInputChange} />
                 </div>
-                <button className='rounded bg-accent py-2 px-4 text-lg font-semibold hover:bg-accentHover' onClick={handleNewWorktopOption}>Add option</button>
+                <Button text='Add option' icon={AddRounded} onClick={handleNewWorktopOption}/>
             </div>
         </div>
     );

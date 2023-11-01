@@ -6,6 +6,8 @@ import Apartments from './Apartments';
 import KitchenTypesCreator from './KitchenTypesCreator';
 import classNames from 'classnames';
 import KitchenTypesEditor from './KitchenTypesEditor';
+import MenuItem from './MenuItem';
+import { AddRounded} from '@mui/icons-material';
 
 export type KitchenTypesProps = {
   project: Project;
@@ -54,12 +56,11 @@ const KitchenTypes = (props: KitchenTypesProps) => {
   }
     return (
       <>
-          <div className='flex flex-col items-start min-w-fit rounded bg-secondary p-4  gap-1 scroll-smooth overflow-y-auto scrollbar-thin scrollbar-track-secondary scrollbar-thumb-secondaryHover'>
+            <div className='flex flex-col items-start min-w-fit rounded bg-secondary p-4  gap-1 scroll-smooth scrollbar-thin scrollbar-track-secondary scrollbar-thumb-secondaryHover overflow-y-auto'>
               {kitchenTypes && kitchenTypes.map((kitchenType: any) => (
-                <button className={classNames({ 'bg-primary': selectedType?.id === kitchenType.id }, 'p-2 rounded text-lg font-semibold hover:bg-primaryHover')} onClick={() => handleTypeClick(kitchenType)} key={kitchenType.id}>type {kitchenType.name}</button>
+                <MenuItem active={selectedType?.id === kitchenType.id ? true : false} key={kitchenType.id} onClick={() => handleTypeClick(kitchenType)} text={'type ' + kitchenType.name} />
                 ))}
-          
-          <button className={classNames({ 'bg-primary': creating},'p-2 rounded text-lg font-semibold hover:bg-primaryHover')}onClick={handleOpenKitchenTypeCreator}> + Type </button>
+                <MenuItem active={creating} key={'new'} onClick={handleOpenKitchenTypeCreator} text={'new type'} icon={AddRounded} />
         </div>
           {selectedType && !loading && (
             <Apartments project={props.project} kitchenType={selectedType} handleTypeEditorClose={handleTypeEditorClose}/>

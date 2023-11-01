@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import { createClient } from '@/utils/supabase/client';
 import { CreationMessage, KitchenType, Project, FrontOption, WorktopOption, FrontType,WorktopType, Front,Worktop} from '@/app/types';
+import Button from './Button';
+import FrontOptionItem from './FrontOptionItem';
+import { AddRounded } from '@mui/icons-material';
 
 type FrontOptionsEditorProps = {
     kitchenType: KitchenType;
@@ -15,6 +18,7 @@ const FrontOptionsEditor = (props: FrontOptionsEditorProps) => {
   const [priceInputValue, setPriceInputValue] = useState<number>(0);
   const [addFrontTypeId, setAddFrontTypeId] = useState<number>(1);
   const [addFront, setAddFront] = useState<Front | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchFrontsAndFrontTypes = async () => {
@@ -71,7 +75,8 @@ const FrontOptionsEditor = (props: FrontOptionsEditorProps) => {
       { kitchen_type_id: props.kitchenType.id, front_id: addFront?.id, price: priceInputValue }
     ]).select()
     if (error) console.log(error)
-    if(data) setFrontOptions([...frontOptions, {
+    if(data) {
+      setFrontOptions([...frontOptions, {
       id: data[0].id,
       kitchen_type_id: props.kitchenType.id,
       front_id: addFront.id,
@@ -81,6 +86,8 @@ const FrontOptionsEditor = (props: FrontOptionsEditorProps) => {
         front_types: frontTypes.filter((frontType: FrontType) => frontType.id === addFrontTypeId)[0]
       }
     }])
+    setLoading(false)
+    }
   }
 
     return (
@@ -89,13 +96,7 @@ const FrontOptionsEditor = (props: FrontOptionsEditorProps) => {
             {frontOptions && (
               <div className='flex flex-col gap-2 items-start mb-8'>
                 { frontOptions.map((frontOption: FrontOption) => (
-                  <div className='flex flex-row justify-between gap-4 min-w-1/2 w-full max-w-xs' key={frontOption.id}>
-                    <div className='flex flex-row justify-between rounded bg-secondary py-2 px-4 gap-4' key={frontOption.id}>
-                      <p className='text-lg font-semibold'>{frontOption.fronts?.front_types.name} {frontOption.fronts?.name}</p>
-                      <p className='text-lg font-semibold'>{frontOption.price}:-</p>
-                    </div>
-                    <button className='bg-accent px-4 py-2 rounded font-bold hover:bg-accentHover' onClick={() => handleRemoveExistingOption(frontOption.id)}> X </button>
-                  </div>
+                  <FrontOptionItem frontOption={frontOption} handleRemoveExistingOption={handleRemoveExistingOption} key={frontOption.id}/>
                 ))}
               </div>
             )} 
@@ -115,8 +116,8 @@ const FrontOptionsEditor = (props: FrontOptionsEditorProps) => {
                 <div className='flex flex-col gap-2'>
                   <p className='text-lg font-semibold'>Front</p>
                   <select className='rounded py-2 px-4 text-text font-semibold text-lg bg-background' name="newFrontOptionFront" id="newFrontOptionFront" value={addFront?.id} onChange={handleAddFrontChange}>
-                    {fronts.filter((front: Front) => front.front_type_id === addFrontTypeId ).map((front: Front) => (
-                      <option value={front.id} key={front.id}>{front.name}</option>
+                    {fronts.filter((front: Front,) => front.front_type_id === addFrontTypeId ).map((front: Front, index: number) => (
+                      <option value={front.id} selected={ index==0 ? true : false} key={front.id}>{front.name}</option>
                       ))}
                   </select>
                 </div>
@@ -125,7 +126,7 @@ const FrontOptionsEditor = (props: FrontOptionsEditorProps) => {
                   <p className='text-lg font-semibold'>Price</p>
                   <input className='py-2 px-4 rounded text-text font-semibold text-lg bg-background' type="number" value={priceInputValue} onChange={handlePriceInputChange} />
                 </div>
-                <button className='rounded bg-accent py-2 px-4 text-lg font-semibold hover:bg-accentHover' onClick={handleAddNewFrontOption}>Add option</button>
+                <Button text='Add option' icon={AddRounded} onClick={() => {handleAddNewFrontOption(), setLoading(true)}} loading={loading}/>
             </div>
         </div>
     );

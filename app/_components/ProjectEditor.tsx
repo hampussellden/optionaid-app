@@ -3,6 +3,8 @@ import React, {useState} from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { Project, CreationMessage} from '../types';
 import classNames from 'classnames';
+import Button from './Button';
+import { FileDownloadRounded, SaveRounded } from '@mui/icons-material';
 
 export type ProjectEditorProps = {
   project: Project;
@@ -12,6 +14,7 @@ const ProjectEditor = (props: ProjectEditorProps) => {
   const supabase = createClient();
   const [inputValue, setInputValue] = useState<string>('')
   const [message, setMessage] = useState<CreationMessage | null>(null)
+  const [loading, setLoading] = useState<boolean>(false)
   const handleInputChange = (e: React.ChangeEvent<any>) => {
     setInputValue(e.target.value)
   }
@@ -30,13 +33,16 @@ const ProjectEditor = (props: ProjectEditorProps) => {
         if (error) console.log(error)
         if ( data ) {
           setMessage({message:'Project updated successfully', type: 'success'})
+          setLoading(false)
       }
     }
     updateProject()
+
   } 
 
+
   return (
-      <div className='w-full h-fill flex flex-col p-4 bg-primary rounded gap-6 justify-start'>
+      <div className='flex flex-col p-4 bg-primary rounded gap-6 justify-start grow'>
           <div className='flex flex-row justify-between'>
             <h4 className='text-2xl font-bold'>Editing Project</h4>
             <p className='text-xl font-semibold ml-auto'>{props.project.name}</p>
@@ -47,8 +53,9 @@ const ProjectEditor = (props: ProjectEditorProps) => {
           <input className='bg-background text-text p-2 rounded' type="text" value={inputValue} onChange={handleInputChange}/>
         </div>
         <div className='mt-auto flex flex-row justify-between'>
-          <button className='self-end mt-auto py-2 px-4 rounded text-lg font-bold bg-accent hover:bg-accentHover'>export project to CSV</button>
-          <button className='self-end mt-auto py-2 px-4 rounded text-lg font-bold bg-accent hover:bg-accentHover' onClick={handleProjectUpdate}>Save Changes</button>
+
+          <Button text='Export to CSV' icon={FileDownloadRounded} onClick={() => console.log('exporting to csv')}/>
+          <Button text='Save Changes' onClick={() => (handleProjectUpdate(), setLoading(true))} loading={loading} icon={SaveRounded}/>
         </div>
       </div>
   );

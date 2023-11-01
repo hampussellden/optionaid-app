@@ -6,6 +6,8 @@ import {User, Apartment, Project} from '@/app/types';
 import ApartmentsCreator from './ApartmentsCreator';
 import classNames from 'classnames';
 import ApartmentEditor from './ApartmentEditor';
+import MenuItem from './MenuItem';
+import { AddRounded } from '@mui/icons-material';
 
 export type ApartmentsProps = {
   project: Project;
@@ -45,14 +47,12 @@ const Apartments = (props:ApartmentsProps) => {
   
   return (
     <>
-      <div className='flex flex-col min-w-fit items-start bg-secondary rounded p-4 gap-1 scroll-smooth overflow-y-auto scrollbar-thin scrollbar-track-secondary scrollbar-thumb-secondaryHover'>
+      <div className='flex flex-col min-w-fit items-start bg-secondary rounded p-4 gap-1 scroll-smooth scrollbar-thin scrollbar-track-secondary scrollbar-thumb-secondaryHover overflow-y-auto'>
           { apartments && apartments.map((apartment: any) => (
-            <button className={classNames({ 'bg-primary': selectedApartment?.id == apartment.id }, 'p-2 rounded text-lg font-semibold hover:bg-primaryHover')} key={apartment.id} onClick={() => handleApartmentClick(apartment)}>
-                  <h2>{apartment.name}</h2>
-              </button>
+            <MenuItem active={selectedApartment?.id == apartment.id ? true : false} key={apartment.id} onClick={() => handleApartmentClick(apartment)} text={apartment.name} />
           ))
         }
-          <button className={classNames({ 'bg-primary': creating},'p-2 rounded text-lg font-semibold hover:bg-primaryHover')} onClick={handleOpenApartmentCreator}>+ Apartment</button>
+          <MenuItem icon={AddRounded} text='Apartment' active={creating} onClick={handleOpenApartmentCreator} />
       </div>
       {editing && selectedApartment && (
         <ApartmentEditor kitchenType={props.kitchenType} apartment={selectedApartment} project={props.project} />
