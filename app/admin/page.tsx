@@ -24,9 +24,8 @@ const Admin = () => {
         fetchProjects();
     },[]);
 
-
-
     const handleSelectProject = (project: Project) => {
+        if (selectedProject?.id === project.id) return
         setSelectedProject(project);
         setLoading(true);
         setEditing(true)
@@ -55,8 +54,8 @@ const Admin = () => {
                 {selectedProject && !loading && (
                     <KitchenTypes project={selectedProject} handleProjectEditorClose={handleProjectEditorClose}/>
                 )}
-                {editing && (
-                    <ProjectEditor />
+                {editing && selectedProject && (
+                    <ProjectEditor project={selectedProject}/>
                 )}
                 {creating && (
                     <ProjectCreator />

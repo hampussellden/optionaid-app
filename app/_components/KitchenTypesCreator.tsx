@@ -40,8 +40,8 @@ const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {
       .from('kitchen_types')
       .insert([
         { project_id: props.project.id, name: inputValue,
-          standard_front_id: standardFront?.id,
-          standard_worktop_id: standardWorktop?.id,
+          standard_front_id: standardFront?.id || 1,
+          standard_worktop_id: standardWorktop?.id || 1,
         },
       ])
       .select()

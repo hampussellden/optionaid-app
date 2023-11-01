@@ -16,7 +16,7 @@ const Apartments = (props:ApartmentsProps) => {
   const supabase = createClient();
   const [editing, setEditing] = useState<boolean>(false);
   const [creating, setCreating] = useState<boolean>(false);
-  const [apartments,setApartments] = useState<Apartment[] | null>(null)
+  const [apartments, setApartments] = useState<Apartment[] | null>(null)
   const [selectedApartment, setSelectedApartment] = useState<Apartment | null>(null)
 
   useEffect(() => {
@@ -28,6 +28,7 @@ const Apartments = (props:ApartmentsProps) => {
   },[]);
 
   const handleApartmentClick = (apartment:Apartment) => {
+    if (selectedApartment?.id === apartment.id) return
     props.handleTypeEditorClose()
     setSelectedApartment(apartment)
     setEditing(true)
@@ -43,7 +44,7 @@ const Apartments = (props:ApartmentsProps) => {
   
   return (
     <>
-      <div className='flex flex-col min-w-fit items-start bg-secondary rounded p-4 gap-1 max-h-96 scroll-smooth overflow-y-auto scrollbar-thin scrollbar-track-secondary scrollbar-thumb-secondaryHover'>
+      <div className='flex flex-col min-w-fit items-start bg-secondary rounded p-4 gap-1 scroll-smooth overflow-y-auto scrollbar-thin scrollbar-track-secondary scrollbar-thumb-secondaryHover'>
           { apartments && apartments.map((apartment: any) => (
             <button className={classNames({ 'bg-primary': selectedApartment?.id == apartment.id }, 'p-2 rounded text-lg font-semibold hover:bg-primaryHover')} key={apartment.id} onClick={() => handleApartmentClick(apartment)}>
                   <h2>{apartment.name}</h2>

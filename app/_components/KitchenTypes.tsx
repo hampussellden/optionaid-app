@@ -5,6 +5,7 @@ import { Project, KitchenType} from '@/app/types'
 import Apartments from './Apartments';
 import KitchenTypesCreator from './KitchenTypesCreator';
 import classNames from 'classnames';
+import KitchenTypesEditor from './KitchenTypesEditor';
 
 export type KitchenTypesProps = {
   project: Project;
@@ -39,6 +40,7 @@ const KitchenTypes = (props: KitchenTypesProps) => {
     setLoading(true);
   }
   const handleTypeClick = (kitchenType: KitchenType) =>{
+    if (selectedType?.id === kitchenType.id) return
     setEditing(true)
     setCreating(false)
     handleSelectType(kitchenType)
@@ -52,7 +54,7 @@ const KitchenTypes = (props: KitchenTypesProps) => {
   }
     return (
       <>
-          <div className='flex flex-col items-start min-w-fit rounded bg-secondary p-4  gap-1 max-h-96 scroll-smooth overflow-y-auto scrollbar-thin scrollbar-track-secondary scrollbar-thumb-secondaryHover'>
+          <div className='flex flex-col items-start min-w-fit rounded bg-secondary p-4  gap-1 scroll-smooth overflow-y-auto scrollbar-thin scrollbar-track-secondary scrollbar-thumb-secondaryHover'>
               {kitchenTypes && kitchenTypes.map((kitchenType: any) => (
                 <button className={classNames({ 'bg-primary': selectedType?.id === kitchenType.id }, 'p-2 rounded text-lg font-semibold hover:bg-primaryHover')} onClick={() => handleTypeClick(kitchenType)} key={kitchenType.id}>type {kitchenType.name}</button>
                 ))}
@@ -63,10 +65,8 @@ const KitchenTypes = (props: KitchenTypesProps) => {
             <Apartments kitchenType={selectedType} handleTypeEditorClose={handleTypeEditorClose}/>
           )}
 
-          {editing && (
-            <div className='self-end bg-slate-500 h-40 w-full'>
-              editing types here
-            </div>
+          {editing && selectedType && (
+            <KitchenTypesEditor kitchenType={selectedType} project={props.project} />
           )}
           {creating && (
             <KitchenTypesCreator project={props.project} />
