@@ -5,16 +5,6 @@ export type ClientUser = {
   app_role: 'client'
 }
 
-export type Apartment = {
-id:number;
-kitchen_type_id: number;
-name: string;
-front_id: number;
-worktop_id: number;
-user_id: string;
-users?: User;
-}
-
 export type CreationMessage = {
   message: string;
   type: 'success' | 'error';
@@ -27,20 +17,34 @@ export type User = {
   full_name: string;
   app_role: App_role;
 };
+export type Apartment = {
+  id:number;
+  kitchen_type_id: number;
+  user_id: string;
+  users?: User;
+  name: string;
+  front_id: number;
+  fronts?: Front;
+  worktop_id: number;
+  worktops?: Worktop;
+  ready_for_order: boolean;
+  total_cost: number;
+}
 export type KitchenType = {
   id: number;
   name: string | null;
   project_id: number;
   standard_front_id: number | null;
   standard_worktop_id: number | null;
-  apartments?: any;
+  apartments?: Apartment[];
   fronts?: any;
   worktops?: any;
-  users: any;
+  users?: any;
 }
 export type Project = {
   id: number,
   name: string | null,
+  kitchen_types?: KitchenType[],
 }
 export type FrontType = {
   id: number;

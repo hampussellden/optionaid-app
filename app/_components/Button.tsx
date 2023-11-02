@@ -16,11 +16,12 @@ type ButtonProps = {
 const Button = (props: ButtonProps) => {
   const Icon = props.icon;
     return (
-        <button className={classNames('rounded py-2 px-4 text-xl font-semibold self-end hover:bg-accentHover flex flex-row gap-2 items-center justify-center mt-auto',{
+        <button className={classNames('rounded py-2 px-4 text-xl font-semibold self-end hover:bg-accentHover flex flex-row gap-2 items-center justify-center',{
           'w-full' : props.fullWidth,
           'bg-accent': !props.transparent,
           'border border-accent': props.transparent,
-          'mt-0': props.marginZero
+          'mt-0': props.marginZero,
+          'mt-auto': !props.marginZero
         })} 
         onClick={props.onClick
         }>
