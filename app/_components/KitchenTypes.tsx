@@ -57,10 +57,12 @@ const KitchenTypes = (props: KitchenTypesProps) => {
     return (
       <>
             <div className='flex flex-col items-start min-w-fit rounded bg-secondary p-4  gap-1 scroll-smooth scrollbar-thin scrollbar-track-secondary scrollbar-thumb-secondaryHover overflow-y-auto'>
-              {kitchenTypes && kitchenTypes.map((kitchenType: any) => (
-                <MenuItem active={selectedType?.id === kitchenType.id ? true : false} key={kitchenType.id} onClick={() => handleTypeClick(kitchenType)} text={'type ' + kitchenType.name} />
+              <ul>
+                {kitchenTypes && kitchenTypes.map((kitchenType: any) => (
+                  <MenuItem active={selectedType?.id === kitchenType.id ? true : false} key={kitchenType.id} onClick={() => handleTypeClick(kitchenType)} text={'type ' + kitchenType.name} />
                 ))}
-                <MenuItem active={creating} key={'new'} onClick={handleOpenKitchenTypeCreator} text={'new type'} icon={AddRounded} />
+                  <MenuItem active={creating} key={'new'} onClick={handleOpenKitchenTypeCreator} text={'new type'} icon={AddRounded} />
+              </ul>
         </div>
           {selectedType && !loading && (
             <Apartments project={props.project} kitchenType={selectedType} handleTypeEditorClose={handleTypeEditorClose}/>

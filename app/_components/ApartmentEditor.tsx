@@ -71,7 +71,7 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
 
 
   return (
-    <div className='grow flex flex-col p-4 bg-primary rounded gap-6 justify-start'>
+    <div className='grow flex flex-col p-4 bg-primary rounded gap-4 justify-start'>
       <div className='flex flex-row justify-between'>
         <p className='text-xl font-bold text-text'>Assign a client to this apartment</p>
         <p className='text-xl font-semibold ml-auto'>{props.project.name} - type {props.kitchenType.name} - {props.apartment.name}</p>

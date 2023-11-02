@@ -17,7 +17,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className="bg-background text-foreground">
-        <main className="min-h-screen flex flex-col items-center mx-12">
+        <main className="min-h-screen flex flex-col items-center mx-12 gap-8 mb-40">
           <header className='flex felx-row justify-between w-full my-6 '>
             <a href="/">
               <h1 className="text-3xl font-bold">Optionaid</h1>

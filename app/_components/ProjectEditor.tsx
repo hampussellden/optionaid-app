@@ -58,7 +58,7 @@ const ProjectEditor = (props: ProjectEditorProps) => {
   ,[props.project])
 
   return (
-      <div className='flex flex-col p-4 bg-primary rounded gap-6 justify-start grow'>
+      <div className='flex flex-col p-4 bg-primary rounded gap-4 justify-start grow'>
           <div className='flex flex-row justify-between'>
             <h4 className='text-2xl font-bold'>Editing Project</h4>
             <p className='text-xl font-semibold ml-auto'>{props.project.name}</p>

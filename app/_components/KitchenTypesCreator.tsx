@@ -68,7 +68,7 @@ const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {
     })
   };
     return (
-      <div className='grow flex flex-col p-4 bg-primary rounded items-start gap-6'>
+      <div className='grow flex flex-col p-4 bg-primary rounded items-start gap-4'>
 
         <h4 className='text-2xl font-bold' >Creating New Kitchen Type</h4>
         {message && <p className={classNames({'text-accent' : message.type == 'error','text-secondary': message.type == 'success'}, 'text-lg font-semibold')}>{message.message}</p> }

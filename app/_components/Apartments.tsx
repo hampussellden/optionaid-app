@@ -48,11 +48,13 @@ const Apartments = (props:ApartmentsProps) => {
   return (
     <>
       <div className='flex flex-col min-w-fit items-start bg-secondary rounded p-4 gap-1 scroll-smooth scrollbar-thin scrollbar-track-secondary scrollbar-thumb-secondaryHover overflow-y-auto'>
+        <ul>
           { apartments && apartments.map((apartment: any) => (
             <MenuItem active={selectedApartment?.id == apartment.id ? true : false} key={apartment.id} onClick={() => handleApartmentClick(apartment)} text={apartment.name} />
-          ))
-        }
+            ))
+          }
           <MenuItem icon={AddRounded} text='Apartment' active={creating} onClick={handleOpenApartmentCreator} />
+        </ul>
       </div>
       {editing && selectedApartment && (
         <ApartmentEditor kitchenType={props.kitchenType} apartment={selectedApartment} project={props.project} />
