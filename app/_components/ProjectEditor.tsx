@@ -1,10 +1,11 @@
 'use client'
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { Project, CreationMessage} from '../types';
 import classNames from 'classnames';
 import Button from './Button';
 import { FileDownloadRounded, SaveRounded } from '@mui/icons-material';
+import ReactCSV from './ReactCSV';
 
 export type ProjectEditorProps = {
   project: Project;
@@ -15,6 +16,7 @@ const ProjectEditor = (props: ProjectEditorProps) => {
   const [inputValue, setInputValue] = useState<string>('')
   const [message, setMessage] = useState<CreationMessage | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
+  const [exportableProject, setExportableProject] = useState<Project | null>(null)
   const handleInputChange = (e: React.ChangeEvent<any>) => {
     setInputValue(e.target.value)
   }
@@ -37,9 +39,23 @@ const ProjectEditor = (props: ProjectEditorProps) => {
       }
     }
     updateProject()
-
   } 
-
+  useEffect(() => {
+    const fetchExportableProject = async () => {
+      const { data:exportableProject, error } = await supabase
+        .from('projects')
+        .select('*, kitchen_types(*,apartments(*,users(*)))')
+        .eq('id', props.project.id)
+        .single()
+        if (error) console.log(error)
+        if (exportableProject) {
+          setExportableProject(exportableProject as Project)
+          console.log(exportableProject)
+        }
+    }
+    fetchExportableProject()
+  }
+  ,[props.project])
 
   return (
       <div className='flex flex-col p-4 bg-primary rounded gap-6 justify-start grow'>
@@ -53,8 +69,10 @@ const ProjectEditor = (props: ProjectEditorProps) => {
           <input className='bg-background text-text p-2 rounded' type="text" value={inputValue} onChange={handleInputChange}/>
         </div>
         <div className='mt-auto flex flex-row justify-between'>
-
-          <Button text='Export to CSV' icon={FileDownloadRounded} onClick={() => console.log('exporting to csv')}/>
+          {
+            exportableProject && (
+              <ReactCSV project={exportableProject} />
+          )}
           <Button text='Save Changes' onClick={() => (handleProjectUpdate(), setLoading(true))} loading={loading} icon={SaveRounded}/>
         </div>
       </div>

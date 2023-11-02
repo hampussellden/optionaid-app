@@ -21,7 +21,10 @@ const Admin = () => {
     useEffect(() => {
         const fetchProjects = async () => {
             const { data: projects } = await supabase.from('projects').select('*');
-            setProjects(projects)
+            if (projects) {
+                console.log(projects)   
+                setProjects(projects as Project[])
+            }
         }
         fetchProjects();
     },[]);
@@ -64,6 +67,11 @@ const Admin = () => {
                 {creating && (
                     <ProjectCreator />
                 )}
+                {!creating && !editing && !selectedProject &&(
+                    <div className='flex flex-col justify-center items-center grow bg-secondary rounded'>
+                        <p className='text-3xl font-bold text-text'>Select a project to edit</p>
+                    </div>
+                    )}
         </section>
     );
 };
