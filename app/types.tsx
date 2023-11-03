@@ -29,6 +29,7 @@ export type Apartment = {
   worktops?: Worktop;
   ready_for_order: boolean;
   total_cost: number;
+  kitchen_types?: KitchenType;  
 }
 export type KitchenType = {
   id: number;
@@ -40,6 +41,7 @@ export type KitchenType = {
   fronts?: any;
   worktops?: any;
   users?: any;
+  projects?: Project;
 }
 export type Project = {
   id: number,
