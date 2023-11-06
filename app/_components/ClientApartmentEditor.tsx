@@ -1,5 +1,5 @@
 'use client'
-import React, { use, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { Apartment, KitchenType, Front, Worktop, FrontOption, WorktopOption} from '../types';
 import { createClient } from '@/utils/supabase/client';
