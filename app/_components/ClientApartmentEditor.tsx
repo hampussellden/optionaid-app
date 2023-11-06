@@ -19,6 +19,7 @@ const ClientApartmentEditor = (props: ClientApartmentEditorProps) => {
     const [worktopOptions, setWorktopOptions] = useState<WorktopOption[]>([]);
     const [selectedFrontOption, setSelectedFrontOption] = useState<FrontOption | null>(null);
     const [selectedWorktopOption, setSelectedWorktopOption] = useState<WorktopOption | null>(null);
+    const [totalCost, setTotalCost] = useState<number>(0);
     const [loadRender, setLoadRender] = useState<boolean>(false);
     useEffect(() => {
       const fetchFrontOptionsAndWorktopOptions = async () => {
@@ -42,8 +43,11 @@ const ClientApartmentEditor = (props: ClientApartmentEditorProps) => {
           setLoadRender(true)
         }
       }
+      setLoadRender(false)
+      setSelectedFrontOption(null)
+      setSelectedWorktopOption(null)
       fetchFrontOptionsAndWorktopOptions()
-    },[])
+    },[props.kitchenType])
 
     const handleSelectFrontOption = (frontOption: FrontOption) => {
       setSelectedFrontOption(frontOption)
@@ -51,15 +55,24 @@ const ClientApartmentEditor = (props: ClientApartmentEditorProps) => {
     const handleSelectWorktopOption = (worktopOption: WorktopOption) => {
       setSelectedWorktopOption(worktopOption)
     }
-  
+    useEffect(() => {
+      var totalCost = 0;
+      if (selectedFrontOption != null) {
+        totalCost += selectedFrontOption?.price ?? 0;
+      }
+      if (selectedWorktopOption) {
+        totalCost += selectedWorktopOption.price 
+      }
+      setTotalCost(totalCost)
+    },[selectedFrontOption, selectedWorktopOption])
     return (
-        <div className='flex flex-row gap-2 justify-between w-fill min-h-[600px]'>
+        <div className='flex flex-row gap-2 justify-between w-fill min-h-[90vh]'>
             {props.apartment.ready_for_order ? (
               <div className='bg-primary grow rounded'>
                 <p className='font-bold text-2xl'>Apartment is ready for order, no more changes can be made here. Contact your project manager if you need help  </p>
               </div>
             ):(
-              <div className='bg-secondary rounded p-2 w-fit'>
+              <div className='bg-static flex flex-col gap-2 rounded p-2 w-fit'>
                 <MenuItem text='Fronts' icon={SensorDoorTwoTone} />
                 {frontOptions && frontOptions.map((frontOption) => (
                 <ul className='pl-4'>
@@ -87,10 +100,11 @@ const ClientApartmentEditor = (props: ClientApartmentEditorProps) => {
             )}
             { frontOptions && worktopOptions && loadRender &&(
               <KitchenRenderer  
-              frontColor={selectedFrontOption?.fronts?.color ?? undefined} 
-              worktopColor={selectedWorktopOption?.worktops?.color ?? undefined}
-              standardFrontColor={props.kitchenType?.fronts.color}
-              standardWorktopColor={props.kitchenType?.worktops.color}
+              front={selectedFrontOption?.fronts ?? undefined} 
+              worktop={selectedWorktopOption?.worktops ?? undefined}
+              standardFront={props.kitchenType?.fronts}
+              standardWorktop={props.kitchenType?.worktops}
+              totalCost={totalCost}
               />
             )}
         </div>
