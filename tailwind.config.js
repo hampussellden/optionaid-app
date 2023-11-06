@@ -22,10 +22,14 @@ module.exports = {
           'background-hover': 'hsl(var(--btn-background-hover))',
         },
       },
+      spacing: {
+        128: '32rem',
+        144: '36rem',
+      },
     },
   },
   plugins: [
-    require('tailwind-scrollbar'),
+    require('tailwind-scrollbar')({ nocompatible: true })
   ],
 }
 

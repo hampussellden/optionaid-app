@@ -47,7 +47,7 @@ const Apartments = (props:ApartmentsProps) => {
   
   return (
     <>
-      <div className='flex flex-col min-w-fit items-start bg-static rounded p-4 gap-1 scroll-smooth scrollbar-thin scrollbar-track-secondary scrollbar-thumb-secondaryHover overflow-y-auto'>
+      <div className='flex flex-col min-w-fit items-start bg-static rounded p-4 gap-1 scroll-smooth scrollbar-thin scrollbar-track-static scrollbar-thumb-static scrollbar-track-rounded scrollbar-thumb-rounded overflow-y-auto'>
         <ul>
           { apartments && apartments.map((apartment: any) => (
             <MenuItem active={selectedApartment?.id == apartment.id ? true : false} key={apartment.id} onClick={() => handleApartmentClick(apartment)} text={apartment.name} />

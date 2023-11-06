@@ -78,7 +78,7 @@ const FrontsEditor = (props: FrontsEditorProps) => {
   };
 
     return (
-        <div className='flex flex-col bg-primary grow rounded p-4 gap-4'>
+        <div className='flex flex-col bg-primary grow rounded p-4 gap-4 scroll-smooth scrollbar-thin scrollbar-track-inherit scrollbar-thumb-secondary scrollbar-track-rounded scrollbar-thumb-rounded overflow-y-auto'>
           <div className='flex flex-row justify-between'>
             <p className='text-2xl font-bold text-text'>Editing Front Group</p>
             <p className='text-xl font-semibold text-text'>{props.frontType}</p>

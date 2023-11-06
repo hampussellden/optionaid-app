@@ -79,7 +79,7 @@ const  WorktopsEditor = (props: WorktopsEditorProps) => {
     };
 
     return (
-        <div className='flex flex-col grow bg-primary rounded p-4 gap-4'>
+        <div className='flex flex-col grow bg-primary rounded p-4 gap-4 scroll-smooth scrollbar-thin scrollbar-track-inherit scrollbar-thumb-secondary scrollbar-track-rounded scrollbar-thumb-rounded overflow-y-auto'>
           <div className='flex flex-row justify-between'>
             <p className='text-2xl text-text font-bold'>Editing Worktop Group</p>
             <p className='text-xl font-semibold text-text'>{props.worktopType}</p>

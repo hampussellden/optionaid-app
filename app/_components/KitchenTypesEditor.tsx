@@ -43,7 +43,7 @@ const KitchenTypesEditor = (props: KitchenTypesEditorProps) => {
     }
 
     return (
-        <div className='grow flex flex-col p-4 bg-primary rounded gap-4 justify-start'>
+        <div className='grow flex flex-col p-4 bg-primary rounded gap-4 justify-start overflow-y-scroll scrollbar-thin scrollbar-track-inherit scrollbar-thumb-secondary scrollbar-track-rounded scrollbar-thumb-rounded scroll-smooth'>
            <div className='flex flex-row justify-between'>
             <h4 className='text-2xl font-bold'>Editing kitchen type</h4>
             <p className='text-xl font-semibold ml-auto'>{props.project.name} - type {props.kitchenType.name}</p>

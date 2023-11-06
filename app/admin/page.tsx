@@ -52,8 +52,8 @@ const Admin = () => {
  
     return ( 
         <>
-        <section className='flex flex-row justify-start gap-2 self-start w-full h-full overflow-y-auto'>
-            <div className='flex flex-col bg-static p-4 rounded min-w-fit gap-1 overflow-y-auto scrollbar-thin scrollbar-track-secondary scrollbar-thumb-secondaryHover'>
+        <section className='flex flex-row justify-start gap-2 self-start w-full h-full max-h-144'>
+            <div className='flex flex-col bg-static p-4 rounded min-w-fit gap-1 scroll-smooth scrollbar-thin scrollbar-track-static scrollbar-thumb-static scrollbar-track-rounded scrollbar-thumb-rounded overflow-y-auto'>
                 <ul>
                     {projects && projects.map((project: any) => (
                         <MenuItem active={selectedProject?.id === project.id ? true : false} key={project.id} onClick={() => handleSelectProject(project)} text={project.name} />
@@ -76,7 +76,7 @@ const Admin = () => {
                     </div>
                 )}
         </section>
-        <section className='flex flex-row justify-start gap-2 self-start w-full h-full overflow-y-auto'>
+        <section className='flex flex-row justify-start gap-2 self-start w-full h-full max-h-144'>
                 <Fronts />
                 <Worktops />
         </section>

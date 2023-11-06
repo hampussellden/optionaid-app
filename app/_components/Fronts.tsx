@@ -78,7 +78,7 @@ const Fronts = (props: FrontsProps) => {
   }
   return (
     <>
-      <ul className='bg-static rounded p-2'>
+      <ul className='bg-static rounded p-2 scroll-smooth scrollbar-thin scrollbar-track-static scrollbar-thumb-static scrollbar-track-rounded scrollbar-thumb-rounded overflow-y-auto'>
         {sortedFronts && Object.keys(sortedFronts).map((frontTypeName) => (
           <>
             <MenuItem text={frontTypeName} icon={SensorDoorTwoTone} active={selectedFrontType === frontTypeName ? true:false} onClick={() => handleSelectFrontType(frontTypeName)}/>
