@@ -1,5 +1,6 @@
-import { createClient } from '@/src/utils/supabase/server'
+import { createClient } from '@/utils/supabase/server'
 import { NextResponse } from 'next/server'
+import { cookies } from 'next/headers'
 
 export const dynamic = 'force-dynamic'
 
@@ -11,7 +12,8 @@ export async function GET(request: Request) {
   const code = requestUrl.searchParams.get('code')
 
   if (code) {
-    const supabase = createClient()
+    const cookieStore = cookies()
+    const supabase = createClient(cookieStore)
     await supabase.auth.exchangeCodeForSession(code)
   }
 
