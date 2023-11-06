@@ -16,7 +16,7 @@ const transformProject = (project: Project) => {
         for(const kitchen_type of project.kitchen_types){
             if (kitchen_type.apartments) {
                 for (const apartment of kitchen_type.apartments){
-                    const row = [project.name, kitchen_type.name, apartment.name, apartment.users?.email || '', apartment.fronts?.name || 'standard', apartment.worktops?.name ||'standard', apartment.total_cost]
+                    const row = [project.name, kitchen_type.name, apartment.name, apartment.users?.email || '', apartment.front_options?.fronts?.name || 'standard', apartment.worktop_options?.worktops?.name ||'standard', apartment.total_cost]
                     result.push(row)
                 }
             }
