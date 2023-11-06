@@ -94,7 +94,7 @@ const FrontsEditor = (props: FrontsEditorProps) => {
                 {message.message}
               </p>
             )}
-        <Button text='Save Changes' icon={SaveRounded} onClick={handleSaveFrontTypeChanges}/>
+            <Button text='Save Changes' icon={SaveRounded} onClick={handleSaveFrontTypeChanges}/>
         </div>
 
         {props.front && (

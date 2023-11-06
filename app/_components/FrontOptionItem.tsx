@@ -24,7 +24,8 @@ const FrontOptionItem = (props: FrontOptionItemProps) => {
         props.onClick && props.onClick(),
         props.handleRemoveExistingOption(frontOption.id),
         setLoading(true)
-        }}/>
+        }}
+        accent/>
     </div>
     );
 };

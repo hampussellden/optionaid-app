@@ -16,6 +16,7 @@ module.exports = {
         primaryHover: 'hsl(var(--primary-hover))',
         secondaryHover: 'hsl(var(--secondary-hover))',
         accentHover: 'hsl(var(--accent-hover))',
+        static: 'hsl(var(--static))',
         btn: {
           background: 'hsl(var(--btn-background))',
           'background-hover': 'hsl(var(--btn-background-hover))',

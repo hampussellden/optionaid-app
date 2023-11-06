@@ -21,17 +21,17 @@ const  KitchenRenderer = (props: KitchenRendererProps) => {
     });
     console.log(props)
     return (
-        <div className='bg-secondary rounded grow flex flex-col'>
+        <div className='bg-static rounded grow flex flex-col'>
             <div className='flex flex-row gap-4 justify-center p-1'>
-                <MenuItem icon={HouseOutlined} text='Wall kitchen' />
+                <MenuItem icon={HouseOutlined} text='Wall kitchen' active />
                 <MenuItem icon={HouseOutlined} text='L kitchen' />
                 <MenuItem icon={HouseOutlined} text='U kitchen' />
             </div>
           <KitchenScene frontColor={props.front?.color ? props.front.color : props.standardFront.color} worktopColor={props.worktop?.color ? props.worktop.color : props.standardWorktop.color}/>
           <div className='flex flex-row gap-4 justify-center p-1'>
-                <MenuItem icon={SensorDoorOutlined} text={props.front?.name ? props.front.name : props.standardFront.name } />
-                <MenuItem icon={CountertopsOutlined} text={props.worktop?.name ? props.worktop.name : props.standardWorktop.name }/>
-                <MenuItem icon={CreditCardOutlined} text={formatter.format(props.totalCost)} />
+                <MenuItem icon={SensorDoorOutlined} text={props.front?.name ? props.front.name : props.standardFront.name } noHover/>
+                <MenuItem icon={CountertopsOutlined} text={props.worktop?.name ? props.worktop.name : props.standardWorktop.name } noHover/>
+                <MenuItem icon={CreditCardOutlined} text={formatter.format(props.totalCost)} noHover/>
             </div>
         </div>
     );

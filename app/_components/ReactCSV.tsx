@@ -28,7 +28,7 @@ const transformProject = (project: Project) => {
 const ReactCSV = (props : ReactCSVProps) => {
     const csvData = transformProject(props.project)
     return (
-    <div className='rounded py-2 px-4 text-xl font-semibold self-end bg-accent hover:bg-accentHover flex flex-row gap-2 items-center justify-center'>
+    <div className='rounded py-2 px-4 text-xl font-semibold self-end bg-secondary hover:bg-secondaryHover flex flex-row gap-2 items-center justify-center'>
         <CSVLink 
             data={csvData}
             target="_blank"

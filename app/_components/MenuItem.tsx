@@ -8,6 +8,7 @@ type MenuItemProps = {
     text: string;
     active?: boolean;
     icon?: any;
+    noHover?: boolean;
 }
 
 
@@ -15,7 +16,7 @@ const MenuItem = (props: MenuItemProps) => {
   const Icon = props.icon
 
     return (
-      <button className={classNames({ 'bg-primary': props.active }, 'p-2 rounded text-lg font-semibold hover:bg-primaryHover flex flex-row items-center gap-2')}  onClick={props.onClick}>
+      <button className={classNames({ 'bg-secondary': props.active, 'hover:bg-secondaryHover' : !props.noHover }, 'p-2 rounded text-lg font-semibold flex flex-row items-center gap-2')}  onClick={props.onClick}>
         {props.icon ? (
           <Icon />
         )

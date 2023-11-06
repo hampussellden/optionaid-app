@@ -78,7 +78,7 @@ const Fronts = (props: FrontsProps) => {
   }
   return (
     <>
-      <ul className='bg-secondary rounded p-2'>
+      <ul className='bg-static rounded p-2'>
         {sortedFronts && Object.keys(sortedFronts).map((frontTypeName) => (
           <>
             <MenuItem text={frontTypeName} icon={SensorDoorTwoTone} active={selectedFrontType === frontTypeName ? true:false} onClick={() => handleSelectFrontType(frontTypeName)}/>
@@ -104,7 +104,7 @@ const Fronts = (props: FrontsProps) => {
         <FrontTypesCreator />
       )}
       {!editing && !creating && !selectedFrontType && (
-        <div className='flex flex-col bg-primary rounded p-4 gap-4 grow'>
+        <div className='flex flex-col bg-static rounded p-4 gap-4 grow'>
           <p className='text-2xl font-bold text-text'>Fronts</p>
           <p className='text-lg font-semibold text-text'>Select a front type to edit</p>
         </div>

@@ -11,20 +11,22 @@
     --background: 216 33% 97%;
     --primary: 36 35% 72%;
     --primary-hover: 36 35% 72% / .45;
-    --secondary: 70 35% 86%;
-    --secondary-hover: 70 35% 86% / .45;
+    --secondary: 87 23% 64%;
+    --secondary-hover: 87 23% 64% / .45;
     --accent: 8 35% 46%;
     --accent-hover: 8 35% 46% / .45;
+    --static: 0 0% 0% / .03;
   }
   @media (prefers-color-scheme: dark) {
     :root {
       --text: 218 35% 94%;
       --background: 216 33% 3%;
-      --primary: 36 35% 28%;
+      --primary: 36 35% 28% / 0.8;
       --secondary: 70 35% 14%;
       --accent: 8 35% 54%;
       --btn-background: 200 10% 50%;
       --btn-background-hover: 200 10% 12%;
+      --static: 360 100% 100% / .03;
       --foreground: 200 20% 96%;
     }
   }

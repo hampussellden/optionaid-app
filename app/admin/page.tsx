@@ -53,7 +53,7 @@ const Admin = () => {
     return ( 
         <>
         <section className='flex flex-row justify-start gap-2 self-start w-full h-full overflow-y-auto'>
-            <div className='flex flex-col bg-secondary p-4 rounded min-w-fit gap-1 overflow-y-auto scrollbar-thin scrollbar-track-secondary scrollbar-thumb-secondaryHover'>
+            <div className='flex flex-col bg-static p-4 rounded min-w-fit gap-1 overflow-y-auto scrollbar-thin scrollbar-track-secondary scrollbar-thumb-secondaryHover'>
                 <ul>
                     {projects && projects.map((project: any) => (
                         <MenuItem active={selectedProject?.id === project.id ? true : false} key={project.id} onClick={() => handleSelectProject(project)} text={project.name} />
@@ -71,7 +71,7 @@ const Admin = () => {
                     <ProjectCreator />
                 )}
                 {!creating && !editing && !selectedProject &&(
-                    <div className='flex flex-col justify-center items-center grow bg-primary rounded'>
+                    <div className='flex flex-col justify-center items-center grow bg-static rounded'>
                         <p className='text-3xl font-bold text-text'>Select a project to edit</p>
                     </div>
                 )}

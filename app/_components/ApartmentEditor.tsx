@@ -82,7 +82,7 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
             <div className='rounded bg-secondary py-2 px-4 w-fit'>
               <p className='text-text font-semibold text-lg'>{currentClient?.full_name} - {currentClient.email}</p>
             </div>
-            <Button onClick={handleRemoveCurrentClient} icon={DeleteOutline} text='Remove' loading={loading}/>
+            <Button onClick={handleRemoveCurrentClient} icon={DeleteOutline} text='Remove' loading={loading} accent/>
           </div>
         )}
       <div className='flex flex-row gap-2 items-center'>

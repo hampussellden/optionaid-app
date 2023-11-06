@@ -24,7 +24,8 @@ const WorktopOptionItem = (props: WorktopOptionItemProps) => {
         props.onClick && props.onClick(),
         props.handleRemoveExistingOption(worktopOption.id),
         setLoading(true)
-        }}/>
+        }}
+        accent/>
     </div>
     );
 };

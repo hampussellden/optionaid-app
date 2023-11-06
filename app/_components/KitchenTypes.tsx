@@ -56,7 +56,7 @@ const KitchenTypes = (props: KitchenTypesProps) => {
   }
     return (
       <>
-            <div className='flex flex-col items-start min-w-fit rounded bg-secondary p-4  gap-1 scroll-smooth scrollbar-thin scrollbar-track-secondary scrollbar-thumb-secondaryHover overflow-y-auto'>
+            <div className='flex flex-col items-start min-w-fit rounded bg-static p-4  gap-1 scroll-smooth scrollbar-thin scrollbar-track-secondary scrollbar-thumb-secondaryHover overflow-y-auto'>
               <ul>
                 {kitchenTypes && kitchenTypes.map((kitchenType: any) => (
                   <MenuItem active={selectedType?.id === kitchenType.id ? true : false} key={kitchenType.id} onClick={() => handleTypeClick(kitchenType)} text={'type ' + kitchenType.name} />

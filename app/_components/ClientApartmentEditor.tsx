@@ -73,7 +73,7 @@ const ClientApartmentEditor = (props: ClientApartmentEditorProps) => {
               </div>
             ):(
               <div className='bg-static flex flex-col gap-2 rounded p-2 w-fit'>
-                <MenuItem text='Fronts' icon={SensorDoorTwoTone} />
+                <MenuItem text='Fronts' icon={SensorDoorTwoTone} noHover/>
                 {frontOptions && frontOptions.map((frontOption) => (
                 <ul className='pl-4'>
                   { frontOption.fronts && 
@@ -84,7 +84,7 @@ const ClientApartmentEditor = (props: ClientApartmentEditorProps) => {
                   }
                 </ul>
                 ))}
-                <MenuItem text='Worktops' icon={CountertopsTwoTone}/>
+                <MenuItem text='Worktops' icon={CountertopsTwoTone} noHover/>
                 {worktopOptions && worktopOptions.map((worktopOption) => (
                 <ul className='pl-4'>
                   { worktopOption.worktops && 

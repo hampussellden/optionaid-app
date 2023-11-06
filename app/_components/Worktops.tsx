@@ -70,7 +70,7 @@ const Worktops = (props: WorktopsProps) => {
 
     return (
         <>
-      <ul className='bg-secondary rounded p-2'>
+      <ul className='bg-static rounded p-2'>
         {sortedWorktops && Object.keys(sortedWorktops).map((typeName) => (
           <>
             <MenuItem text={typeName} icon={CountertopsTwoTone} active={selectedWorktopType === typeName ? true:false} onClick={() => handleSelectworktopType(typeName)}/>
@@ -98,7 +98,7 @@ const Worktops = (props: WorktopsProps) => {
 
 
       {!editing && !creating && !selectedWorktopType && (
-        <div className='flex flex-col bg-primary rounded p-4 gap-4 grow'>
+        <div className='flex flex-col bg-static rounded p-4 gap-4 grow'>
           <p className='text-2xl font-bold text-text'>Worktops</p>
           <p className='text-lg font-semibold text-text'>Select a worktop type to edit</p>
         </div>

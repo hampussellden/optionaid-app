@@ -40,9 +40,9 @@ const Dashboard = () => {
 
     return(
         <section className='flex flex-col w-full gap-4 min-h-screen'>
-          <nav className='flex flex-col gap-4 p-4 rounded bg-primary'>
+          <nav className='flex flex-col gap-4 p-4 rounded bg-static'>
             <p className='font-bold text-2xl'>Assigned apartments</p>
-            <ul className='flex flex-row gap-2 bg-secondary p-2 rounded'>
+            <ul className='flex flex-row gap-2 p-2 rounded'>
             {apartmentsOnUser && apartmentsOnUser.map((apartment) => (
                 <MenuItem text={apartment?.kitchen_types?.projects?.name + ' - ' + apartment.name ?? ''} icon={apartment.ready_for_order ? apartment.ready_for_order : LockOpenOutlined } onClick={() => handleSelectApartmentToEdit(apartment)} active={selectedApartment == apartment ? true: false}/>
               ))}
