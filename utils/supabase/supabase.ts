@@ -11,58 +11,62 @@ export interface Database {
     Tables: {
       apartments: {
         Row: {
-          front_id: number | null
+          front_option_id: number | null
           id: number
           kitchen_type_id: number
           name: string | null
           ready_for_order: boolean | null
           total_cost: number | null
           user_id: string | null
-          worktop_id: number | null
+          worktop_option_id: number | null
         }
         Insert: {
-          front_id?: number | null
+          front_option_id?: number | null
           id?: number
           kitchen_type_id: number
           name?: string | null
           ready_for_order?: boolean | null
           total_cost?: number | null
           user_id?: string | null
-          worktop_id?: number | null
+          worktop_option_id?: number | null
         }
         Update: {
-          front_id?: number | null
+          front_option_id?: number | null
           id?: number
           kitchen_type_id?: number
           name?: string | null
           ready_for_order?: boolean | null
           total_cost?: number | null
           user_id?: string | null
-          worktop_id?: number | null
+          worktop_option_id?: number | null
         }
         Relationships: [
           {
-            foreignKeyName: "apartments_front_id_fkey"
-            columns: ["front_id"]
-            referencedRelation: "fronts"
+            foreignKeyName: "apartments_front_option_id_fkey"
+            columns: ["front_option_id"]
+            isOneToOne: false
+            referencedRelation: "front_options"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "apartments_kitchen_type_id_fkey"
             columns: ["kitchen_type_id"]
+            isOneToOne: false
             referencedRelation: "kitchen_types"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "apartments_user_id_fkey"
             columns: ["user_id"]
+            isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "apartments_worktop_id_fkey"
-            columns: ["worktop_id"]
-            referencedRelation: "worktops"
+            foreignKeyName: "apartments_worktop_option_id_fkey"
+            columns: ["worktop_option_id"]
+            isOneToOne: false
+            referencedRelation: "worktop_options"
             referencedColumns: ["id"]
           }
         ]
@@ -90,12 +94,14 @@ export interface Database {
           {
             foreignKeyName: "front_options_front_id_fkey"
             columns: ["front_id"]
+            isOneToOne: false
             referencedRelation: "fronts"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "front_options_kitchen_type_id_fkey"
             columns: ["kitchen_type_id"]
+            isOneToOne: false
             referencedRelation: "kitchen_types"
             referencedColumns: ["id"]
           }
@@ -139,6 +145,7 @@ export interface Database {
           {
             foreignKeyName: "fronts_front_type_id_fkey"
             columns: ["front_type_id"]
+            isOneToOne: false
             referencedRelation: "front_types"
             referencedColumns: ["id"]
           }
@@ -170,18 +177,21 @@ export interface Database {
           {
             foreignKeyName: "kitchen_types_project_id_fkey"
             columns: ["project_id"]
+            isOneToOne: false
             referencedRelation: "projects"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "kitchen_types_standard_front_id_fkey"
             columns: ["standard_front_id"]
+            isOneToOne: false
             referencedRelation: "fronts"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "kitchen_types_standard_worktop_id_fkey"
             columns: ["standard_worktop_id"]
+            isOneToOne: false
             referencedRelation: "worktops"
             referencedColumns: ["id"]
           }
@@ -225,6 +235,7 @@ export interface Database {
           {
             foreignKeyName: "users_id_fkey"
             columns: ["id"]
+            isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -253,12 +264,14 @@ export interface Database {
           {
             foreignKeyName: "worktop_options_kitchen_type_id_fkey"
             columns: ["kitchen_type_id"]
+            isOneToOne: false
             referencedRelation: "kitchen_types"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "worktop_options_worktop_id_fkey"
             columns: ["worktop_id"]
+            isOneToOne: false
             referencedRelation: "worktops"
             referencedColumns: ["id"]
           }
@@ -302,6 +315,7 @@ export interface Database {
           {
             foreignKeyName: "worktops_worktop_type_id_fkey"
             columns: ["worktop_type_id"]
+            isOneToOne: false
             referencedRelation: "worktop_types"
             referencedColumns: ["id"]
           }

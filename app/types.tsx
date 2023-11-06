@@ -23,10 +23,10 @@ export type Apartment = {
   user_id: string;
   users?: User;
   name: string;
-  front_id: number;
-  fronts?: Front;
-  worktop_id: number;
-  worktops?: Worktop;
+  front_option_id: number;
+  front_options?: FrontOption;
+  worktop_option_id: number;
+  worktop_options?: WorktopOption;
   ready_for_order: boolean;
   total_cost: number;
   kitchen_types?: KitchenType;  
@@ -38,9 +38,9 @@ export type KitchenType = {
   standard_front_id: number | null;
   standard_worktop_id: number | null;
   apartments?: Apartment[];
-  fronts?: any;
-  worktops?: any;
-  users?: any;
+  fronts?: Front;
+  worktops?: Worktop;
+  users?: User;
   projects?: Project;
 }
 export type Project = {

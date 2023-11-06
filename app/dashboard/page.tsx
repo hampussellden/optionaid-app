@@ -25,12 +25,13 @@ const Dashboard = () => {
       if (user) {
         const { data: apartments, error } = await supabase
           .from('apartments')
-          .select('*,kitchen_types(*,projects(*),fronts(*),worktops(*))')
+          .select('*,kitchen_types(*,projects(*),fronts(*),worktops(*)),worktop_options(*,worktops(*)),front_options(*,fronts(*))')
           .eq('user_id', user.id)
         if (error) {
           console.log(error)
         } 
         if (apartments) {
+          console.log(apartments)
           setApartmentsOnUser(apartments as Apartment[])
         }
       }
@@ -44,12 +45,19 @@ const Dashboard = () => {
             <p className='font-bold text-2xl'>Assigned apartments</p>
             <ul className='flex flex-row gap-2 p-2 rounded'>
             {apartmentsOnUser && apartmentsOnUser.map((apartment) => (
-                <MenuItem text={apartment?.kitchen_types?.projects?.name + ' - ' + apartment.name ?? ''} icon={apartment.ready_for_order ? apartment.ready_for_order : LockOpenOutlined } onClick={() => handleSelectApartmentToEdit(apartment)} active={selectedApartment == apartment ? true: false}/>
+                <MenuItem 
+                text={apartment?.kitchen_types?.projects?.name + ' - ' + apartment.name ?? ''} 
+                icon={apartment.ready_for_order ? apartment.ready_for_order : LockOpenOutlined } 
+                onClick={() => handleSelectApartmentToEdit(apartment)} 
+                active={selectedApartment == apartment ? true: false}
+                key={apartment.id}/>
               ))}
           </ul>
           </nav>
             { editing && selectedApartment?.kitchen_types && (
-              <ClientApartmentEditor apartment={selectedApartment} kitchenType={selectedApartment.kitchen_types}/>
+              <ClientApartmentEditor 
+                apartment={selectedApartment} 
+                kitchenType={selectedApartment.kitchen_types}/>
             )}
         </section>
         )
