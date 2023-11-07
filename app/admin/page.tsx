@@ -53,7 +53,7 @@ const Admin = () => {
 
   return (
     <>
-      <section className="flex flex-row justify-start gap-2 self-start w-full h-full max-h-144">
+      <section className="flex flex-row justify-start gap-2 self-start w-full h-full max-h-160">
         <Box>
           <ItemList>
             {projects &&
@@ -79,7 +79,7 @@ const Admin = () => {
           </Box>
         )}
       </section>
-      <section className="flex flex-row justify-start gap-2 self-start w-full h-full max-h-144">
+      <section className="flex flex-row justify-start gap-2 self-start w-full h-full max-h-160">
         <Fronts />
         <Worktops />
       </section>
