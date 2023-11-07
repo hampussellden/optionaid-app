@@ -17,6 +17,7 @@ import FrontOptionsEditor from './FrontOptionsEditor';
 import WorktopOptionsEditor from './WorktopOptionsEditor';
 import Button from './Button';
 import { SaveRounded } from '@mui/icons-material';
+import Box from './Box';
 
 export type KitchenTypesEditorProps = {
   kitchenType: KitchenType;
@@ -55,7 +56,7 @@ const KitchenTypesEditor = (props: KitchenTypesEditorProps) => {
   };
 
   return (
-    <div className="grow flex flex-col p-4 bg-primary rounded gap-4 justify-start overflow-y-scroll scrollbar-thin scrollbar-track-inherit scrollbar-thumb-secondary scrollbar-track-rounded scrollbar-thumb-rounded scroll-smooth">
+    <Box primary grow>
       <div className="flex flex-row justify-between">
         <h4 className="text-2xl font-bold">Editing kitchen type</h4>
         <p className="text-xl font-semibold ml-auto">
@@ -94,7 +95,7 @@ const KitchenTypesEditor = (props: KitchenTypesEditorProps) => {
         loading={loading}
         icon={SaveRounded}
       />
-    </div>
+    </Box>
   );
 };
 

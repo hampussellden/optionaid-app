@@ -8,6 +8,8 @@ import classNames from 'classnames';
 import KitchenTypesEditor from './KitchenTypesEditor';
 import MenuItem from './MenuItem';
 import { AddRounded } from '@mui/icons-material';
+import ItemList from './ItemList';
+import Box from './Box';
 
 export type KitchenTypesProps = {
   project: Project;
@@ -60,8 +62,8 @@ const KitchenTypes = (props: KitchenTypesProps) => {
   };
   return (
     <>
-      <div className="flex flex-col items-start min-w-fit rounded bg-static p-4  gap-1 scroll-smooth scrollbar-thin scrollbar-track-static scrollbar-thumb-static scrollbar-track-rounded scrollbar-thumb-rounded overflow-y-auto">
-        <ul>
+      <Box>
+        <ItemList>
           {kitchenTypes &&
             kitchenTypes.map((kitchenType: any) => (
               <MenuItem
@@ -78,12 +80,11 @@ const KitchenTypes = (props: KitchenTypesProps) => {
             text={'new type'}
             icon={AddRounded}
           />
-        </ul>
-      </div>
+        </ItemList>
+      </Box>
       {selectedType && !loading && (
         <Apartments project={props.project} kitchenType={selectedType} handleTypeEditorClose={handleTypeEditorClose} />
       )}
-
       {editing && selectedType && <KitchenTypesEditor kitchenType={selectedType} project={props.project} />}
       {creating && <KitchenTypesCreator project={props.project} />}
     </>

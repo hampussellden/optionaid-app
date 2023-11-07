@@ -4,6 +4,8 @@ import { createClient } from '@/utils/supabase/client';
 import { KitchenType } from '@/app/types';
 import { CreationMessage } from '@/app/types';
 import classNames from 'classnames';
+import Box from './Box';
+import Message from './Message';
 
 export type ApartmentCreatorProps = {
   kitchenType: KitchenType;
@@ -38,19 +40,10 @@ const ApartmentsCreator = (props: ApartmentCreatorProps) => {
   };
 
   return (
-    <div className="grow flex flex-col p-4 bg-primary rounded items-start gap-4">
+    <Box grow primary>
       <h4 className="text-2xl font-bold">Creating new apartment</h4>
-      {message && (
-        <p
-          className={classNames(
-            { 'text-accent': message.type == 'error', 'text-secondary': message.type == 'success' },
-            'text-lg font-semibold',
-          )}
-        >
-          {message.message}
-        </p>
-      )}
-      <div className="flex flex-row  items-center gap-2">
+      {message && <Message message={message} />}
+      <div className="flex flex-row  items-center gap-2 max-w-lg">
         <p className="text-lg font-semibold text-text">Apartment Name</p>
         <input
           type="text"
@@ -65,7 +58,7 @@ const ApartmentsCreator = (props: ApartmentCreatorProps) => {
       >
         Save new apartment
       </button>
-    </div>
+    </Box>
   );
 };
 

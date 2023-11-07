@@ -6,6 +6,8 @@ import { Apartment } from '../types';
 import { LockOpenOutlined, LockOutlined } from '@mui/icons-material';
 import MenuItem from '../_components/MenuItem';
 import ClientApartmentEditor from '../_components/ClientApartmentEditor';
+import ItemList from '../_components/ItemList';
+import Box from '../_components/Box';
 
 const Dashboard = () => {
   const supabase = createClient();
@@ -44,9 +46,9 @@ const Dashboard = () => {
 
   return (
     <section className="flex flex-col w-full gap-4 min-h-screen">
-      <nav className="flex flex-col gap-4 p-4 rounded bg-static">
+      <Box>
         <p className="font-bold text-2xl">Assigned apartments</p>
-        <ul className="flex flex-row gap-2 p-2 rounded">
+        <ItemList horizontal>
           {apartmentsOnUser &&
             apartmentsOnUser.map((apartment) => (
               <MenuItem
@@ -57,8 +59,8 @@ const Dashboard = () => {
                 key={apartment.id}
               />
             ))}
-        </ul>
-      </nav>
+        </ItemList>
+      </Box>
       {editing && selectedApartment?.kitchen_types && (
         <ClientApartmentEditor apartment={selectedApartment} kitchenType={selectedApartment.kitchen_types} />
       )}

@@ -7,6 +7,8 @@ import { AddRounded, SensorDoorOutlined, SensorDoorTwoTone } from '@mui/icons-ma
 import MenuItem from './MenuItem';
 import FrontsEditor from './FrontsEditor';
 import FrontTypesCreator from './FrontTypesCreator';
+import ItemList from './ItemList';
+import Box from './Box';
 type FrontsProps = {};
 type GroupedFronts = {
   [key: string]: Front[];
@@ -75,55 +77,56 @@ const Fronts = (props: FrontsProps) => {
   };
   return (
     <>
-      <ul className="bg-static rounded p-2 scroll-smooth scrollbar-thin scrollbar-track-static scrollbar-thumb-static scrollbar-track-rounded scrollbar-thumb-rounded overflow-y-auto">
-        {sortedFronts &&
-          Object.keys(sortedFronts).map((frontTypeName) => (
-            <>
-              <MenuItem
-                text={frontTypeName}
-                icon={SensorDoorTwoTone}
-                active={selectedFrontType === frontTypeName ? true : false}
-                onClick={() => handleSelectFrontType(frontTypeName)}
-              />
-              <ul className="ml-4 flex flex-col gap-2 mt-2">
-                {selectedFrontType === frontTypeName &&
-                  sortedFronts[frontTypeName].map((front) => (
-                    <MenuItem
-                      key={front.id}
-                      text={front.name}
-                      icon={SensorDoorOutlined}
-                      onClick={() => handleSelectFront(front)}
-                      active={selectedFront === front ? true : false}
-                    />
-                  ))}
+      <Box>
+        <ItemList>
+          {sortedFronts &&
+            Object.keys(sortedFronts).map((frontTypeName) => (
+              <>
+                <MenuItem
+                  text={frontTypeName}
+                  icon={SensorDoorTwoTone}
+                  active={selectedFrontType === frontTypeName ? true : false}
+                  onClick={() => handleSelectFrontType(frontTypeName)}
+                />
                 {selectedFrontType === frontTypeName && (
-                  <MenuItem
-                    icon={AddRounded}
-                    text="Create Front"
-                    onClick={handleOpenFrontCreator}
-                    active={creating && selectedFrontType === frontTypeName ? true : false}
-                  />
+                  <ItemList indent>
+                    {sortedFronts[frontTypeName].map((front) => (
+                      <MenuItem
+                        key={front.id}
+                        text={front.name}
+                        icon={SensorDoorOutlined}
+                        onClick={() => handleSelectFront(front)}
+                        active={selectedFront === front ? true : false}
+                      />
+                    ))}
+                    <MenuItem
+                      icon={AddRounded}
+                      text="Create Front"
+                      onClick={handleOpenFrontCreator}
+                      active={creating && selectedFrontType === frontTypeName ? true : false}
+                    />
+                  </ItemList>
                 )}
-              </ul>
-            </>
-          ))}
-        <MenuItem
-          text="New front type"
-          icon={AddRounded}
-          onClick={handleOpenFrontTypeCreator}
-          active={creating && !selectedFrontType ? true : false}
-        />
-      </ul>
+              </>
+            ))}
+          <MenuItem
+            text="New front type"
+            icon={AddRounded}
+            onClick={handleOpenFrontTypeCreator}
+            active={creating && !selectedFrontType ? true : false}
+          />
+        </ItemList>
+      </Box>
       {editing && selectedFrontType && <FrontsEditor frontType={selectedFrontType} front={selectedFront} />}
       {creating && selectedFrontType && (
         <FrontsCreator frontTypeId={getFrontTypeIdByFrontTypeName(selectedFrontType)} />
       )}
       {creating && !selectedFrontType && <FrontTypesCreator />}
       {!editing && !creating && !selectedFrontType && (
-        <div className="flex flex-col bg-static rounded p-4 gap-4 grow">
+        <Box grow>
           <p className="text-2xl font-bold text-text">Fronts</p>
           <p className="text-lg font-semibold text-text">Select a front type to edit</p>
-        </div>
+        </Box>
       )}
     </>
   );

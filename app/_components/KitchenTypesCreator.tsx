@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { CreationMessage, Front, Worktop } from '@/app/types';
 import Button from './Button';
 import { AddOutlined, AddRounded } from '@mui/icons-material';
+import Box from './Box';
 
 export type KitchenTypesCreatorProps = {
   project: Project;
@@ -72,7 +73,7 @@ const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {
     });
   };
   return (
-    <div className="grow flex flex-col p-4 bg-primary rounded items-start gap-4">
+    <Box grow primary>
       <h4 className="text-2xl font-bold">Creating New Kitchen Type</h4>
       {message && (
         <p
@@ -84,7 +85,7 @@ const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {
           {message.message}
         </p>
       )}
-      <div className="flex flex-row items-center gap-2">
+      <div className="flex flex-row items-center gap-2 max-w-lg">
         <p className="text-lg font-semibold text-text">Type Name</p>
         <input
           type="text"
@@ -94,7 +95,7 @@ const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {
         />
       </div>
 
-      <div className="flex flex-row items-center gap-2">
+      <div className="flex flex-row items-center gap-2 max-w-lg">
         <p className="text-lg font-semibold text-text">Standard Front</p>
         <select
           className="rounded w-1/2 px-4 py-2 text-text font-semibold bg-background"
@@ -112,7 +113,7 @@ const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {
         </select>
       </div>
 
-      <div className="flex flex-row items-center gap-2">
+      <div className="flex flex-row items-center gap-2 ">
         <p className="text-lg font-semibold text-text">Standard Worktop</p>
         <select
           className="rounded px-4 py-2 text-text font-semibold bg-background"
@@ -130,7 +131,7 @@ const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {
         </select>
       </div>
       <Button icon={AddRounded} text="Save new Type" onClick={handleCreateNewKitchenType} />
-    </div>
+    </Box>
   );
 };
 

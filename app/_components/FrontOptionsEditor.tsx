@@ -122,7 +122,7 @@ const FrontOptionsEditor = (props: FrontOptionsEditorProps) => {
         </div>
       )}
       <p className="text-xl font-bold my-2">Create new front option</p>
-      <div className="flex flex-row gap-4 items-end">
+      <div className="flex flex-row gap-2 items-end">
         <div className="flex flex-col gap-2">
           <p className="text-lg font-semibold">Front Type</p>
           {frontTypes && (

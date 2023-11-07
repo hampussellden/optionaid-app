@@ -6,6 +6,8 @@ import { createClient } from '@/utils/supabase/client';
 import MenuItem from './MenuItem';
 import { CountertopsOutlined, CountertopsTwoTone, SensorDoorOutlined, SensorDoorTwoTone } from '@mui/icons-material';
 import KitchenRenderer from './KitchenRenderer';
+import ItemList from './ItemList';
+import Box from './Box';
 
 type ClientApartmentEditorProps = {
   apartment: Apartment;
@@ -91,45 +93,47 @@ const ClientApartmentEditor = (props: ClientApartmentEditorProps) => {
   };
 
   return (
-    <div className="flex flex-row gap-2 justify-between w-fill min-h-[90vh]">
+    <div className="flex flex-row gap-2 justify-between w-fill min-h-[85vh]">
       {props.apartment.ready_for_order ? (
-        <div className="bg-primary grow rounded">
+        <Box grow center>
           <p className="font-bold text-2xl">
             Apartment is ready for order, no more changes can be made here. Contact your project manager if you need
-            help{' '}
+            help
           </p>
-        </div>
+        </Box>
       ) : (
-        <div className="bg-static flex flex-col gap-2 rounded p-2 w-fit">
-          <MenuItem text="Fronts" icon={SensorDoorTwoTone} noHover />
-          {frontOptions &&
-            frontOptions.map((frontOption) => (
-              <ul className="pl-4" key={frontOption.id}>
-                {frontOption.fronts && (
-                  <MenuItem
-                    text={frontOption.fronts?.name}
-                    icon={SensorDoorOutlined}
-                    onClick={() => handleSelectFrontOption(frontOption)}
-                    active={selectedFrontOption?.id == frontOption.id ? true : false}
-                  />
-                )}
-              </ul>
-            ))}
-          <MenuItem text="Worktops" icon={CountertopsTwoTone} noHover />
-          {worktopOptions &&
-            worktopOptions.map((worktopOption) => (
-              <ul className="pl-4" key={worktopOption.id}>
-                {worktopOption.worktops && (
-                  <MenuItem
-                    text={worktopOption.worktops.worktop_types.make + ' ' + worktopOption.worktops?.name}
-                    icon={CountertopsOutlined}
-                    onClick={() => handleSelectWorktopOption(worktopOption)}
-                    active={selectedWorktopOption?.id == worktopOption.id ? true : false}
-                  />
-                )}
-              </ul>
-            ))}
-        </div>
+        <Box>
+          <ItemList>
+            <MenuItem text="Fronts" icon={SensorDoorTwoTone} noHover />
+            {frontOptions &&
+              frontOptions.map((frontOption) => (
+                <ItemList key={frontOption.id} indent>
+                  {frontOption.fronts && (
+                    <MenuItem
+                      text={frontOption.fronts?.name}
+                      icon={SensorDoorOutlined}
+                      onClick={() => handleSelectFrontOption(frontOption)}
+                      active={selectedFrontOption?.id == frontOption.id ? true : false}
+                    />
+                  )}
+                </ItemList>
+              ))}
+            <MenuItem text="Worktops" icon={CountertopsTwoTone} noHover />
+            {worktopOptions &&
+              worktopOptions.map((worktopOption) => (
+                <ItemList indent key={worktopOption.id}>
+                  {worktopOption.worktops && (
+                    <MenuItem
+                      text={worktopOption.worktops.worktop_types.make + ' ' + worktopOption.worktops?.name}
+                      icon={CountertopsOutlined}
+                      onClick={() => handleSelectWorktopOption(worktopOption)}
+                      active={selectedWorktopOption?.id == worktopOption.id ? true : false}
+                    />
+                  )}
+                </ItemList>
+              ))}
+          </ItemList>
+        </Box>
       )}
       {frontOptions && worktopOptions && loadRender && props.kitchenType.worktops && props.kitchenType.fronts && (
         <KitchenRenderer

@@ -4,6 +4,7 @@ import { createClient } from '@/utils/supabase/client';
 import { ClientUser, Apartment, Project, KitchenType } from '@/app/types';
 import Button from './Button';
 import { DeleteOutline, SaveRounded } from '@mui/icons-material';
+import Box from './Box';
 
 export type ApartmentEditorProps = {
   apartment: Apartment;
@@ -65,11 +66,12 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
       if (error) console.log(error);
       if (client) setCurrentClient(client[0] as ClientUser);
     };
+    setCurrentClient(null);
     if (props.apartment.user_id) getUserInfoWithApartmentUserId();
-  }, []);
+  }, [props.apartment]);
 
   return (
-    <div className="grow flex flex-col p-4 bg-primary rounded gap-4 justify-start">
+    <Box primary grow>
       <div className="flex flex-row justify-between">
         <p className="text-xl font-bold text-text">Assign a client to this apartment</p>
         <p className="text-xl font-semibold ml-auto">
@@ -112,7 +114,7 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
         loading={loading}
         icon={SaveRounded}
       />
-    </div>
+    </Box>
   );
 };
 

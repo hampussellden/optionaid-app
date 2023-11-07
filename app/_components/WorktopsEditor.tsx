@@ -5,6 +5,7 @@ import { CreationMessage, Worktop } from '../types';
 import ColorPicker from './ColorPicker';
 import { CancelOutlined, CheckCircleOutline, SaveRounded } from '@mui/icons-material';
 import Button from './Button';
+import Message from './Message';
 
 type WorktopsEditorProps = {
   worktopType: string;
@@ -154,16 +155,7 @@ const WorktopsEditor = (props: WorktopsEditorProps) => {
             </div>
           </div>
           <div className="ml-auto flex flex-row gap-2">
-            {message && (
-              <p
-                className={classNames(
-                  { 'text-accent': message.type == 'error', 'text-text': message.type == 'success' },
-                  'text-lg font-semibold p-2 bg-background rounded',
-                )}
-              >
-                {message.message}
-              </p>
-            )}
+            {message && <Message message={message} />}
             <Button text="Save Changes" icon={SaveRounded} onClick={handleSaveWorktopChanges} loading={loading} />
           </div>
         </>

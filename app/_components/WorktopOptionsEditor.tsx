@@ -105,7 +105,7 @@ const WorktopOptionsEditor = (props: WorktopOptionsEditor) => {
   };
 
   return (
-    <div className="">
+    <div>
       <p className="text-xl font-bold my-2">Current Front options on this type</p>
       {worktopOptions && (
         <div className="flex flex-col gap-2 items-start mb-8">
@@ -119,7 +119,7 @@ const WorktopOptionsEditor = (props: WorktopOptionsEditor) => {
         </div>
       )}
       <p className="text-xl font-bold my-2">Create new worktop option</p>
-      <div className="flex flex-row gap-4 items-end">
+      <div className="flex flex-row gap-2">
         <div className="flex flex-col gap-2">
           <p className="text-lg font-semibold">Worktop Make</p>
           {worktopTypes && (

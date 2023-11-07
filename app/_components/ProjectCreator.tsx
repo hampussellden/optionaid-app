@@ -5,6 +5,7 @@ import { Project, CreationMessage } from '@/app/types';
 import classNames from 'classnames';
 import Button from './Button';
 import { SaveRounded } from '@mui/icons-material';
+import Box from './Box';
 
 const ProjectCreator = () => {
   const supabase = createClient();
@@ -32,7 +33,7 @@ const ProjectCreator = () => {
   };
   /* {classNames({'text-accent' : message.type == 'error', : 'text-secondary': message.type == 'success'}, 'text-lg font-semibold')} */
   return (
-    <div className="grow flex flex-col p-4 bg-primary rounded items-start gap-4 justify-start">
+    <Box grow primary>
       <h4 className="text-2xl font-bold">Creating new project</h4>
       {message && (
         <p
@@ -54,7 +55,7 @@ const ProjectCreator = () => {
         />
       </div>
       <Button text="Save new project" onClick={handleCreateNewProject} icon={SaveRounded} />
-    </div>
+    </Box>
   );
 };
 

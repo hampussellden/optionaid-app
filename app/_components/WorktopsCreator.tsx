@@ -7,79 +7,79 @@ import Button from './Button';
 import { CreationMessage } from '../types';
 import Box from './Box';
 import Message from './Message';
-type FrontsCreatorProps = {
-  frontTypeId: number | undefined;
+type WorktopsCreatorProps = {
+  worktopTypeId: number | undefined;
 };
 
-const FrontsCreator = (props: FrontsCreatorProps) => {
+const WorktopsCreator = (props: WorktopsCreatorProps) => {
   const supabase = createClient();
-  const [frontColorInput, setFrontColorInput] = useState<string | null>(null);
-  const [frontNameInput, setFrontNameInput] = useState<string>('');
+  const [worktopColorInput, setWorktopColorInput] = useState<string | null>(null);
+  const [worktopNameInput, setWorktopNameInput] = useState<string>('');
   const [message, setMessage] = useState<CreationMessage | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const handleFrontColor = (color: string | null) => {
-    setFrontColorInput(color);
+  const handleWorktopColor = (color: string | null) => {
+    setWorktopColorInput(color);
   };
-  const handleFrontNameInput = (e: React.ChangeEvent<any>) => {
-    setFrontNameInput(e.target.value);
+  const handleWorktopNameInput = (e: React.ChangeEvent<any>) => {
+    setWorktopNameInput(e.target.value);
   };
 
-  const handleCreateNewFront = () => {
-    const createFront = async () => {
-      if (frontColorInput == null) {
-        setMessage({ message: 'A front must have a color', type: 'error' });
+  const handleCreateNewWorktop = () => {
+    const createWorktop = async () => {
+      if (worktopColorInput == null) {
+        setMessage({ message: 'A worktop must have a color', type: 'error' });
         setLoading(false);
         return;
       }
-      if (props.frontTypeId == undefined) {
-        setMessage({ message: 'A front must have a type', type: 'error' });
+      if (props.worktopTypeId == undefined) {
+        setMessage({ message: 'A worktop must have a type', type: 'error' });
         setLoading(false);
         return;
       }
-      if (frontNameInput.length < 1) {
-        setMessage({ message: 'A front must have a name', type: 'error' });
+      if (worktopNameInput.length < 1) {
+        setMessage({ message: 'A worktop must have a name', type: 'error' });
         setLoading(false);
         return;
       }
       const { data, error } = await supabase
-        .from('fronts')
-        .insert([{ name: frontNameInput, color: frontColorInput, front_type_id: props.frontTypeId }])
+        .from('worktops')
+        .insert([{ name: worktopNameInput, color: worktopColorInput, worktop_type_id: props.worktopTypeId }])
         .select();
       if (error) console.log('error', error);
       if (data) {
-        setMessage({ message: 'Front created successfully', type: 'success' });
+        setMessage({ message: 'Worktop created successfully', type: 'success' });
         setLoading(false);
       }
     };
     setLoading(true);
-    createFront();
+    createWorktop();
   };
 
   return (
     <Box grow primary>
       <div>
-        <p className="text-2xl font-bold text-text">Creating front on type</p>
+        <p className="text-2xl font-bold text-text">Creating worktop on type</p>
       </div>
       <div className="flex flex-col gap-2">
-        <p className="text-xl font-semibold text-text">Front Name</p>
+        <p className="text-xl font-semibold text-text">Worktop Name</p>
         <input
           className="text-text bg-background rounded py-2 px-4 font-semibold"
           type="text"
-          value={frontNameInput}
-          onChange={handleFrontNameInput}
+          value={worktopNameInput}
+          onChange={handleWorktopNameInput}
         />
       </div>
 
       <div className="flex flex-col gap-2">
         <p className="text-lg text-text font-semibold">Change font color code</p>
-        <ColorPicker onClick={handleFrontColor} />
+        <ColorPicker onClick={handleWorktopColor} />
         <div>
-          {frontColorInput ? (
+          {worktopColorInput ? (
             <p className="ml-5 text-lg font-semibold text-text flex flex-row gap-2 items-center">
               Color set
               <CheckCircleOutline />
-              <span className="bg-background p-1 rounded">{frontColorInput}</span>
+              <span className="bg-background p-1 rounded">{worktopColorInput}</span>
             </p>
           ) : (
             <p className="ml-5 text-lg font-semibold text-text flex flex-row gap-2 items-center">
@@ -91,10 +91,10 @@ const FrontsCreator = (props: FrontsCreatorProps) => {
       </div>
       <div className="flex flex-row justify-end gap-2 items-center">
         {message && <Message message={message} />}
-        <Button text="Create new front" icon={AddRounded} onClick={handleCreateNewFront} loading={loading} />
+        <Button text="Create new worktop" icon={AddRounded} onClick={handleCreateNewWorktop} loading={loading} />
       </div>
     </Box>
   );
 };
 
-export default FrontsCreator;
+export default WorktopsCreator;

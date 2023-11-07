@@ -11,6 +11,8 @@ import MenuItem from '../_components/MenuItem';
 import FrontsCreator from '../_components/FrontsCreator';
 import Fronts from '../_components/Fronts';
 import Worktops from '../_components/Worktops';
+import ItemList from '../_components/ItemList';
+import Box from '../_components/Box';
 
 const Admin = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -52,8 +54,8 @@ const Admin = () => {
   return (
     <>
       <section className="flex flex-row justify-start gap-2 self-start w-full h-full max-h-144">
-        <div className="flex flex-col bg-static p-4 rounded min-w-fit gap-1 scroll-smooth scrollbar-thin scrollbar-track-static scrollbar-thumb-static scrollbar-track-rounded scrollbar-thumb-rounded overflow-y-auto">
-          <ul>
+        <Box>
+          <ItemList>
             {projects &&
               projects.map((project: any) => (
                 <MenuItem
@@ -64,17 +66,17 @@ const Admin = () => {
                 />
               ))}
             <MenuItem onClick={handleProjectCreatorOpen} icon={AddRounded} text="Project" active={creating} />
-          </ul>
-        </div>
+          </ItemList>
+        </Box>
         {selectedProject && !loading && (
           <KitchenTypes project={selectedProject} handleProjectEditorClose={handleProjectEditorClose} />
         )}
         {editing && selectedProject && <ProjectEditor project={selectedProject} />}
         {creating && <ProjectCreator />}
         {!creating && !editing && !selectedProject && (
-          <div className="flex flex-col justify-center items-center grow bg-static rounded">
+          <Box center grow>
             <p className="text-3xl font-bold text-text">Select a project to edit</p>
-          </div>
+          </Box>
         )}
       </section>
       <section className="flex flex-row justify-start gap-2 self-start w-full h-full max-h-144">

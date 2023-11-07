@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import Button from './Button';
 import { FileDownloadRounded, SaveRounded } from '@mui/icons-material';
 import ReactCSV from './ReactCSV';
+import Box from './Box';
 
 export type ProjectEditorProps = {
   project: Project;
@@ -57,7 +58,7 @@ const ProjectEditor = (props: ProjectEditorProps) => {
   }, [props.project]);
 
   return (
-    <div className="flex flex-col p-4 bg-primary rounded gap-4 justify-start grow">
+    <Box grow primary>
       <div className="flex flex-row justify-between">
         <h4 className="text-2xl font-bold">Editing Project</h4>
         <p className="text-xl font-semibold ml-auto">{props.project.name}</p>
@@ -90,7 +91,7 @@ const ProjectEditor = (props: ProjectEditorProps) => {
           icon={SaveRounded}
         />
       </div>
-    </div>
+    </Box>
   );
 };
 

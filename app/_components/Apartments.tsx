@@ -8,6 +8,8 @@ import classNames from 'classnames';
 import ApartmentEditor from './ApartmentEditor';
 import MenuItem from './MenuItem';
 import { AddRounded } from '@mui/icons-material';
+import ItemList from './ItemList';
+import Box from './Box';
 
 export type ApartmentsProps = {
   project: Project;
@@ -51,8 +53,8 @@ const Apartments = (props: ApartmentsProps) => {
 
   return (
     <>
-      <div className="flex flex-col min-w-fit items-start bg-static rounded p-4 gap-1 scroll-smooth scrollbar-thin scrollbar-track-static scrollbar-thumb-static scrollbar-track-rounded scrollbar-thumb-rounded overflow-y-auto">
-        <ul>
+      <Box>
+        <ItemList>
           {apartments &&
             apartments.map((apartment: any) => (
               <MenuItem
@@ -63,8 +65,8 @@ const Apartments = (props: ApartmentsProps) => {
               />
             ))}
           <MenuItem icon={AddRounded} text="Apartment" active={creating} onClick={handleOpenApartmentCreator} />
-        </ul>
-      </div>
+        </ItemList>
+      </Box>
       {editing && selectedApartment && (
         <ApartmentEditor kitchenType={props.kitchenType} apartment={selectedApartment} project={props.project} />
       )}
