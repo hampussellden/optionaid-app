@@ -10,45 +10,27 @@ import FrontTypesCreator from './FrontTypesCreator';
 import ItemList from './ItemList';
 import Box from './Box';
 type FrontsProps = {};
-type GroupedFronts = {
-  [key: string]: Front[];
-};
 
 const Fronts = (props: FrontsProps) => {
   const supabase = createClient();
-  const [fronts, setFronts] = useState<Front[] | null>([]);
+  const [frontTypes, setFrontTypes] = useState<FrontType[] | null>([]);
   const [creating, setCreating] = useState(false);
   const [editing, setEditing] = useState<boolean>(false);
-  const [sortedFronts, setSortedFronts] = useState<GroupedFronts | null>(null);
-  const [selectedFrontType, setSelectedFrontType] = useState<string | null>(null);
+  const [selectedFrontType, setSelectedFrontType] = useState<FrontType | null>(null);
   const [selectedFront, setSelectedFront] = useState<Front | null>(null);
-  const groupFrontsByType = () => {
-    const groupedFronts: GroupedFronts = {};
-    fronts?.forEach((front: any) => {
-      if (!groupedFronts[front.front_types.name]) {
-        groupedFronts[front.front_types.name] = [];
-      }
-      groupedFronts[front.front_types.name].push(front);
-    });
-    return groupedFronts;
-  };
 
   useEffect(() => {
-    setSortedFronts(groupFrontsByType());
-  }, [fronts]);
-
-  useEffect(() => {
-    const fetchFronts = async () => {
-      const { data: fronts } = await supabase.from('fronts').select('*, front_types(*)');
-      if (fronts) setFronts(fronts as Front[]);
+    const fetchFrontTypes = async () => {
+      const { data: frontTypes } = await supabase.from('front_types').select('*, fronts(*)');
+      if (frontTypes) setFrontTypes(frontTypes as FrontType[]);
     };
-    fetchFronts();
+    fetchFrontTypes();
   }, []);
 
-  const handleSelectFrontType = (frontTypeName: string) => {
+  const handleSelectFrontType = (frontType: FrontType) => {
     setSelectedFront(null);
-    if (selectedFrontType === frontTypeName) return;
-    setSelectedFrontType(frontTypeName);
+    if (selectedFrontType === frontType) return;
+    setSelectedFrontType(frontType);
     setCreating(false);
     setEditing(true);
   };
@@ -71,26 +53,24 @@ const Fronts = (props: FrontsProps) => {
     setEditing(false);
     setSelectedFront(null);
   };
-  const getFrontTypeIdByFrontTypeName = (frontTypeName: string) => {
-    const frontType = fronts?.find((front) => front.front_types.name === frontTypeName);
-    return frontType?.front_types.id;
-  };
+
   return (
     <>
       <Box>
         <ItemList>
-          {sortedFronts &&
-            Object.keys(sortedFronts).map((frontTypeName) => (
+          {frontTypes &&
+            frontTypes.map((frontType) => (
               <>
                 <MenuItem
-                  text={frontTypeName}
+                  key={frontType.id}
+                  text={frontType.name}
                   icon={SensorDoorTwoTone}
-                  active={selectedFrontType === frontTypeName ? true : false}
-                  onClick={() => handleSelectFrontType(frontTypeName)}
+                  active={selectedFrontType === frontType ? true : false}
+                  onClick={() => handleSelectFrontType(frontType)}
                 />
-                {selectedFrontType === frontTypeName && (
+                {frontType.fronts && selectedFrontType === frontType && (
                   <ItemList indent>
-                    {sortedFronts[frontTypeName].map((front) => (
+                    {frontType.fronts.map((front) => (
                       <MenuItem
                         key={front.id}
                         text={front.name}
@@ -103,7 +83,7 @@ const Fronts = (props: FrontsProps) => {
                       icon={AddRounded}
                       text="Create Front"
                       onClick={handleOpenFrontCreator}
-                      active={creating && selectedFrontType === frontTypeName ? true : false}
+                      active={creating && selectedFrontType === frontType ? true : false}
                     />
                   </ItemList>
                 )}
@@ -118,9 +98,7 @@ const Fronts = (props: FrontsProps) => {
         </ItemList>
       </Box>
       {editing && selectedFrontType && <FrontsEditor frontType={selectedFrontType} front={selectedFront} />}
-      {creating && selectedFrontType && (
-        <FrontsCreator frontTypeId={getFrontTypeIdByFrontTypeName(selectedFrontType)} />
-      )}
+      {creating && selectedFrontType && <FrontsCreator frontType={selectedFrontType} />}
       {creating && !selectedFrontType && <FrontTypesCreator />}
       {!editing && !creating && !selectedFrontType && (
         <Box grow>

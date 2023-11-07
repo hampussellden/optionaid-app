@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CreationMessage, Front } from '../types';
+import { CreationMessage, Front, FrontType } from '../types';
 import Button from './Button';
 import { CancelOutlined, CheckCircleOutline, SaveRounded } from '@mui/icons-material';
 import { createClient } from '@/utils/supabase/client';
@@ -7,7 +7,7 @@ import ColorPicker from './ColorPicker';
 import classNames from 'classnames';
 
 type FrontsEditorProps = {
-  frontType: string;
+  frontType: FrontType;
   front?: Front | null;
 };
 
@@ -83,7 +83,7 @@ const FrontsEditor = (props: FrontsEditorProps) => {
     <div className="flex flex-col bg-primary grow rounded p-4 gap-4 scroll-smooth scrollbar-thin scrollbar-track-inherit scrollbar-thumb-secondary scrollbar-track-rounded scrollbar-thumb-rounded overflow-y-auto">
       <div className="flex flex-row justify-between">
         <p className="text-2xl font-bold text-text">Editing Front Group</p>
-        <p className="text-xl font-semibold text-text">{props.frontType}</p>
+        <p className="text-xl font-semibold text-text">{props.frontType.name}</p>
       </div>
 
       <div>

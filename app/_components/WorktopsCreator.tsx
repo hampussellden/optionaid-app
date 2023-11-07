@@ -4,11 +4,11 @@ import ColorPicker from './ColorPicker';
 import { CheckCircleOutline, CancelOutlined, SaveRounded, AddRounded } from '@mui/icons-material';
 import { createClient } from '@/utils/supabase/client';
 import Button from './Button';
-import { CreationMessage } from '../types';
+import { CreationMessage, WorktopType } from '../types';
 import Box from './Box';
 import Message from './Message';
 type WorktopsCreatorProps = {
-  worktopTypeId: number | undefined;
+  worktopType: WorktopType | null;
 };
 
 const WorktopsCreator = (props: WorktopsCreatorProps) => {
@@ -32,7 +32,7 @@ const WorktopsCreator = (props: WorktopsCreatorProps) => {
         setLoading(false);
         return;
       }
-      if (props.worktopTypeId == undefined) {
+      if (props.worktopType == undefined) {
         setMessage({ message: 'A worktop must have a type', type: 'error' });
         setLoading(false);
         return;
@@ -44,7 +44,7 @@ const WorktopsCreator = (props: WorktopsCreatorProps) => {
       }
       const { data, error } = await supabase
         .from('worktops')
-        .insert([{ name: worktopNameInput, color: worktopColorInput, worktop_type_id: props.worktopTypeId }])
+        .insert([{ name: worktopNameInput, color: worktopColorInput, worktop_type_id: props.worktopType?.id }])
         .select();
       if (error) console.log('error', error);
       if (data) {

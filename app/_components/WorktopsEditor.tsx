@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import { createClient } from '@/utils/supabase/client';
-import { CreationMessage, Worktop } from '../types';
+import { CreationMessage, Worktop, WorktopType } from '../types';
 import ColorPicker from './ColorPicker';
 import { CancelOutlined, CheckCircleOutline, SaveRounded } from '@mui/icons-material';
 import Button from './Button';
 import Message from './Message';
 
 type WorktopsEditorProps = {
-  worktopType: string;
+  worktopType: WorktopType;
   worktop?: Worktop | null;
 };
 
@@ -86,7 +86,7 @@ const WorktopsEditor = (props: WorktopsEditorProps) => {
     <div className="flex flex-col grow bg-primary rounded p-4 gap-4 scroll-smooth scrollbar-thin scrollbar-track-inherit scrollbar-thumb-secondary scrollbar-track-rounded scrollbar-thumb-rounded overflow-y-auto">
       <div className="flex flex-row justify-between">
         <p className="text-2xl text-text font-bold">Editing Worktop Group</p>
-        <p className="text-xl font-semibold text-text">{props.worktopType}</p>
+        <p className="text-xl font-semibold text-text">{props.worktopType.make}</p>
       </div>
       <div>
         <p className="text-lg text-text font-semibold">Change Front type name</p>

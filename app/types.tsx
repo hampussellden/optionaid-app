@@ -51,6 +51,7 @@ export type Project = {
 export type FrontType = {
   id: number;
   name: string;
+  fronts?: Front[];
 };
 export type Front = {
   id: number;
@@ -62,6 +63,7 @@ export type Front = {
 export type WorktopType = {
   id: number;
   make: string;
+  worktops?: Worktop[];
 };
 export type Worktop = {
   id: number;

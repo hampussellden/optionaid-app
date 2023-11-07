@@ -4,11 +4,11 @@ import ColorPicker from './ColorPicker';
 import { CheckCircleOutline, CancelOutlined, SaveRounded, AddRounded } from '@mui/icons-material';
 import { createClient } from '@/utils/supabase/client';
 import Button from './Button';
-import { CreationMessage } from '../types';
+import { CreationMessage, FrontType } from '../types';
 import Box from './Box';
 import Message from './Message';
 type FrontsCreatorProps = {
-  frontTypeId: number | undefined;
+  frontType: FrontType;
 };
 
 const FrontsCreator = (props: FrontsCreatorProps) => {
@@ -32,7 +32,7 @@ const FrontsCreator = (props: FrontsCreatorProps) => {
         setLoading(false);
         return;
       }
-      if (props.frontTypeId == undefined) {
+      if (props.frontType == undefined) {
         setMessage({ message: 'A front must have a type', type: 'error' });
         setLoading(false);
         return;
@@ -44,7 +44,7 @@ const FrontsCreator = (props: FrontsCreatorProps) => {
       }
       const { data, error } = await supabase
         .from('fronts')
-        .insert([{ name: frontNameInput, color: frontColorInput, front_type_id: props.frontTypeId }])
+        .insert([{ name: frontNameInput, color: frontColorInput, front_type_id: props.frontType.id }])
         .select();
       if (error) console.log('error', error);
       if (data) {
