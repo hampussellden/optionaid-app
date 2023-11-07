@@ -1,19 +1,17 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import AuthButton from "../_components/AuthButton";
-import { createClient } from "@/utils/supabase/client";
-import { Apartment } from "../types";
-import { LockOpenOutlined, LockOutlined } from "@mui/icons-material";
-import MenuItem from "../_components/MenuItem";
-import ClientApartmentEditor from "../_components/ClientApartmentEditor";
+'use client';
+import React, { useEffect, useState } from 'react';
+import AuthButton from '../_components/AuthButton';
+import { createClient } from '@/utils/supabase/client';
+import { Apartment } from '../types';
+import { LockOpenOutlined, LockOutlined } from '@mui/icons-material';
+import MenuItem from '../_components/MenuItem';
+import ClientApartmentEditor from '../_components/ClientApartmentEditor';
 
 const Dashboard = () => {
   const supabase = createClient();
   const [apartmentsOnUser, setApartmentsOnUser] = useState<Apartment[]>([]);
   const [editing, setEditing] = useState<boolean>(false);
-  const [selectedApartment, setSelectedApartment] = useState<Apartment | null>(
-    null
-  );
+  const [selectedApartment, setSelectedApartment] = useState<Apartment | null>(null);
 
   const handleSelectApartmentToEdit = (apartment: Apartment) => {
     setEditing(false);
@@ -28,11 +26,11 @@ const Dashboard = () => {
       } = await supabase.auth.getUser();
       if (user) {
         const { data: apartments, error } = await supabase
-          .from("apartments")
+          .from('apartments')
           .select(
-            "*,kitchen_types(*,projects(*),fronts(*),worktops(*)),worktop_options(*,worktops(*)),front_options(*,fronts(*))"
+            '*,kitchen_types(*,projects(*),fronts(*),worktops(*)),worktop_options(*,worktops(*)),front_options(*,fronts(*))',
           )
-          .eq("user_id", user.id);
+          .eq('user_id', user.id);
         if (error) {
           console.log(error);
         }
@@ -45,23 +43,15 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <section className='flex flex-col w-full gap-4 min-h-screen'>
-      <nav className='flex flex-col gap-4 p-4 rounded bg-static'>
-        <p className='font-bold text-2xl'>Assigned apartments</p>
-        <ul className='flex flex-row gap-2 p-2 rounded'>
+    <section className="flex flex-col w-full gap-4 min-h-screen">
+      <nav className="flex flex-col gap-4 p-4 rounded bg-static">
+        <p className="font-bold text-2xl">Assigned apartments</p>
+        <ul className="flex flex-row gap-2 p-2 rounded">
           {apartmentsOnUser &&
             apartmentsOnUser.map((apartment) => (
               <MenuItem
-                text={
-                  apartment?.kitchen_types?.projects?.name +
-                    " - " +
-                    apartment.name ?? ""
-                }
-                icon={
-                  apartment.ready_for_order
-                    ? apartment.ready_for_order
-                    : LockOpenOutlined
-                }
+                text={apartment?.kitchen_types?.projects?.name + ' - ' + apartment.name ?? ''}
+                icon={apartment.ready_for_order ? apartment.ready_for_order : LockOpenOutlined}
                 onClick={() => handleSelectApartmentToEdit(apartment)}
                 active={selectedApartment == apartment ? true : false}
                 key={apartment.id}
@@ -70,10 +60,7 @@ const Dashboard = () => {
         </ul>
       </nav>
       {editing && selectedApartment?.kitchen_types && (
-        <ClientApartmentEditor
-          apartment={selectedApartment}
-          kitchenType={selectedApartment.kitchen_types}
-        />
+        <ClientApartmentEditor apartment={selectedApartment} kitchenType={selectedApartment.kitchen_types} />
       )}
     </section>
   );

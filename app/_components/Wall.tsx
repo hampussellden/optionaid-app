@@ -10,17 +10,15 @@ export type WallProps = {
   x?: number;
   y?: number;
   z?: number;
-}
-const Wall = ({h,w,d,x=0,y=0,z=0, color}:WallProps) => {
-  return ( 
-		<mesh position={[x,y,z]}>
-      <Edges/>
+};
+const Wall = ({ h, w, d, x = 0, y = 0, z = 0, color }: WallProps) => {
+  return (
+    <mesh position={[x, y, z]}>
+      <Edges />
       <meshStandardMaterial color={'#f8f8f8'} />
       <boxGeometry args={[w, h, d]} />
-      {color
-        && <meshStandardMaterial color={color} />
-      }
+      {color && <meshStandardMaterial color={color} />}
     </mesh>
-	);
+  );
 };
 export default Wall;

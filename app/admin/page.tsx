@@ -51,8 +51,8 @@ const Admin = () => {
 
   return (
     <>
-      <section className='flex flex-row justify-start gap-2 self-start w-full h-full max-h-144'>
-        <div className='flex flex-col bg-static p-4 rounded min-w-fit gap-1 scroll-smooth scrollbar-thin scrollbar-track-static scrollbar-thumb-static scrollbar-track-rounded scrollbar-thumb-rounded overflow-y-auto'>
+      <section className="flex flex-row justify-start gap-2 self-start w-full h-full max-h-144">
+        <div className="flex flex-col bg-static p-4 rounded min-w-fit gap-1 scroll-smooth scrollbar-thin scrollbar-track-static scrollbar-thumb-static scrollbar-track-rounded scrollbar-thumb-rounded overflow-y-auto">
           <ul>
             {projects &&
               projects.map((project: any) => (
@@ -63,33 +63,21 @@ const Admin = () => {
                   text={project.name}
                 />
               ))}
-            <MenuItem
-              onClick={handleProjectCreatorOpen}
-              icon={AddRounded}
-              text='Project'
-              active={creating}
-            />
+            <MenuItem onClick={handleProjectCreatorOpen} icon={AddRounded} text="Project" active={creating} />
           </ul>
         </div>
         {selectedProject && !loading && (
-          <KitchenTypes
-            project={selectedProject}
-            handleProjectEditorClose={handleProjectEditorClose}
-          />
+          <KitchenTypes project={selectedProject} handleProjectEditorClose={handleProjectEditorClose} />
         )}
-        {editing && selectedProject && (
-          <ProjectEditor project={selectedProject} />
-        )}
+        {editing && selectedProject && <ProjectEditor project={selectedProject} />}
         {creating && <ProjectCreator />}
         {!creating && !editing && !selectedProject && (
-          <div className='flex flex-col justify-center items-center grow bg-static rounded'>
-            <p className='text-3xl font-bold text-text'>
-              Select a project to edit
-            </p>
+          <div className="flex flex-col justify-center items-center grow bg-static rounded">
+            <p className="text-3xl font-bold text-text">Select a project to edit</p>
           </div>
         )}
       </section>
-      <section className='flex flex-row justify-start gap-2 self-start w-full h-full max-h-144'>
+      <section className="flex flex-row justify-start gap-2 self-start w-full h-full max-h-144">
         <Fronts />
         <Worktops />
       </section>

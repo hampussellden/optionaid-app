@@ -1,35 +1,37 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import { ChevronRight} from '@mui/icons-material';
+import { ChevronRight } from '@mui/icons-material';
 
 type MenuItemProps = {
-    onClick?: any;
-    loading?: boolean;
-    text: string;
-    active?: boolean;
-    icon?: any;
-    noHover?: boolean;
-}
-
+  onClick?: any;
+  loading?: boolean;
+  text: string;
+  active?: boolean;
+  icon?: any;
+  noHover?: boolean;
+};
 
 const MenuItem = (props: MenuItemProps) => {
-  const Icon = props.icon
+  const Icon = props.icon;
 
-    return (
-      <button className={classNames({ 'bg-secondary': props.active, 'hover:bg-secondaryHover' : !props.noHover }, 'p-2 rounded text-lg font-semibold flex flex-row items-center gap-2')}  onClick={props.onClick}>
-        {props.icon ? (
-          <Icon />
-        )
-      :
-      (
+  return (
+    <button
+      className={classNames(
+        { 'bg-secondary': props.active, 'hover:bg-secondaryHover': !props.noHover },
+        'p-2 rounded text-lg font-semibold flex flex-row items-center gap-2',
+      )}
+      onClick={props.onClick}
+    >
+      {props.icon ? (
+        <Icon />
+      ) : (
         <>
           <ChevronRight />
         </>
-      )
-      }
-        <li className='list-none'>{props.text}</li>
-      </button>
-    );
+      )}
+      <li className="list-none">{props.text}</li>
+    </button>
+  );
 };
 
 export default MenuItem;

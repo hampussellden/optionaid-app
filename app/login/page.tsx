@@ -1,6 +1,6 @@
-import Link from 'next/link'
-import Messages from './messages'
-import Button from '../_components/Button'
+import Link from 'next/link';
+import Messages from './messages';
+import Button from '../_components/Button';
 
 export default function Login() {
   return (
@@ -29,10 +29,10 @@ export default function Login() {
           placeholder="••••••••"
           required
         />
-        <Button text='Sign In' fullWidth marginZero/>
-        <Button text='Sign Up' formAction="/auth/sign-up" fullWidth transparent marginZero/>
+        <Button text="Sign In" fullWidth marginZero />
+        <Button text="Sign Up" formAction="/auth/sign-up" fullWidth transparent marginZero />
         <Messages />
       </form>
     </div>
-  )
+  );
 }

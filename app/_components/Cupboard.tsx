@@ -8,26 +8,25 @@ export type CupboardProps = {
   x?: number;
   y?: number;
   z?: number;
-}
+};
 function Oven() {
-  return(
+  return (
     <mesh>
-      <Edges/>
+      <Edges />
       <meshStandardMaterial color={'#c6c6c6'} />
-      <boxGeometry args={[6,5.44,5.85]}  />
+      <boxGeometry args={[6, 5.44, 5.85]} />
     </mesh>
-  )
+  );
 }
 
-
-const Cupboard = ({x=0,y=0,z=0, color}:CupboardProps) => {
-  return ( 
-		<mesh position={[x,y,z]}>
+const Cupboard = ({ x = 0, y = 0, z = 0, color }: CupboardProps) => {
+  return (
+    <mesh position={[x, y, z]}>
       <meshStandardMaterial color={'#c6c6c6'} />
-      <Cabinet h={7.04} w={6} d={5.85} color={color} y={6.24}/>
+      <Cabinet h={7.04} w={6} d={5.85} color={color} y={6.24} />
       <Oven />
-      <Cabinet h={7.04} w={6} d={5.85} color={color} y={-6.24}/>
+      <Cabinet h={7.04} w={6} d={5.85} color={color} y={-6.24} />
     </mesh>
-	);
+  );
 };
 export default Cupboard;
