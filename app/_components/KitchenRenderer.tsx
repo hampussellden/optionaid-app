@@ -54,12 +54,14 @@ const KitchenRenderer = (props: KitchenRendererProps) => {
           onClick={() => handleBlueprintChange(blueprints.LKitchen)}
           active={selectedBlueprint === blueprints.LKitchen}
         />
-        <MenuItem
+        {/* 
+          <MenuItem
           icon={HouseOutlined}
           text="U kitchen"
           onClick={() => handleBlueprintChange(blueprints.UKitchen)}
           active={selectedBlueprint === blueprints.UKitchen}
         />
+          */}
       </ItemList>
       <KitchenScene
         blueprint={selectedBlueprint}
