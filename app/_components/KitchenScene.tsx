@@ -13,6 +13,9 @@ import Cupboard from './Cupboard';
 import { blueprints } from './Blueprints';
 import { blue } from '@mui/material/colors';
 import { KitchenObject } from './Blueprints';
+import Tap from './Tap';
+import Sink from './Sink';
+import Stove from './Stove';
 type KitchenSceneProps = {
   frontColor: string;
   worktopColor: string;
@@ -32,14 +35,16 @@ const KitchenScene = (props: KitchenSceneProps) => {
   const panels = props.blueprint.panels;
   const fridge = props.blueprint.fridge;
   const cupboard = props.blueprint.cupboard;
+  const tap = props.blueprint.tap;
+  const sink = props.blueprint.sink;
+  const stove = props.blueprint.stove;
 
   /*
 
    polar={[-Math.PI / 1, Math.PI / 1]}
-          azimuth={[-Math.PI / 1, Math.PI / 1]}
+  azimuth={[-Math.PI / 1, Math.PI / 1]}
 
-
-polar={[-Math.PI / 12.5, Math.PI / 6]}
+polar={[-Math.PI / 12.5, Math.PI / 10]}
           azimuth={[-Math.PI / 5, Math.PI / 8]}
   */
   return (
@@ -55,6 +60,9 @@ polar={[-Math.PI / 12.5, Math.PI / 6]}
           azimuth={[-Math.PI / 5, Math.PI / 8]}
         >
           <Edges />
+          <Tap {...tap} />
+          <Sink {...sink} />
+          <Stove {...stove} />
           {worktopMeasures.map((worktop, index) => (
             <Worktop key={index} {...worktop} color={worktopColor} />
           ))}

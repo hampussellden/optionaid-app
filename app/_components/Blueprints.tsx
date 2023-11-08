@@ -1,4 +1,4 @@
-type CabinetObject = {
+type BoxObject = {
   h: number;
   w: number;
   d: number;
@@ -8,7 +8,7 @@ type CabinetObject = {
   color?: string;
 };
 
-type GripObject = {
+type PlacementObject = {
   x: number;
   y: number;
   z: number;
@@ -16,13 +16,16 @@ type GripObject = {
 };
 
 export type KitchenObject = {
-  cabinets: CabinetObject[];
-  panels: CabinetObject[];
-  worktops: CabinetObject[];
-  walls: CabinetObject[];
-  grips: GripObject[];
-  fridge?: CabinetObject;
+  cabinets: BoxObject[];
+  panels: BoxObject[];
+  worktops: BoxObject[];
+  walls: BoxObject[];
+  grips: PlacementObject[];
+  fridge?: BoxObject;
   cupboard?: { x?: number; y?: number; z?: number; rotate?: boolean };
+  tap?: PlacementObject;
+  sink?: PlacementObject;
+  stove?: PlacementObject;
 };
 
 type Blueprints = {
@@ -289,6 +292,21 @@ export const blueprints: Blueprints = {
     },
     cupboard: {
       x: 18.2,
+    },
+    sink: {
+      x: -6,
+      z: -0.3,
+      y: -3.3,
+    },
+    tap: {
+      x: -9.2,
+      z: 2.1,
+      y: -2.35,
+    },
+    stove: {
+      x: 5,
+      z: -0.5,
+      y: -4,
     },
   },
   LKitchen: {
@@ -601,6 +619,22 @@ export const blueprints: Blueprints = {
     cupboard: {
       x: 6.5,
       z: -22.7,
+      rotate: true,
+    },
+    sink: {
+      x: -12,
+      z: 2.7,
+      y: -3.3,
+    },
+    tap: {
+      x: -15.5,
+      z: 4.8,
+      y: -2.35,
+    },
+    stove: {
+      x: 6.2,
+      z: -9.4,
+      y: -4,
       rotate: true,
     },
   },
