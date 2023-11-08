@@ -8,6 +8,7 @@ export type CupboardProps = {
   x?: number;
   y?: number;
   z?: number;
+  rotate?: boolean;
 };
 function Oven() {
   return (
@@ -19,9 +20,9 @@ function Oven() {
   );
 }
 
-const Cupboard = ({ x = 0, y = 0, z = 0, color }: CupboardProps) => {
+const Cupboard = ({ x = 0, y = 0, z = 0, color, rotate = false }: CupboardProps) => {
   return (
-    <mesh position={[x, y, z]}>
+    <mesh position={[x, y, z]} rotation={rotate ? [-Math.PI / 1, Math.PI / 2, 0] : [0, 0, 0]}>
       <meshStandardMaterial color={'#c6c6c6'} />
       <Cabinet h={7.04} w={6} d={5.85} color={color} y={6.24} />
       <Oven />
@@ -29,4 +30,5 @@ const Cupboard = ({ x = 0, y = 0, z = 0, color }: CupboardProps) => {
     </mesh>
   );
 };
+
 export default Cupboard;
