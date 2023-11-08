@@ -73,7 +73,7 @@ export type Worktop = {
   worktop_types: WorktopType;
 };
 export type FrontOption = {
-  front_id: number;
+  front_id: number | null;
   id: number;
   kitchen_type_id: number;
   price: number | null;
@@ -82,7 +82,7 @@ export type FrontOption = {
 export type WorktopOption = {
   id: number;
   kitchen_type_id: number;
-  worktop_id: number;
+  worktop_id: number | null;
   price: number;
   worktops?: Worktop;
 };

@@ -24,6 +24,20 @@ const ClientApartmentEditor = (props: ClientApartmentEditorProps) => {
   const [totalCost, setTotalCost] = useState<number>(0);
   const [loadRender, setLoadRender] = useState<boolean>(false);
 
+  const standardFrontOption: FrontOption = {
+    id: 0,
+    front_id: props.kitchenType.standard_front_id ?? null,
+    kitchen_type_id: props.kitchenType.id,
+    price: 0,
+    fronts: props.kitchenType.fronts,
+  };
+  const standardWorktopOption: WorktopOption = {
+    id: 0,
+    kitchen_type_id: props.kitchenType.id,
+    worktop_id: props.kitchenType.standard_worktop_id ?? null,
+    price: 0,
+    worktops: props.kitchenType.worktops,
+  };
   useEffect(() => {
     setSelectedFrontOption(props.apartment.front_options ? props.apartment.front_options : null);
     setSelectedWorktopOption(props.apartment.worktop_options ? props.apartment.worktop_options : null);
@@ -105,33 +119,55 @@ const ClientApartmentEditor = (props: ClientApartmentEditorProps) => {
         <Box>
           <ItemList>
             <MenuItem text="Fronts" icon={SensorDoorTwoTone} noHover />
-            {frontOptions &&
-              frontOptions.map((frontOption) => (
-                <ItemList key={frontOption.id} indent>
-                  {frontOption.fronts && (
-                    <MenuItem
-                      text={frontOption.fronts?.name}
-                      icon={SensorDoorOutlined}
-                      onClick={() => handleSelectFrontOption(frontOption)}
-                      active={selectedFrontOption?.id == frontOption.id ? true : false}
-                    />
-                  )}
-                </ItemList>
-              ))}
+            <ItemList indent>
+              {frontOptions &&
+                frontOptions.map((frontOption, i) => (
+                  <>
+                    {i == 0 && (
+                      <MenuItem
+                        text="Standard"
+                        icon={SensorDoorOutlined}
+                        onClick={() => handleSelectFrontOption(standardFrontOption)}
+                        active={selectedFrontOption?.id == standardFrontOption.id ? true : false}
+                      />
+                    )}
+                    {frontOption.fronts && (
+                      <MenuItem
+                        key={frontOption.id}
+                        text={frontOption.fronts?.name}
+                        icon={SensorDoorOutlined}
+                        onClick={() => handleSelectFrontOption(frontOption)}
+                        active={selectedFrontOption?.id == frontOption.id ? true : false}
+                      />
+                    )}
+                  </>
+                ))}
+            </ItemList>
             <MenuItem text="Worktops" icon={CountertopsTwoTone} noHover />
-            {worktopOptions &&
-              worktopOptions.map((worktopOption) => (
-                <ItemList indent key={worktopOption.id}>
-                  {worktopOption.worktops && (
-                    <MenuItem
-                      text={worktopOption.worktops.worktop_types.make + ' ' + worktopOption.worktops?.name}
-                      icon={CountertopsOutlined}
-                      onClick={() => handleSelectWorktopOption(worktopOption)}
-                      active={selectedWorktopOption?.id == worktopOption.id ? true : false}
-                    />
-                  )}
-                </ItemList>
-              ))}
+            <ItemList indent>
+              {worktopOptions &&
+                worktopOptions.map((worktopOption, i) => (
+                  <>
+                    {i == 0 && (
+                      <MenuItem
+                        text="Standard"
+                        icon={CountertopsOutlined}
+                        onClick={() => handleSelectWorktopOption(standardWorktopOption)}
+                        active={selectedWorktopOption?.id == standardWorktopOption.id ? true : false}
+                      />
+                    )}
+                    {worktopOption.worktops && (
+                      <MenuItem
+                        key={worktopOption.id}
+                        text={worktopOption.worktops.worktop_types.make + ' ' + worktopOption.worktops?.name}
+                        icon={CountertopsOutlined}
+                        onClick={() => handleSelectWorktopOption(worktopOption)}
+                        active={selectedWorktopOption?.id == worktopOption.id ? true : false}
+                      />
+                    )}
+                  </>
+                ))}
+            </ItemList>
           </ItemList>
         </Box>
       )}
