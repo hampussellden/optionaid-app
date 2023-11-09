@@ -9,6 +9,7 @@ import Box from './Box';
 import Message from './Message';
 type WorktopsCreatorProps = {
   worktopType: WorktopType | null;
+  update: () => void;
 };
 
 const WorktopsCreator = (props: WorktopsCreatorProps) => {
@@ -50,6 +51,7 @@ const WorktopsCreator = (props: WorktopsCreatorProps) => {
       if (data) {
         setMessage({ message: 'Worktop created successfully', type: 'success' });
         setLoading(false);
+        props.update();
       }
     };
     setLoading(true);
@@ -58,8 +60,9 @@ const WorktopsCreator = (props: WorktopsCreatorProps) => {
 
   return (
     <Box grow primary>
-      <div>
+      <div className="flex justify-between">
         <p className="text-2xl font-bold text-text">Creating worktop on type</p>
+        <p className="text-xl font-semibold text-text">{props.worktopType?.make}</p>
       </div>
       <div className="flex flex-col gap-2">
         <p className="text-xl font-semibold text-text">Worktop Name</p>

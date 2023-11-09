@@ -22,6 +22,7 @@ import Box from './Box';
 export type KitchenTypesEditorProps = {
   kitchenType: KitchenType;
   project: Project;
+  update: () => void;
 };
 
 const KitchenTypesEditor = (props: KitchenTypesEditorProps) => {
@@ -50,6 +51,7 @@ const KitchenTypesEditor = (props: KitchenTypesEditorProps) => {
       if (data) {
         setMessage({ message: 'Kitchen type updated successfully', type: 'success' });
         setLoading(false);
+        props.update();
       }
     };
     updateKitchenType();

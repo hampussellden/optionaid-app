@@ -7,13 +7,16 @@ import { CreationMessage, Front, Worktop } from '@/app/types';
 import Button from './Button';
 import { AddOutlined, AddRounded } from '@mui/icons-material';
 import Box from './Box';
+import Message from './Message';
 
 export type KitchenTypesCreatorProps = {
   project: Project;
+  update: () => void;
 };
 
 const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {
   const supabase = createClient();
+  const [loading, setLoading] = useState<boolean>(false);
   const [fronts, setFronts] = useState<Front[] | null>(null);
   const [worktops, setWorktops] = useState<Worktop[] | null>(null);
   const [inputValue, setInputValue] = useState<string>('');
@@ -25,8 +28,10 @@ const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {
     const fetchFrontsAndWorktops = async () => {
       const { data: fronts } = await supabase.from('fronts').select('*,front_types(*)');
       const { data: worktops } = await supabase.from('worktops').select('*,worktop_types(*)');
-      setFronts(fronts as Front[]);
-      setWorktops(worktops as Worktop[]);
+      if (fronts && worktops) {
+        setFronts(fronts as Front[]);
+        setWorktops(worktops as Worktop[]);
+      }
     };
     fetchFrontsAndWorktops();
   }, []);
@@ -54,10 +59,16 @@ const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {
         .select();
 
       if (error) console.log('error', error);
-      if (data) setMessage({ message: 'Kitchen type created successfully', type: 'success' });
+      if (data) {
+        setMessage({ message: 'Kitchen type created successfully', type: 'success' });
+        setLoading(false);
+        props.update();
+      }
     };
+    setLoading(true);
     createNewKitchenType();
   };
+
   const handleStandardFront = (event: React.ChangeEvent<HTMLSelectElement>) => {
     fronts?.filter((front: Front) => {
       if (front.id === parseInt(event.target.value)) {
@@ -75,22 +86,13 @@ const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {
   return (
     <Box grow primary>
       <h4 className="text-2xl font-bold">Creating New Kitchen Type</h4>
-      {message && (
-        <p
-          className={classNames(
-            { 'text-accent': message.type == 'error', 'text-secondary': message.type == 'success' },
-            'text-lg font-semibold',
-          )}
-        >
-          {message.message}
-        </p>
-      )}
+
       <div className="flex flex-row items-center gap-2 max-w-lg">
         <p className="text-lg font-semibold text-text">Type Name</p>
         <input
           type="text"
           value={inputValue}
-          className="w-1/2 px-4 py-2 text-xl font-semibold rounded focus:outline outline-accent bg-background text-text"
+          className="w-1/2 px-4 py-2 text-xl font-semibold rounded bg-background text-text"
           onChange={handleInputChange}
         />
       </div>
@@ -130,7 +132,7 @@ const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {
             ))}
         </select>
       </div>
-      <Button icon={AddRounded} text="Save new Type" onClick={handleCreateNewKitchenType} />
+      <Button icon={AddRounded} text="Save new Type" onClick={handleCreateNewKitchenType} loading={loading} />
     </Box>
   );
 };

@@ -9,6 +9,7 @@ import Box from './Box';
 import Message from './Message';
 type FrontsCreatorProps = {
   frontType: FrontType;
+  update: () => void;
 };
 
 const FrontsCreator = (props: FrontsCreatorProps) => {
@@ -50,6 +51,7 @@ const FrontsCreator = (props: FrontsCreatorProps) => {
       if (data) {
         setMessage({ message: 'Front created successfully', type: 'success' });
         setLoading(false);
+        props.update();
       }
     };
     setLoading(true);

@@ -14,15 +14,17 @@ import Box from './Box';
 export type KitchenTypesProps = {
   project: Project;
   handleProjectEditorClose: () => void;
+  key: number;
 };
 
 const KitchenTypes = (props: KitchenTypesProps) => {
-  const [kitchenTypes, setKitchenTypes] = useState<KitchenType[] | null>(null);
   const supabase = createClient();
+  const [kitchenTypes, setKitchenTypes] = useState<KitchenType[] | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedType, setSelectedType] = useState<KitchenType | null>(null);
   const [editing, setEditing] = useState<boolean>(false);
   const [creating, setCreating] = useState<boolean>(false);
+  const [apartmentsKey, setApartmentsKey] = useState(0);
 
   useEffect(() => {
     const fetchKitchenTypes = async () => {
@@ -31,10 +33,13 @@ const KitchenTypes = (props: KitchenTypesProps) => {
         .select('*,worktops(*),fronts(*)')
         .eq('project_id', props.project.id)
         .order('id', { ascending: true });
-      setKitchenTypes(kitchenTypes as KitchenType[]);
+      if (kitchenTypes) {
+        setKitchenTypes(kitchenTypes as KitchenType[]);
+        setLoading(false);
+      }
     };
     fetchKitchenTypes();
-  }, []);
+  }, [loading]);
 
   useEffect(() => {
     setLoading(false);
@@ -43,15 +48,17 @@ const KitchenTypes = (props: KitchenTypesProps) => {
   const handleTypeEditorClose = () => {
     setEditing(false);
   };
-  const handleSelectType = async (kitchenType: KitchenType) => {
-    setSelectedType(kitchenType);
-    setLoading(true);
-  };
+
   const handleTypeClick = (kitchenType: KitchenType) => {
-    if (selectedType?.id === kitchenType.id) return;
+    if (selectedType?.id === kitchenType.id) {
+      setApartmentsKey((prevKey) => prevKey + 1);
+      setEditing(true);
+      return;
+    }
     setEditing(true);
     setCreating(false);
-    handleSelectType(kitchenType);
+    setSelectedType(kitchenType);
+    setLoading(true);
     props.handleProjectEditorClose();
   };
   const handleOpenKitchenTypeCreator = () => {
@@ -60,6 +67,11 @@ const KitchenTypes = (props: KitchenTypesProps) => {
     setSelectedType(null);
     props.handleProjectEditorClose();
   };
+
+  const handleKitchenTypesLoading = () => {
+    setLoading(true);
+  };
+
   return (
     <>
       <Box>
@@ -83,10 +95,17 @@ const KitchenTypes = (props: KitchenTypesProps) => {
         </ItemList>
       </Box>
       {selectedType && !loading && (
-        <Apartments project={props.project} kitchenType={selectedType} handleTypeEditorClose={handleTypeEditorClose} />
+        <Apartments
+          project={props.project}
+          kitchenType={selectedType}
+          handleTypeEditorClose={handleTypeEditorClose}
+          key={apartmentsKey}
+        />
       )}
-      {editing && selectedType && <KitchenTypesEditor kitchenType={selectedType} project={props.project} />}
-      {creating && <KitchenTypesCreator project={props.project} />}
+      {editing && selectedType && (
+        <KitchenTypesEditor kitchenType={selectedType} project={props.project} update={handleKitchenTypesLoading} />
+      )}
+      {creating && <KitchenTypesCreator project={props.project} update={handleKitchenTypesLoading} />}
     </>
   );
 };

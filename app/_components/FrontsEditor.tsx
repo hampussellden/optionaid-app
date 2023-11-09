@@ -5,10 +5,12 @@ import { CancelOutlined, CheckCircleOutline, SaveRounded } from '@mui/icons-mate
 import { createClient } from '@/utils/supabase/client';
 import ColorPicker from './ColorPicker';
 import classNames from 'classnames';
+import Message from './Message';
 
 type FrontsEditorProps = {
   frontType: FrontType;
   front?: Front | null;
+  update: () => void;
 };
 
 const FrontsEditor = (props: FrontsEditorProps) => {
@@ -45,6 +47,7 @@ const FrontsEditor = (props: FrontsEditorProps) => {
       if (data) {
         setMessage({ message: 'Front type updated successfully', type: 'success' });
         setLoading(false);
+        props.update();
       }
     };
     setLoading(true);
@@ -73,6 +76,7 @@ const FrontsEditor = (props: FrontsEditorProps) => {
       if (data) {
         setMessage({ message: 'Front updated successfully', type: 'success' });
         setLoading(false);
+        props.update();
       }
     };
     setLoading(true);
@@ -96,16 +100,7 @@ const FrontsEditor = (props: FrontsEditorProps) => {
         />
       </div>
       <div className="ml-auto flex flex-row gap-2">
-        {message && (
-          <p
-            className={classNames(
-              { 'text-accent': message.type == 'error', 'text-text': message.type == 'success' },
-              'text-lg font-semibold p-2 bg-background rounded',
-            )}
-          >
-            {message.message}
-          </p>
-        )}
+        {message && <Message message={message} />}
         <Button text="Save Changes" icon={SaveRounded} onClick={handleSaveFrontTypeChanges} />
       </div>
 
@@ -153,16 +148,7 @@ const FrontsEditor = (props: FrontsEditorProps) => {
             </div>
           </div>
           <div className="ml-auto flex flex-row gap-2">
-            {message && (
-              <p
-                className={classNames(
-                  { 'text-accent': message.type == 'error', 'text-text': message.type == 'success' },
-                  'text-lg font-semibold p-2 bg-background rounded',
-                )}
-              >
-                {message.message}
-              </p>
-            )}
+            {message && <Message message={message} />}
             <Button text="Save Changes" icon={SaveRounded} onClick={handleSaveFrontChanges} loading={loading} />
           </div>
         </>

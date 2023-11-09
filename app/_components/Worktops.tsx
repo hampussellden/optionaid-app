@@ -13,6 +13,7 @@ type WorktopsProps = {};
 
 const Worktops = (props: WorktopsProps) => {
   const supabase = createClient();
+  const [loading, setLoading] = useState<boolean>(false);
   const [creating, setCreating] = useState<boolean>(false);
   const [editing, setEditing] = useState<boolean>(false);
   const [worktopTypes, setWorktopTypes] = useState<WorktopType[]>([]);
@@ -23,12 +24,12 @@ const Worktops = (props: WorktopsProps) => {
     const fetchWorktopTypes = async () => {
       const { data: worktopTypes } = await supabase.from('worktop_types').select('*, worktops(*)');
       if (worktopTypes) {
-        console.log(worktopTypes);
         setWorktopTypes(worktopTypes as WorktopType[]);
+        setLoading(false);
       }
     };
     fetchWorktopTypes();
-  }, []);
+  }, [loading]);
 
   const handleSelectworktopType = (worktopType: WorktopType) => {
     setSelectedWorktop(null);
@@ -56,55 +57,64 @@ const Worktops = (props: WorktopsProps) => {
     setEditing(false);
     setSelectedWorktop(null);
   };
+  const handleWorktopLoading = () => {
+    setLoading(true);
+  };
 
   return (
     <>
       <Box>
-        <ItemList>
-          {worktopTypes &&
-            worktopTypes.map((worktopType) => (
-              <>
-                <MenuItem
-                  key={worktopType.id}
-                  text={worktopType.make}
-                  icon={CountertopsTwoTone}
-                  onClick={() => handleSelectworktopType(worktopType)}
-                  active={selectedWorktopType === worktopType ? true : false}
-                />
-                {worktopType.worktops && selectedWorktopType == worktopType && (
-                  <ItemList indent>
-                    {worktopType.worktops.map((worktop) => (
+        {!loading && (
+          <ItemList>
+            {worktopTypes &&
+              worktopTypes.map((worktopType) => (
+                <>
+                  <MenuItem
+                    key={worktopType.id}
+                    text={worktopType.make}
+                    icon={CountertopsTwoTone}
+                    onClick={() => handleSelectworktopType(worktopType)}
+                    active={selectedWorktopType?.id === worktopType.id ? true : false}
+                  />
+                  {worktopType.worktops && selectedWorktopType?.id == worktopType.id && (
+                    <ItemList indent>
+                      {worktopType.worktops.map((worktop) => (
+                        <MenuItem
+                          key={worktop.id}
+                          text={worktop.name}
+                          icon={CountertopsOutlined}
+                          onClick={() => handleSelectWorktop(worktop)}
+                          active={selectedWorktop?.id == worktop.id}
+                        />
+                      ))}
                       <MenuItem
-                        key={worktop.id}
-                        text={worktop.name}
-                        icon={CountertopsOutlined}
-                        onClick={() => handleSelectWorktop(worktop)}
-                        active={selectedWorktop == worktop}
+                        icon={AddRounded}
+                        text="Create Worktop"
+                        onClick={handleOpenWorktopCreator}
+                        active={creating && selectedWorktopType === worktopType ? true : false}
                       />
-                    ))}
-                    <MenuItem
-                      icon={AddRounded}
-                      text="Create Worktop"
-                      onClick={handleOpenWorktopCreator}
-                      active={creating && selectedWorktopType === worktopType ? true : false}
-                    />
-                  </ItemList>
-                )}
-              </>
-            ))}
-          <MenuItem
-            text="New worktop type"
-            icon={AddRounded}
-            onClick={handleOpenWorktopTypesCreator}
-            active={creating && !selectedWorktopType ? true : false}
-          />
-        </ItemList>
+                    </ItemList>
+                  )}
+                </>
+              ))}
+            <MenuItem
+              text="New worktop type"
+              icon={AddRounded}
+              onClick={handleOpenWorktopTypesCreator}
+              active={creating && !selectedWorktopType ? true : false}
+            />
+          </ItemList>
+        )}
       </Box>
-      {editing && selectedWorktopType && <WorktopsEditor worktopType={selectedWorktopType} worktop={selectedWorktop} />}
+      {editing && selectedWorktopType && (
+        <WorktopsEditor worktopType={selectedWorktopType} worktop={selectedWorktop} update={handleWorktopLoading} />
+      )}
 
       {creating && !selectedWorktopType && <WorktopTypesCreator />}
 
-      {creating && selectedWorktopType && <WorktopsCreator worktopType={selectedWorktopType} />}
+      {creating && selectedWorktopType && (
+        <WorktopsCreator worktopType={selectedWorktopType} update={handleWorktopLoading} />
+      )}
       {!editing && !creating && !selectedWorktopType && (
         <Box grow>
           <p className="text-2xl font-bold text-text">Worktops</p>

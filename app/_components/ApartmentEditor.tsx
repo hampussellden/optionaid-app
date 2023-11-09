@@ -10,11 +10,13 @@ export type ApartmentEditorProps = {
   apartment: Apartment;
   kitchenType: KitchenType;
   project: Project;
+  update: () => void;
 };
 
 const ApartmentEditor = (props: ApartmentEditorProps) => {
   const supabase = createClient();
   const [clients, setClients] = useState<ClientUser[]>([]);
+  const [inputValue, setInputValue] = useState<string>('');
   const [selectedClient, setSelectedClient] = useState<ClientUser | null>(null);
   const [currentClient, setCurrentClient] = useState<ClientUser | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -23,7 +25,6 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
       const { data: clients } = await supabase.from('users').select('*').eq('app_role', 'client');
       if (clients) {
         setClients(clients as ClientUser[]);
-        setSelectedClient(clients[0] as ClientUser);
       }
     };
     fetchClientUsers();
@@ -34,6 +35,7 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
       if (client.id === event.target.value) {
         setSelectedClient(client);
       }
+      if (event.target.value === 'undefined') setSelectedClient(null);
     });
   };
   const handleSaveChanges = async () => {
@@ -44,7 +46,21 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
         .eq('id', props.apartment.id)
         .select();
       if (error) console.log('error', error);
-      if (data) setCurrentClient(selectedClient);
+      if (data) {
+        setCurrentClient(selectedClient);
+        props.update();
+      }
+    }
+    if (inputValue.length > 0) {
+      const { data, error } = await supabase
+        .from('apartments')
+        .update({ name: inputValue })
+        .eq('id', props.apartment.id)
+        .select();
+      if (error) console.log('error', error);
+      if (data) {
+        props.update();
+      }
     }
     setLoading(false);
   };
@@ -70,6 +86,12 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
     if (props.apartment.user_id) getUserInfoWithApartmentUserId();
   }, [props.apartment]);
 
+  const handleInputChange = (e: React.ChangeEvent<any>) => {
+    setInputValue(e.target.value);
+  };
+
+  console.log('currentClient', currentClient);
+  console.log('selectedClient', selectedClient);
   return (
     <Box primary grow>
       <div className="flex flex-row justify-between">
@@ -77,6 +99,15 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
         <p className="text-xl font-semibold ml-auto">
           {props.project.name} - type {props.kitchenType.name} - {props.apartment.name}
         </p>
+      </div>
+      <div className="flex flex-row gap-2 items-center">
+        <p className="text-lg font-semibold">Apartment name: </p>
+        <input
+          type="text"
+          className="text-text font-semibold text-lg bg-background p-2 rounded"
+          value={inputValue}
+          onChange={handleInputChange}
+        />
       </div>
       {currentClient && (
         <div className="flex flex-row items-center gap-2">
@@ -98,8 +129,11 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
             id="clients"
             onChange={handleClientChange}
           >
-            {clients.map((client: ClientUser, index: number) => (
-              <option value={client.id} key={index} selected={index == 0 ? true : false}>
+            <option value={undefined} selected>
+              Select a client
+            </option>
+            {clients.map((client: ClientUser, i: number) => (
+              <option value={client.id} key={i}>
                 {client.full_name} - {client.email}
               </option>
             ))}

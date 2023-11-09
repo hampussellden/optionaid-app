@@ -11,7 +11,7 @@ const Message = (props: MessageProps) => {
     <p
       className={classNames(
         { 'text-accent': props.message.type == 'error', 'text-text': props.message.type == 'success' },
-        'text-lg font-semibold p-2 bg-background rounded',
+        'text-sm font-semibold p-2 bg-background rounded h-fit mt-auto',
       )}
     >
       {props.message.message}

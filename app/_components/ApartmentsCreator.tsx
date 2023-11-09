@@ -6,9 +6,12 @@ import { CreationMessage } from '@/app/types';
 import classNames from 'classnames';
 import Box from './Box';
 import Message from './Message';
+import Button from './Button';
+import { AddRounded } from '@mui/icons-material';
 
 export type ApartmentCreatorProps = {
   kitchenType: KitchenType;
+  update: () => void;
 };
 
 const ApartmentsCreator = (props: ApartmentCreatorProps) => {
@@ -34,6 +37,7 @@ const ApartmentsCreator = (props: ApartmentCreatorProps) => {
       if (error) console.log('error', error);
       if (data) {
         setMessage({ message: 'Apartment created successfully', type: 'success' });
+        props.update();
       }
     };
     createNewApartment();
@@ -42,22 +46,16 @@ const ApartmentsCreator = (props: ApartmentCreatorProps) => {
   return (
     <Box grow primary>
       <h4 className="text-2xl font-bold">Creating new apartment</h4>
-      {message && <Message message={message} />}
       <div className="flex flex-row  items-center gap-2 max-w-lg">
         <p className="text-lg font-semibold text-text">Apartment Name</p>
         <input
           type="text"
           value={inputValue}
-          className="w-1/3 px-4 py-2 text-lg font-semibold rounded text-text bg-background focus:outline outline-accent"
+          className="w-1/3 px-4 py-2 text-lg font-semibold rounded text-text bg-background"
           onChange={handleInputChange}
         />
       </div>
-      <button
-        className="rounded bg-accent mt-auto py-2 px-4 text-xl w-fit font-semibold self-end hover:bg-accentHover"
-        onClick={handleCreateNewApartment}
-      >
-        Save new apartment
-      </button>
+      <Button text="Save new apartment" onClick={handleCreateNewApartment} icon={AddRounded} />
     </Box>
   );
 };

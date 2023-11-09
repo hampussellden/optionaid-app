@@ -5,8 +5,11 @@ import { AddRounded } from '@mui/icons-material';
 import { createClient } from '@/utils/supabase/client';
 7;
 import { CreationMessage } from '../types';
+import Message from './Message';
 
-type FrontTypesCreatorProps = {};
+type FrontTypesCreatorProps = {
+  update: () => void;
+};
 
 const FrontTypesCreator = (props: FrontTypesCreatorProps) => {
   const supabase = createClient();
@@ -31,6 +34,7 @@ const FrontTypesCreator = (props: FrontTypesCreatorProps) => {
       if (data) {
         setMessage({ message: 'Front type created successfully', type: 'success' });
         setLoading(false);
+        props.update();
       }
     };
     setLoading(true);
@@ -48,16 +52,7 @@ const FrontTypesCreator = (props: FrontTypesCreatorProps) => {
         value={inputValue}
       />
       <div className="ml-auto flex flex-row gap-2">
-        {message && (
-          <p
-            className={classNames(
-              { 'text-accent': message.type == 'error', 'text-text': message.type == 'success' },
-              'text-lg font-semibold p-2 bg-background rounded',
-            )}
-          >
-            {message?.message}
-          </p>
-        )}
+        {message && <Message message={message} />}
         <Button text="Create new front type" icon={AddRounded} onClick={handleCreateNewFrontTYpe} loading={loading} />
       </div>
     </div>

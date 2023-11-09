@@ -15,6 +15,7 @@ export type ApartmentsProps = {
   project: Project;
   kitchenType: KitchenType;
   handleTypeEditorClose: () => void;
+  key: number;
 };
 
 const Apartments = (props: ApartmentsProps) => {
@@ -23,6 +24,7 @@ const Apartments = (props: ApartmentsProps) => {
   const [creating, setCreating] = useState<boolean>(false);
   const [apartments, setApartments] = useState<Apartment[] | null>(null);
   const [selectedApartment, setSelectedApartment] = useState<Apartment | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchAparments = async () => {
@@ -31,10 +33,13 @@ const Apartments = (props: ApartmentsProps) => {
         .select('*')
         .eq('kitchen_type_id', props.kitchenType.id)
         .order('id', { ascending: true });
-      setApartments(apartments as Apartment[]);
+      if (apartments) {
+        setApartments(apartments as Apartment[]);
+        setLoading(false);
+      }
     };
     fetchAparments();
-  }, []);
+  }, [loading]);
 
   const handleApartmentClick = (apartment: Apartment) => {
     if (selectedApartment?.id === apartment.id) return;
@@ -49,6 +54,10 @@ const Apartments = (props: ApartmentsProps) => {
     setEditing(false);
     setSelectedApartment(null);
     props.handleTypeEditorClose();
+  };
+
+  const handleApartmentsLoading = () => {
+    setLoading(true);
   };
 
   return (
@@ -68,9 +77,14 @@ const Apartments = (props: ApartmentsProps) => {
         </ItemList>
       </Box>
       {editing && selectedApartment && (
-        <ApartmentEditor kitchenType={props.kitchenType} apartment={selectedApartment} project={props.project} />
+        <ApartmentEditor
+          kitchenType={props.kitchenType}
+          apartment={selectedApartment}
+          project={props.project}
+          update={handleApartmentsLoading}
+        />
       )}
-      {creating && <ApartmentsCreator kitchenType={props.kitchenType} />}
+      {creating && <ApartmentsCreator kitchenType={props.kitchenType} update={handleApartmentsLoading} />}
     </>
   );
 };

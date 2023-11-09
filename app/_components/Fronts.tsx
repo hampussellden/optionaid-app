@@ -13,6 +13,7 @@ type FrontsProps = {};
 
 const Fronts = (props: FrontsProps) => {
   const supabase = createClient();
+  const [loading, setLoading] = useState<boolean>(true);
   const [frontTypes, setFrontTypes] = useState<FrontType[] | null>([]);
   const [creating, setCreating] = useState(false);
   const [editing, setEditing] = useState<boolean>(false);
@@ -22,10 +23,13 @@ const Fronts = (props: FrontsProps) => {
   useEffect(() => {
     const fetchFrontTypes = async () => {
       const { data: frontTypes } = await supabase.from('front_types').select('*, fronts(*)');
-      if (frontTypes) setFrontTypes(frontTypes as FrontType[]);
+      if (frontTypes) {
+        setFrontTypes(frontTypes as FrontType[]);
+        setLoading(false);
+      }
     };
     fetchFrontTypes();
-  }, []);
+  }, [loading]);
 
   const handleSelectFrontType = (frontType: FrontType) => {
     setSelectedFront(null);
@@ -53,54 +57,63 @@ const Fronts = (props: FrontsProps) => {
     setEditing(false);
     setSelectedFront(null);
   };
+  const handleFrontsLoading = () => {
+    setLoading(true);
+  };
 
   return (
     <>
       <Box>
-        <ItemList>
-          {frontTypes &&
-            frontTypes.map((frontType) => (
-              <>
-                <MenuItem
-                  key={frontType.id}
-                  text={frontType.name}
-                  icon={SensorDoorTwoTone}
-                  active={selectedFrontType === frontType ? true : false}
-                  onClick={() => handleSelectFrontType(frontType)}
-                />
-                {frontType.fronts && selectedFrontType === frontType && (
-                  <ItemList indent>
-                    {frontType.fronts.map((front) => (
+        {!loading && (
+          <ItemList>
+            {frontTypes &&
+              frontTypes.map((frontType) => (
+                <>
+                  <MenuItem
+                    key={frontType.id}
+                    text={frontType.name}
+                    icon={SensorDoorTwoTone}
+                    active={selectedFrontType?.id === frontType.id ? true : false}
+                    onClick={() => handleSelectFrontType(frontType)}
+                  />
+                  {frontType.fronts && selectedFrontType?.id === frontType.id && (
+                    <ItemList indent>
+                      {frontType.fronts.map((front) => (
+                        <MenuItem
+                          key={front.id}
+                          text={front.name}
+                          icon={SensorDoorOutlined}
+                          onClick={() => handleSelectFront(front)}
+                          active={selectedFront?.id === front.id ? true : false}
+                        />
+                      ))}
                       <MenuItem
-                        key={front.id}
-                        text={front.name}
-                        icon={SensorDoorOutlined}
-                        onClick={() => handleSelectFront(front)}
-                        active={selectedFront === front ? true : false}
+                        icon={AddRounded}
+                        text="Create Front"
+                        onClick={handleOpenFrontCreator}
+                        active={creating && selectedFrontType === frontType ? true : false}
                       />
-                    ))}
-                    <MenuItem
-                      icon={AddRounded}
-                      text="Create Front"
-                      onClick={handleOpenFrontCreator}
-                      active={creating && selectedFrontType === frontType ? true : false}
-                    />
-                  </ItemList>
-                )}
-              </>
-            ))}
-          <MenuItem
-            text="New front type"
-            icon={AddRounded}
-            onClick={handleOpenFrontTypeCreator}
-            active={creating && !selectedFrontType ? true : false}
-          />
-        </ItemList>
+                    </ItemList>
+                  )}
+                </>
+              ))}
+            <MenuItem
+              text="New front type"
+              icon={AddRounded}
+              onClick={handleOpenFrontTypeCreator}
+              active={creating && !selectedFrontType ? true : false}
+            />
+          </ItemList>
+        )}
       </Box>
-      {editing && selectedFrontType && <FrontsEditor frontType={selectedFrontType} front={selectedFront} />}
-      {creating && selectedFrontType && <FrontsCreator frontType={selectedFrontType} />}
-      {creating && !selectedFrontType && <FrontTypesCreator />}
-      {!editing && !creating && !selectedFrontType && (
+      {!loading && editing && selectedFrontType && (
+        <FrontsEditor frontType={selectedFrontType} front={selectedFront} update={handleFrontsLoading} />
+      )}
+      {!loading && creating && selectedFrontType && (
+        <FrontsCreator frontType={selectedFrontType} update={handleFrontsLoading} />
+      )}
+      {!loading && creating && !selectedFrontType && <FrontTypesCreator update={handleFrontsLoading} />}
+      {!loading && !editing && !creating && !selectedFrontType && (
         <Box grow>
           <p className="text-2xl font-bold text-text">Fronts</p>
           <p className="text-lg font-semibold text-text">Select a front type to edit</p>

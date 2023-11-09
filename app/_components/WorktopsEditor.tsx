@@ -10,6 +10,7 @@ import Message from './Message';
 type WorktopsEditorProps = {
   worktopType: WorktopType;
   worktop?: Worktop | null;
+  update: () => void;
 };
 
 const WorktopsEditor = (props: WorktopsEditorProps) => {
@@ -39,7 +40,7 @@ const WorktopsEditor = (props: WorktopsEditorProps) => {
       const { data, error } = await supabase
         .from('worktop_types')
         .update({ make: worktopTypeInputValue })
-        .eq('make', props.worktopType)
+        .eq('id', props.worktopType.id)
         .select();
       if (error) {
         setMessage({ message: 'An error occured', type: 'error' });
@@ -48,6 +49,7 @@ const WorktopsEditor = (props: WorktopsEditorProps) => {
       if (data) {
         setMessage({ message: 'Worktop type updated successfully', type: 'success' });
         setLoading(false);
+        props.update();
       }
     };
     setLoading(true);
@@ -63,7 +65,7 @@ const WorktopsEditor = (props: WorktopsEditorProps) => {
       worktopInputValue.length < 1 ? (worktopName = props.worktop?.name) : (worktopName = worktopInputValue);
 
       !worktopColorInput ? (worktopColor = props.worktop?.color) : (worktopColor = worktopColorInput);
-
+      console.log('worktopName' + worktopName);
       const { data, error } = await supabase
         .from('worktops')
         .update({ name: worktopName, color: worktopColor })
@@ -76,6 +78,7 @@ const WorktopsEditor = (props: WorktopsEditorProps) => {
       if (data) {
         setMessage({ message: 'Worktop updated successfully', type: 'success' });
         setLoading(false);
+        props.update();
       }
     };
     setLoading(true);
@@ -98,16 +101,7 @@ const WorktopsEditor = (props: WorktopsEditorProps) => {
         />
       </div>
       <div className="ml-auto flex flex-row gap-2">
-        {message && (
-          <p
-            className={classNames(
-              { 'text-accent': message.type == 'error', 'text-text': message.type == 'success' },
-              'text-lg font-semibold p-2 bg-background rounded',
-            )}
-          >
-            {message.message}
-          </p>
-        )}
+        {message && <Message message={message} />}
         <Button text="Save Changes" icon={SaveRounded} onClick={handleSaveWorktopTypeChanges} loading={loading} />
       </div>
 

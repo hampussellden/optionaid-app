@@ -15,25 +15,35 @@ import ItemList from '../_components/ItemList';
 import Box from '../_components/Box';
 
 const Admin = () => {
+  const supabase = createClient();
   const [loading, setLoading] = useState<boolean>(false);
   const [projects, setProjects] = useState<Project[] | null>([]);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [editing, setEditing] = useState<boolean>(false);
   const [creating, setCreating] = useState<boolean>(false);
-  const supabase = createClient();
+  const [kitchenTypeKey, setKitchenTypeKey] = useState(0);
 
   useEffect(() => {
     const fetchProjects = async () => {
       const { data: projects } = await supabase.from('projects').select('*');
       if (projects) {
         setProjects(projects as Project[]);
+        setLoading(false);
       }
     };
     fetchProjects();
-  }, []);
+  }, [loading]);
+
+  useEffect(() => {
+    setLoading(false);
+  }, [selectedProject]);
 
   const handleSelectProject = (project: Project) => {
-    if (selectedProject?.id === project.id) return;
+    if (selectedProject?.id === project.id) {
+      setKitchenTypeKey((prevKey) => prevKey + 1);
+      setEditing(true);
+      return;
+    }
     setSelectedProject(project);
     setLoading(true);
     setEditing(true);
@@ -47,9 +57,9 @@ const Admin = () => {
     setCreating(true);
     setSelectedProject(null);
   };
-  useEffect(() => {
-    setLoading(false);
-  }, [selectedProject]);
+  const handleProjectLoading = () => {
+    setLoading(true);
+  };
 
   return (
     <>
@@ -69,10 +79,14 @@ const Admin = () => {
           </ItemList>
         </Box>
         {selectedProject && !loading && (
-          <KitchenTypes project={selectedProject} handleProjectEditorClose={handleProjectEditorClose} />
+          <KitchenTypes
+            project={selectedProject}
+            handleProjectEditorClose={handleProjectEditorClose}
+            key={kitchenTypeKey}
+          />
         )}
-        {editing && selectedProject && <ProjectEditor project={selectedProject} />}
-        {creating && <ProjectCreator />}
+        {editing && selectedProject && <ProjectEditor project={selectedProject} update={handleProjectLoading} />}
+        {creating && <ProjectCreator update={handleProjectLoading} />}
         {!creating && !editing && !selectedProject && (
           <Box center grow>
             <p className="text-3xl font-bold text-text">Select a project to edit</p>

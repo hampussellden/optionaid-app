@@ -7,9 +7,11 @@ import Button from './Button';
 import { FileDownloadRounded, SaveRounded } from '@mui/icons-material';
 import ReactCSV from './ReactCSV';
 import Box from './Box';
+import Message from './Message';
 
 export type ProjectEditorProps = {
   project: Project;
+  update: () => void;
 };
 
 const ProjectEditor = (props: ProjectEditorProps) => {
@@ -37,8 +39,10 @@ const ProjectEditor = (props: ProjectEditorProps) => {
       if (data) {
         setMessage({ message: 'Project updated successfully', type: 'success' });
         setLoading(false);
+        props.update();
       }
     };
+    setLoading(true);
     updateProject();
   };
   useEffect(() => {
@@ -51,7 +55,6 @@ const ProjectEditor = (props: ProjectEditorProps) => {
       if (error) console.log(error);
       if (exportableProject) {
         setExportableProject(exportableProject as Project);
-        console.log(exportableProject);
       }
     };
     fetchExportableProject();
@@ -63,16 +66,7 @@ const ProjectEditor = (props: ProjectEditorProps) => {
         <h4 className="text-2xl font-bold">Editing Project</h4>
         <p className="text-xl font-semibold ml-auto">{props.project.name}</p>
       </div>
-      {message && (
-        <p
-          className={classNames(
-            { 'text-accent': message.type == 'error', 'text-secondary': message.type == 'success' },
-            'text-lg font-semibold',
-          )}
-        >
-          {message.message}
-        </p>
-      )}
+
       <div className="flex flex-row gap-2 items-center">
         <p className="text-lg font-bold text-text">Project Name</p>
         <input
@@ -84,12 +78,8 @@ const ProjectEditor = (props: ProjectEditorProps) => {
       </div>
       <div className="mt-auto flex flex-row justify-between">
         {exportableProject && <ReactCSV project={exportableProject} />}
-        <Button
-          text="Save Changes"
-          onClick={() => (handleProjectUpdate(), setLoading(true))}
-          loading={loading}
-          icon={SaveRounded}
-        />
+        {message && <Message message={message} />}
+        <Button text="Save Changes" onClick={handleProjectUpdate} loading={loading} icon={SaveRounded} />
       </div>
     </Box>
   );

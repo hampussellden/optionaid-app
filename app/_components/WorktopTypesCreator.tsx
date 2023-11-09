@@ -4,6 +4,7 @@ import Button from './Button';
 import { AddRounded } from '@mui/icons-material';
 import { createClient } from '@/utils/supabase/client';
 import { CreationMessage } from '../types';
+import Message from './Message';
 
 type WorktopTypesCreatorProps = {};
 
@@ -47,16 +48,7 @@ const WorktopTypesCreator = (props: WorktopTypesCreatorProps) => {
         value={inputValue}
       />
       <div className="flex flex-row gap-4 ml-auto">
-        {message && (
-          <p
-            className={classNames(
-              { 'text-accent': message.type == 'error', 'text-text': message.type == 'success' },
-              'text-lg font-semibold p-2 bg-background rounded',
-            )}
-          >
-            {message.message}
-          </p>
-        )}
+        {message && <Message message={message} />}
         <Button
           text="Create new worktop type"
           icon={AddRounded}
