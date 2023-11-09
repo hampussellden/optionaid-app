@@ -93,8 +93,16 @@ const ClientApartmentEditor = (props: ClientApartmentEditorProps) => {
       const { data, error } = await supabase
         .from('apartments')
         .update({
-          front_option_id: selectedFrontOption?.id,
-          worktop_option_id: selectedWorktopOption?.id,
+          front_option_id: selectedFrontOption
+            ? selectedFrontOption?.id == standardFrontOption.id
+              ? null
+              : selectedFrontOption?.id
+            : null,
+          worktop_option_id: selectedWorktopOption
+            ? selectedWorktopOption.id == standardFrontOption.id
+              ? null
+              : selectedWorktopOption?.id
+            : null,
           total_cost: totalCost,
         })
         .eq('id', props.apartment.id)
