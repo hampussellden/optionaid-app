@@ -50,7 +50,7 @@ polar={[-Math.PI / 12.5, Math.PI / 10]}
   return (
     <div className="rounded grow">
       <Canvas camera={{ position: [0, 5, -25] }} color="#c3c3c3">
-        <ambientLight intensity={0.5} />
+        <ambientLight intensity={5} />
         <pointLight position={[3, 3, 3]} />
         <PresentationControls
           global
