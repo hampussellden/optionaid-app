@@ -17,17 +17,14 @@ const Button = (props: ButtonProps) => {
   const Icon = props.icon;
   return (
     <button
-      className={classNames(
-        'rounded py-2 px-4 text-xl font-semibold self-end flex flex-row gap-2 items-center justify-center',
-        {
-          'bg-accent hover:bg-accentHover': props.accent,
-          'w-full': props.fullWidth,
-          'bg-secondary hover:bg-secondaryHover': !props.transparent && !props.accent,
-          'border border-secondary hover:bg-secondaryHover': props.transparent,
-          'mt-0': props.marginZero,
-          'mt-auto': !props.marginZero,
-        },
-      )}
+      className={classNames('rounded py-2 px-4 text-xl font-semibold flex flex-row gap-2 items-center justify-center', {
+        'bg-accent hover:bg-accentHover': props.accent,
+        'w-full': props.fullWidth,
+        'bg-secondary hover:bg-secondaryHover': !props.transparent && !props.accent,
+        'border border-secondary hover:bg-secondaryHover': props.transparent,
+        'mt-0': props.marginZero,
+        'mt-auto self-end': !props.marginZero,
+      })}
       onClick={props.onClick}
     >
       {props.loading && (

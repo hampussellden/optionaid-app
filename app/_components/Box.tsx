@@ -8,6 +8,7 @@ type BoxProps = {
   center?: boolean;
   noPaddingX?: boolean;
   noPaddingY?: boolean;
+  relative?: boolean;
 };
 const example = 'overflow-y-scroll';
 const Box = (props: BoxProps) => {
@@ -19,6 +20,7 @@ const Box = (props: BoxProps) => {
       'bg-static scrollbar-track-static scrollbar-thumb-static': !props.primary,
       'py-4': !props.noPaddingY,
       'px-4': !props.noPaddingX,
+      'flex relative': props.relative,
     },
     'flex flex-col overflow-y-auto rounded min-w-fit scroll-smooth scrollbar-thin scrollbar-track-rounded scrollbar-thumb-rounded gap-4 justify-start',
   );

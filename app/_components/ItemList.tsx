@@ -6,6 +6,8 @@ type ItemListProps = {
   horizontal?: boolean;
   indent?: boolean;
   center?: boolean;
+  between?: boolean;
+  around?: boolean;
 };
 
 const ItemList = (props: ItemListProps) => {
@@ -15,6 +17,8 @@ const ItemList = (props: ItemListProps) => {
       'flex-col': !props.horizontal,
       'ml-4': props.indent,
       'justify-center items-center': props.center,
+      'justify-between': props.between,
+      'justify-around': props.around,
     },
     'flex gap-2',
   );

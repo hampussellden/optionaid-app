@@ -12,6 +12,7 @@ import Box from './Box';
 type ClientApartmentEditorProps = {
   apartment: Apartment;
   kitchenType: KitchenType;
+  update: () => void;
 };
 
 const ClientApartmentEditor = (props: ClientApartmentEditorProps) => {
@@ -108,10 +109,39 @@ const ClientApartmentEditor = (props: ClientApartmentEditorProps) => {
         .eq('id', props.apartment.id)
         .select();
       if (error) console.log('error', error);
-      if (data) setLoading(false);
+      if (data) {
+        setLoading(false);
+        props.update();
+      }
     };
     setLoading(true);
     updateApartment();
+  };
+  const handleSaveAndLockChanges = async () => {
+    const saveApartmentChanges = async () => {
+      const { data, error } = await supabase
+        .from('apartments')
+        .update({
+          front_option_id: selectedFrontOption
+            ? selectedFrontOption?.id == standardFrontOption.id
+              ? null
+              : selectedFrontOption?.id
+            : null,
+          worktop_option_id: selectedWorktopOption
+            ? selectedWorktopOption.id == standardFrontOption.id
+              ? null
+              : selectedWorktopOption?.id
+            : null,
+          total_cost: totalCost,
+          ready_for_order: true,
+        })
+        .eq('id', props.apartment.id)
+        .select();
+      if (error) console.log('error', error);
+      if (data) setLoading(false);
+    };
+    setLoading(true);
+    saveApartmentChanges();
   };
 
   return (
@@ -123,7 +153,7 @@ const ClientApartmentEditor = (props: ClientApartmentEditorProps) => {
             help
           </p>
         </Box>
-      ) : (
+      ) : frontOptions && worktopOptions ? (
         <Box>
           <ItemList>
             <MenuItem text="Fronts" icon={SensorDoorTwoTone} noHover />
@@ -178,8 +208,20 @@ const ClientApartmentEditor = (props: ClientApartmentEditorProps) => {
             </ItemList>
           </ItemList>
         </Box>
+      ) : (
+        <div className="w-full flex justify-center items-center bg-static">
+          <div
+            className="inline-block h-40 w-40 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+            role="status"
+          ></div>
+        </div>
       )}
-      {frontOptions && worktopOptions && loadRender && props.kitchenType.worktops && props.kitchenType.fronts && (
+      {!props.apartment.ready_for_order &&
+      frontOptions &&
+      worktopOptions &&
+      loadRender &&
+      props.kitchenType.worktops &&
+      props.kitchenType.fronts ? (
         <KitchenRenderer
           front={selectedFrontOption?.fronts ?? undefined}
           worktop={selectedWorktopOption?.worktops ?? undefined}
@@ -188,8 +230,18 @@ const ClientApartmentEditor = (props: ClientApartmentEditorProps) => {
           totalCost={totalCost}
           apartmentId={props.apartment.id}
           saveChanges={handleSaveApartmentChanges}
+          saveAndLockChanges={handleSaveAndLockChanges}
           loading={loading}
         />
+      ) : (
+        !props.apartment.ready_for_order && (
+          <div className="w-full flex justify-center items-center bg-static">
+            <div
+              className="inline-block h-40 w-40 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+              role="status"
+            ></div>
+          </div>
+        )
       )}
     </div>
   );

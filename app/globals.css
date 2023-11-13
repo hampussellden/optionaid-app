@@ -15,7 +15,7 @@
     --secondary-hover: 87 23% 64% / 0.45;
     --accent: 8 35% 46%;
     --accent-hover: 8 35% 46% / 0.45;
-    --static: 0 0% 0% / 0.03;
+    --static: 0 0% 0% / 0.1;
   }
   @media (prefers-color-scheme: dark) {
     :root {
