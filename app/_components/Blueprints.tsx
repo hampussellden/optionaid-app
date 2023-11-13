@@ -234,7 +234,7 @@ export const blueprints: Blueprints = {
     walls: [
       //back Wall
       {
-        h: 22.84,
+        h: 200,
         d: 0.1,
         w: 100,
         z: 3.09,
@@ -251,7 +251,7 @@ export const blueprints: Blueprints = {
       },
       //Side walls
       {
-        h: 22.84,
+        h: 200,
         d: 100,
         w: 0.3,
         x: 22.15,
@@ -559,7 +559,7 @@ export const blueprints: Blueprints = {
     ],
     walls: [
       {
-        h: 22.84,
+        h: 200,
         d: 0.1,
         w: 100,
         z: 6.09,
@@ -576,7 +576,7 @@ export const blueprints: Blueprints = {
       },
       //Side walls
       {
-        h: 22.84,
+        h: 200,
         d: 100,
         w: 0.3,
         x: 9.65,
@@ -633,7 +633,7 @@ export const blueprints: Blueprints = {
     },
     stove: {
       x: 6.2,
-      z: -9.4,
+      z: -9.6,
       y: -4,
       rotate: true,
     },

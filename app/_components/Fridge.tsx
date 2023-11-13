@@ -14,7 +14,7 @@ const Fridge = ({ h, w, d, x = 0, y = 0, z = 0 }: FridgeProps) => {
   return (
     <mesh position={[x, y, z]}>
       <Edges />
-      <meshStandardMaterial color={'#c6c6c6'} />
+      <meshStandardMaterial color={'#3c3c3c'} roughness={0.2} flatShading />
       <boxGeometry args={[w, h, d]} />
     </mesh>
   );

@@ -17,9 +17,8 @@ const Cabinet = ({ h, w, d, color, x = 0, y = 0, z = 0 }: CabinetProps) => {
   return (
     <mesh position={[x, y, z]}>
       <Edges />
-      <meshStandardMaterial color={'#000000'} />
+      <meshStandardMaterial color={color} flatShading roughness={0.6} />
       <boxGeometry args={[w, h, d]} />
-      <meshBasicMaterial color={color} />
     </mesh>
   );
 };

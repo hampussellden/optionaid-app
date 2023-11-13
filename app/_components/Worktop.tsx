@@ -17,9 +17,8 @@ const Worktop = ({ h, w, d, color, x = 0, y = 0, z = 0 }: WorktopProps) => {
   return (
     <mesh position={[x, y, z]}>
       <Edges />
-      <meshStandardMaterial color={'#000000'} />
+      <meshPhysicalMaterial color={color} flatShading roughness={0.2} metalness={0.2} clearcoat={0.5} />
       <boxGeometry args={[w, h, d]} />
-      <meshBasicMaterial color={color} />
     </mesh>
   );
 };

@@ -46,15 +46,18 @@ const KitchenScene = (props: KitchenSceneProps) => {
 
 polar={[-Math.PI / 12.5, Math.PI / 10]}
           azimuth={[-Math.PI / 5, Math.PI / 8]}
-  */
+  fff7db
+  
+  
+          */
   return (
     <div className="rounded grow">
       <Canvas camera={{ position: [0, 5, -25] }} color="#c3c3c3">
-        <ambientLight intensity={5} />
-        <pointLight position={[3, 3, 3]} />
+        <ambientLight intensity={5} color={'#fff7db'} />
+        <directionalLight position={[8, 8, -5]} intensity={2} />
         <PresentationControls
           global
-          zoom={0.9}
+          zoom={0.95}
           rotation={[0, -Math.PI / 6, 0]}
           polar={[-Math.PI / 12.5, Math.PI / 10]}
           azimuth={[-Math.PI / 5, Math.PI / 8]}
@@ -82,7 +85,7 @@ polar={[-Math.PI / 12.5, Math.PI / 10]}
           {cupboard && <Cupboard color={frontColor} {...cupboard} />}
           {false && <Cupboard color={frontColor} x={18.2} />}
         </PresentationControls>
-        <Environment preset="city" background blur={0.5} />
+        <Environment preset="sunset" background blur={0.8} />
       </Canvas>
     </div>
   );
