@@ -142,7 +142,7 @@ const ClientApartmentEditor = (props: ClientApartmentEditorProps) => {
                     {frontOption.fronts && (
                       <MenuItem
                         key={frontOption.id}
-                        text={frontOption.fronts?.name}
+                        text={frontOption.fronts.front_types.name + ' ' + frontOption.fronts?.name}
                         icon={SensorDoorOutlined}
                         onClick={() => handleSelectFrontOption(frontOption)}
                         active={selectedFrontOption?.id == frontOption.id ? true : false}
