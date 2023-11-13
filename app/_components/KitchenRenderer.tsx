@@ -78,14 +78,18 @@ const KitchenRenderer = (props: KitchenRendererProps) => {
         <div className="flex flex-row ml-2">
           <MenuItem
             icon={SensorDoorOutlined}
-            text={props.front?.name ? props.front.front_types.name + ' ' + props.front.name : props.standardFront.name}
+            text={
+              props.front?.front_types
+                ? props.front.front_types?.name + ' ' + props.front.name
+                : props.standardFront.name
+            }
             noHover
           />
           <MenuItem
             icon={CountertopsOutlined}
             text={
-              props.worktop?.name
-                ? props.worktop.worktop_types.make + ' ' + props.worktop.name
+              props.worktop?.worktop_types
+                ? props.worktop.worktop_types?.make + ' ' + props.worktop.name
                 : props.standardWorktop.name
             }
             noHover

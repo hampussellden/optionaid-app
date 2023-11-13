@@ -31,7 +31,7 @@ const Dashboard = () => {
         const { data: apartments, error } = await supabase
           .from('apartments')
           .select(
-            '*,kitchen_types(*,projects(*),fronts(*),worktops(*)),worktop_options(*,worktops(*)),front_options(*,fronts(*))',
+            '*,kitchen_types(*,projects(*),fronts(*,front_types(*)),worktops(*,worktop_types(*))),worktop_options(*,worktops(*)),front_options(*,fronts(*))',
           )
           .eq('user_id', user.id)
           .order('id', { ascending: false });

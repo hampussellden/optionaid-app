@@ -169,10 +169,10 @@ const ClientApartmentEditor = (props: ClientApartmentEditorProps) => {
                         active={selectedFrontOption?.id == standardFrontOption.id ? true : false}
                       />
                     )}
-                    {frontOption.fronts && (
+                    {frontOption.fronts?.front_types && (
                       <MenuItem
                         key={frontOption.id}
-                        text={frontOption.fronts.front_types.name + ' ' + frontOption.fronts?.name}
+                        text={frontOption.fronts.front_types?.name + ' ' + frontOption.fronts?.name}
                         icon={SensorDoorOutlined}
                         onClick={() => handleSelectFrontOption(frontOption)}
                         active={selectedFrontOption?.id == frontOption.id ? true : false}
@@ -194,10 +194,10 @@ const ClientApartmentEditor = (props: ClientApartmentEditorProps) => {
                         active={selectedWorktopOption?.id == standardWorktopOption.id ? true : false}
                       />
                     )}
-                    {worktopOption.worktops && (
+                    {worktopOption.worktops?.worktop_types && (
                       <MenuItem
                         key={worktopOption.id}
-                        text={worktopOption.worktops.worktop_types.make + ' ' + worktopOption.worktops?.name}
+                        text={worktopOption.worktops.worktop_types?.make + ' ' + worktopOption.worktops?.name}
                         icon={CountertopsOutlined}
                         onClick={() => handleSelectWorktopOption(worktopOption)}
                         active={selectedWorktopOption?.id == worktopOption.id ? true : false}
@@ -220,8 +220,8 @@ const ClientApartmentEditor = (props: ClientApartmentEditorProps) => {
       frontOptions &&
       worktopOptions &&
       loadRender &&
-      props.kitchenType.worktops &&
-      props.kitchenType.fronts ? (
+      props.kitchenType.worktops?.worktop_types &&
+      props.kitchenType.fronts?.front_types ? (
         <KitchenRenderer
           front={selectedFrontOption?.fronts ?? undefined}
           worktop={selectedWorktopOption?.worktops ?? undefined}
