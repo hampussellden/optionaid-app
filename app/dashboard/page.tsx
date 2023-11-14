@@ -16,6 +16,12 @@ const Dashboard = () => {
   const [selectedApartment, setSelectedApartment] = useState<Apartment | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
+  const user = supabase.auth.getUser();
+  const session = supabase.auth.getSession();
+  useEffect(() => {
+    console.log(user);
+    console.log(session);
+  }, [user, session]);
   const handleSelectApartmentToEdit = (apartment: Apartment) => {
     setEditing(false);
     setSelectedApartment(apartment);

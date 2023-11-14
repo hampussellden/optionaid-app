@@ -25,6 +25,7 @@ const Button = (props: ButtonProps) => {
         'mt-0': props.marginZero,
         'mt-auto self-end': !props.marginZero,
       })}
+      formAction={props.formAction}
       onClick={props.onClick}
     >
       {props.loading && (

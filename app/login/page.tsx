@@ -29,8 +29,18 @@ export default function Login() {
           placeholder="••••••••"
           required
         />
+        <label className="text-lg font-bold" htmlFor="fullName">
+          Full Name *
+        </label>
+        <input
+          className="rounded-md px-4 py-2 bg-inherit border border-secondary mb-6"
+          type="fullName"
+          name="fullName"
+          placeholder="John Doe"
+        />
         <Button text="Sign In" fullWidth marginZero />
         <Button text="Sign Up" formAction="/auth/sign-up" fullWidth transparent marginZero />
+        <p className="text-sm self-end">* = Only when signing up</p>
         <Messages />
       </form>
     </div>
