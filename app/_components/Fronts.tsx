@@ -68,16 +68,15 @@ const Fronts = (props: FrontsProps) => {
           <ItemList>
             {frontTypes &&
               frontTypes.map((frontType) => (
-                <>
+                <div key={frontType.id}>
                   <MenuItem
-                    key={frontType.id}
                     text={frontType.name}
                     icon={SensorDoorTwoTone}
                     active={selectedFrontType?.id === frontType.id ? true : false}
                     onClick={() => handleSelectFrontType(frontType)}
                   />
                   {frontType.fronts && selectedFrontType?.id === frontType.id && (
-                    <ItemList indent>
+                    <ItemList indent marginTop>
                       {frontType.fronts.map((front) => (
                         <MenuItem
                           key={front.id}
@@ -95,7 +94,7 @@ const Fronts = (props: FrontsProps) => {
                       />
                     </ItemList>
                   )}
-                </>
+                </div>
               ))}
             <MenuItem
               text="New front type"

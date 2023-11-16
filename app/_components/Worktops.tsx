@@ -68,16 +68,15 @@ const Worktops = (props: WorktopsProps) => {
           <ItemList>
             {worktopTypes &&
               worktopTypes.map((worktopType) => (
-                <>
+                <div key={worktopType.id}>
                   <MenuItem
-                    key={worktopType.id}
                     text={worktopType.make}
                     icon={CountertopsTwoTone}
                     onClick={() => handleSelectworktopType(worktopType)}
                     active={selectedWorktopType?.id === worktopType.id ? true : false}
                   />
                   {worktopType.worktops && selectedWorktopType?.id == worktopType.id && (
-                    <ItemList indent>
+                    <ItemList indent marginTop>
                       {worktopType.worktops.map((worktop) => (
                         <MenuItem
                           key={worktop.id}
@@ -95,7 +94,7 @@ const Worktops = (props: WorktopsProps) => {
                       />
                     </ItemList>
                   )}
-                </>
+                </div>
               ))}
             <MenuItem
               text="New worktop type"
