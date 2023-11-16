@@ -1,12 +1,12 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { Project, CreationMessage } from '@/app/types';
 import classNames from 'classnames';
 import Button from './Button';
 import { SaveRounded } from '@mui/icons-material';
 import Box from './Box';
-import Message from './Message';
+import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
 
 type ProjectCreatorProps = {
   update: () => void;
@@ -16,14 +16,14 @@ const ProjectCreator = (props: ProjectCreatorProps) => {
   const supabase = createClient();
   const [loading, setLoading] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>('');
-  const [message, setMessage] = useState<CreationMessage | null>(null);
+  const { addMessage } = useContext(MessagesContext) as MessagesContextType;
 
   const handleInputChange = (e: React.ChangeEvent<any>) => {
     setInputValue(e.target.value);
   };
   const handleCreateNewProject = async () => {
     if (inputValue.length < 5) {
-      setMessage({ message: 'A project name must be at least 5 characters long', type: 'error' });
+      addMessage({ message: 'A project name must be at least 5 characters long', type: 'error' });
       return;
     }
     const createNewProject = async () => {
@@ -34,7 +34,7 @@ const ProjectCreator = (props: ProjectCreatorProps) => {
 
       if (error) console.log('error', error);
       if (data) {
-        setMessage({ message: 'Project created successfully', type: 'success' });
+        addMessage({ message: 'Project created successfully', type: 'success' });
         setLoading(false);
         props.update();
       }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import classNames from 'classnames';
 import { createClient } from '@/utils/supabase/client';
 import { CreationMessage, Worktop, WorktopType } from '../types';
@@ -6,6 +6,7 @@ import ColorPicker from './ColorPicker';
 import { CancelOutlined, CheckCircleOutline, SaveRounded } from '@mui/icons-material';
 import Button from './Button';
 import Message from './Message';
+import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
 
 type WorktopsEditorProps = {
   worktopType: WorktopType;
@@ -16,11 +17,10 @@ type WorktopsEditorProps = {
 const WorktopsEditor = (props: WorktopsEditorProps) => {
   const supabase = createClient();
   const [loading, setLoading] = useState<boolean>(false);
-  const [message, setMessage] = useState<CreationMessage | null>();
   const [worktopTypeInputValue, setWorktopTypeInputValue] = useState<string>('');
   const [worktopInputValue, setWorktopInputValue] = useState<string>('');
   const [worktopColorInput, setWorktopColorInput] = useState<string | null>(null);
-
+  const { addMessage } = useContext(MessagesContext) as MessagesContextType;
   const handleWorktopTypeInputValue = (e: React.ChangeEvent<any>) => {
     setWorktopTypeInputValue(e.target.value);
   };
@@ -33,7 +33,7 @@ const WorktopsEditor = (props: WorktopsEditorProps) => {
   const handleSaveWorktopTypeChanges = () => {
     const updateWorktopType = async () => {
       if (worktopTypeInputValue.length < 1) {
-        setMessage({ message: 'A worktop type must have a name', type: 'error' });
+        addMessage({ message: 'A worktop type must have a name', type: 'error' });
         setLoading(false);
         return;
       }
@@ -43,11 +43,11 @@ const WorktopsEditor = (props: WorktopsEditorProps) => {
         .eq('id', props.worktopType.id)
         .select();
       if (error) {
-        setMessage({ message: 'An error occured', type: 'error' });
+        addMessage({ message: 'An error occured', type: 'error' });
         setLoading(false);
       }
       if (data) {
-        setMessage({ message: 'Worktop type updated successfully', type: 'success' });
+        addMessage({ message: 'Worktop type updated successfully', type: 'success' });
         setLoading(false);
         props.update();
       }
@@ -72,11 +72,11 @@ const WorktopsEditor = (props: WorktopsEditorProps) => {
         .eq('id', worktopId)
         .select();
       if (error) {
-        setMessage({ message: 'An error occured', type: 'error' });
+        addMessage({ message: 'An error occured', type: 'error' });
         setLoading(false);
       }
       if (data) {
-        setMessage({ message: 'Worktop updated successfully', type: 'success' });
+        addMessage({ message: 'Worktop updated successfully', type: 'success' });
         setLoading(false);
         props.update();
       }
@@ -101,7 +101,6 @@ const WorktopsEditor = (props: WorktopsEditorProps) => {
         />
       </div>
       <div className="ml-auto flex flex-row gap-2">
-        {message && <Message message={message} />}
         <Button text="Save Changes" icon={SaveRounded} onClick={handleSaveWorktopTypeChanges} loading={loading} />
       </div>
 
@@ -149,7 +148,6 @@ const WorktopsEditor = (props: WorktopsEditorProps) => {
             </div>
           </div>
           <div className="ml-auto flex flex-row gap-2">
-            {message && <Message message={message} />}
             <Button text="Save Changes" icon={SaveRounded} onClick={handleSaveWorktopChanges} loading={loading} />
           </div>
         </>

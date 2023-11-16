@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { Project } from '@/app/types';
 import classNames from 'classnames';
@@ -7,7 +7,7 @@ import { CreationMessage, Front, Worktop } from '@/app/types';
 import Button from './Button';
 import { AddOutlined, AddRounded } from '@mui/icons-material';
 import Box from './Box';
-import Message from './Message';
+import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
 
 export type KitchenTypesCreatorProps = {
   project: Project;
@@ -22,7 +22,7 @@ const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {
   const [inputValue, setInputValue] = useState<string>('');
   const [standardFront, setStandardFront] = useState<Front | null>(null);
   const [standardWorktop, setStandardWorktop] = useState<Worktop | null>(null);
-  const [message, setMessage] = useState<CreationMessage | null>(null);
+  const { addMessage } = useContext(MessagesContext) as MessagesContextType;
 
   useEffect(() => {
     const fetchFrontsAndWorktops = async () => {
@@ -42,7 +42,7 @@ const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {
 
   const handleCreateNewKitchenType = async () => {
     if (inputValue.length < 1) {
-      setMessage({ message: 'A kitchen type must have a name', type: 'error' });
+      addMessage({ message: 'A kitchen type must have a name', type: 'error' });
       return;
     }
     const createNewKitchenType = async () => {
@@ -60,7 +60,7 @@ const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {
 
       if (error) console.log('error', error);
       if (data) {
-        setMessage({ message: 'Kitchen type created successfully', type: 'success' });
+        addMessage({ message: 'Kitchen type created successfully', type: 'success' });
         setLoading(false);
         props.update();
       }

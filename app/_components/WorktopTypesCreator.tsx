@@ -1,33 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import classNames from 'classnames';
 import Button from './Button';
 import { AddRounded } from '@mui/icons-material';
 import { createClient } from '@/utils/supabase/client';
 import { CreationMessage } from '../types';
 import Message from './Message';
+import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
 
 type WorktopTypesCreatorProps = {};
 
 const WorktopTypesCreator = (props: WorktopTypesCreatorProps) => {
   const supabase = createClient();
   const [inputValue, setInputValue] = useState<string>('');
-  const [message, setMessage] = useState<CreationMessage | null>();
   const [loading, setLoading] = useState<boolean>(false);
+  const { addMessage } = useContext(MessagesContext) as MessagesContextType;
 
   const handleCreateNewWorktopType = () => {
     const createWorktopType = async () => {
       if (inputValue.length < 1) {
-        setMessage({ message: 'A worktop type must have a name', type: 'error' });
+        addMessage({ message: 'A worktop type must have a name', type: 'error' });
         setLoading(false);
         return;
       }
       const { data, error } = await supabase.from('worktop_types').insert({ make: inputValue }).select();
       if (error) {
-        setMessage({ message: 'An error occured', type: 'error' });
+        addMessage({ message: 'An error occured', type: 'error' });
         setLoading(false);
       }
       if (data) {
-        setMessage({ message: 'Worktop type created successfully', type: 'success' });
+        addMessage({ message: 'Worktop type created successfully', type: 'success' });
         setLoading(false);
       }
     };
@@ -48,7 +49,6 @@ const WorktopTypesCreator = (props: WorktopTypesCreatorProps) => {
         value={inputValue}
       />
       <div className="flex flex-row gap-4 ml-auto">
-        {message && <Message message={message} />}
         <Button
           text="Create new worktop type"
           icon={AddRounded}

@@ -1,23 +1,14 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import classNames from 'classnames';
 import { createClient } from '@/utils/supabase/client';
-import {
-  CreationMessage,
-  KitchenType,
-  Project,
-  FrontOption,
-  WorktopOption,
-  FrontType,
-  WorktopType,
-  Front,
-  Worktop,
-} from '@/app/types';
+import { CreationMessage, KitchenType, Project } from '@/app/types';
 import FrontOptionsEditor from './FrontOptionsEditor';
 import WorktopOptionsEditor from './WorktopOptionsEditor';
 import Button from './Button';
 import { SaveRounded } from '@mui/icons-material';
 import Box from './Box';
+import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
 
 export type KitchenTypesEditorProps = {
   kitchenType: KitchenType;
@@ -28,7 +19,7 @@ export type KitchenTypesEditorProps = {
 const KitchenTypesEditor = (props: KitchenTypesEditorProps) => {
   const supabase = createClient();
   const [loading, setLoading] = useState<boolean>(false);
-  const [message, setMessage] = useState<CreationMessage>();
+  const { addMessage } = useContext(MessagesContext) as MessagesContextType;
   // state to hold input value for kitchen type name and price change
   const [typeNameInputValue, setTypeNameInputValue] = useState<string>('');
 
@@ -38,7 +29,8 @@ const KitchenTypesEditor = (props: KitchenTypesEditorProps) => {
   // handle update of kitchen type name
   const handleTypeUpdate = () => {
     if (typeNameInputValue.length < 1) {
-      setMessage({ message: 'A kitchen type must have a name', type: 'error' });
+      addMessage({ message: 'A kitchen type must have a name', type: 'error' });
+      setLoading(false);
       return;
     }
     const updateKitchenType = async () => {
@@ -49,7 +41,7 @@ const KitchenTypesEditor = (props: KitchenTypesEditorProps) => {
         .select();
       if (error) console.log('error', error);
       if (data) {
-        setMessage({ message: 'Kitchen type updated successfully', type: 'success' });
+        addMessage({ message: 'Kitchen type updated successfully', type: 'success' });
         setLoading(false);
         props.update();
       }
@@ -65,16 +57,6 @@ const KitchenTypesEditor = (props: KitchenTypesEditorProps) => {
           {props.project.name} - type {props.kitchenType.name}
         </p>
       </div>
-      {message && (
-        <p
-          className={classNames(
-            { 'text-accent': message.type == 'error', 'text-secondary': message.type == 'success' },
-            'text-lg font-semibold',
-          )}
-        >
-          {message.message}
-        </p>
-      )}
       <div className="flex flex-row gap-2 items-center">
         <p className="text-lg font-bold text-text">Type Name</p>
         <input
@@ -92,7 +74,7 @@ const KitchenTypesEditor = (props: KitchenTypesEditorProps) => {
       <Button
         text="Save Changes"
         onClick={() => {
-          handleTypeUpdate(), setLoading(true);
+          setLoading(true), handleTypeUpdate();
         }}
         loading={loading}
         icon={SaveRounded}

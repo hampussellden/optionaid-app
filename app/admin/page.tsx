@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect, use } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import KitchenTypes from '../_components/KitchenTypes';
 import ProjectCreator from '../_components/ProjectCreator';
@@ -13,6 +13,9 @@ import Fronts from '../_components/Fronts';
 import Worktops from '../_components/Worktops';
 import ItemList from '../_components/ItemList';
 import Box from '../_components/Box';
+import { CreationMessage } from '@/app/types';
+import Message from '../_components/Message';
+import { MessagesContext, MessagesContextType } from './context/MessagesContext';
 
 const Admin = () => {
   const supabase = createClient();
@@ -22,6 +25,8 @@ const Admin = () => {
   const [editing, setEditing] = useState<boolean>(false);
   const [creating, setCreating] = useState<boolean>(false);
   const [kitchenTypeKey, setKitchenTypeKey] = useState(0);
+
+  const { messages, addMessage } = useContext(MessagesContext) as MessagesContextType;
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -33,6 +38,10 @@ const Admin = () => {
     };
     fetchProjects();
   }, [loading]);
+
+  useEffect(() => {
+    addMessage({ message: 'Test Message', type: 'success' });
+  }, []);
 
   useEffect(() => {
     setLoading(false);
@@ -60,7 +69,11 @@ const Admin = () => {
   const handleProjectLoading = () => {
     setLoading(true);
   };
-
+  /*
+  const handleMessages = (message: CreationMessage) => {
+    setMessages([...messages, message]);
+  };
+*/
   return (
     <>
       <section className="flex flex-row justify-start gap-2 self-start w-full h-full max-h-160">
@@ -97,6 +110,13 @@ const Admin = () => {
         <Fronts />
         <Worktops />
       </section>
+      {messages.length > 0 && (
+        <section className="flex flex-col-reverse justify-start gap-2 self-start fixed bottom-2 right-2 items-end">
+          {messages.map((message, i) => (
+            <Message message={message} key={i} />
+          ))}
+        </section>
+      )}
     </>
   );
 };

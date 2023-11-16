@@ -1,10 +1,11 @@
 'use client';
-import React, { useState, useEffect, use } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { ClientUser, Apartment, Project, KitchenType } from '@/app/types';
 import Button from './Button';
 import { DeleteOutline, SaveRounded } from '@mui/icons-material';
 import Box from './Box';
+import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
 
 export type ApartmentEditorProps = {
   apartment: Apartment;
@@ -20,6 +21,7 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
   const [selectedClient, setSelectedClient] = useState<ClientUser | null>(null);
   const [currentClient, setCurrentClient] = useState<ClientUser | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const { addMessage } = useContext(MessagesContext) as MessagesContextType;
   useEffect(() => {
     const fetchClientUsers = async () => {
       const { data: clients } = await supabase.from('users').select('*').eq('app_role', 'client');
@@ -30,6 +32,16 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
     fetchClientUsers();
   }, []);
 
+  useEffect(() => {
+    const getUserInfoWithApartmentUserId = async () => {
+      const { data: client, error } = await supabase.from('users').select('*').eq('id', props.apartment.user_id);
+      if (error) console.log(error);
+      if (client) setCurrentClient(client[0] as ClientUser);
+    };
+    setCurrentClient(null);
+    if (props.apartment.user_id) getUserInfoWithApartmentUserId();
+  }, [props.apartment]);
+
   const handleClientChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     clients?.filter((client: ClientUser) => {
       if (client.id === event.target.value) {
@@ -39,6 +51,11 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
     });
   };
   const handleSaveChanges = async () => {
+    if (inputValue.length < 1 && !selectedClient) {
+      addMessage({ message: 'You must either assign a client or change the apartment name', type: 'error' });
+      setLoading(false);
+      return;
+    }
     if (selectedClient) {
       const { data, error } = await supabase
         .from('apartments')
@@ -47,6 +64,7 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
         .select();
       if (error) console.log('error', error);
       if (data) {
+        addMessage({ message: 'Client assigned successfully', type: 'success' });
         setCurrentClient(selectedClient);
         props.update();
       }
@@ -59,6 +77,7 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
         .select();
       if (error) console.log('error', error);
       if (data) {
+        addMessage({ message: 'Apartment name updated successfully', type: 'success' });
         props.update();
       }
     }
@@ -72,26 +91,18 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
         .eq('id', props.apartment.id)
         .select();
       if (error) console.log('error', error);
-      if (data) setCurrentClient(null);
+      if (data) {
+        addMessage({ message: 'Client removed successfully', type: 'success' });
+        setCurrentClient(null);
+        setLoading(false);
+      }
     }
   };
-
-  useEffect(() => {
-    const getUserInfoWithApartmentUserId = async () => {
-      const { data: client, error } = await supabase.from('users').select('*').eq('id', props.apartment.user_id);
-      if (error) console.log(error);
-      if (client) setCurrentClient(client[0] as ClientUser);
-    };
-    setCurrentClient(null);
-    if (props.apartment.user_id) getUserInfoWithApartmentUserId();
-  }, [props.apartment]);
 
   const handleInputChange = (e: React.ChangeEvent<any>) => {
     setInputValue(e.target.value);
   };
 
-  console.log('currentClient', currentClient);
-  console.log('selectedClient', selectedClient);
   return (
     <Box primary grow>
       <div className="flex flex-row justify-between">
@@ -117,7 +128,15 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
               {currentClient?.full_name} - {currentClient.email}
             </p>
           </div>
-          <Button onClick={handleRemoveCurrentClient} icon={DeleteOutline} text="Remove" loading={loading} accent />
+          <Button
+            onClick={() => {
+              setLoading(true), handleRemoveCurrentClient();
+            }}
+            icon={DeleteOutline}
+            text="Remove"
+            loading={loading}
+            accent
+          />
         </div>
       )}
       <div className="flex flex-row gap-2 items-center">
@@ -142,7 +161,8 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
       </div>
       <Button
         onClick={() => {
-          handleSaveChanges(), setLoading(true);
+          setLoading(true);
+          handleSaveChanges();
         }}
         text="Save Changes"
         loading={loading}

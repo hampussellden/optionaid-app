@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import classNames from 'classnames';
 import ColorPicker from './ColorPicker';
 import { CheckCircleOutline, CancelOutlined, SaveRounded, AddRounded } from '@mui/icons-material';
@@ -7,6 +7,7 @@ import Button from './Button';
 import { CreationMessage, WorktopType } from '../types';
 import Box from './Box';
 import Message from './Message';
+import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
 type WorktopsCreatorProps = {
   worktopType: WorktopType | null;
   update: () => void;
@@ -16,9 +17,8 @@ const WorktopsCreator = (props: WorktopsCreatorProps) => {
   const supabase = createClient();
   const [worktopColorInput, setWorktopColorInput] = useState<string | null>(null);
   const [worktopNameInput, setWorktopNameInput] = useState<string>('');
-  const [message, setMessage] = useState<CreationMessage | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-
+  const { addMessage } = useContext(MessagesContext) as MessagesContextType;
   const handleWorktopColor = (color: string | null) => {
     setWorktopColorInput(color);
   };
@@ -29,17 +29,17 @@ const WorktopsCreator = (props: WorktopsCreatorProps) => {
   const handleCreateNewWorktop = () => {
     const createWorktop = async () => {
       if (worktopColorInput == null) {
-        setMessage({ message: 'A worktop must have a color', type: 'error' });
+        addMessage({ message: 'A worktop must have a color', type: 'error' });
         setLoading(false);
         return;
       }
       if (props.worktopType == undefined) {
-        setMessage({ message: 'A worktop must have a type', type: 'error' });
+        addMessage({ message: 'A worktop must have a type', type: 'error' });
         setLoading(false);
         return;
       }
       if (worktopNameInput.length < 1) {
-        setMessage({ message: 'A worktop must have a name', type: 'error' });
+        addMessage({ message: 'A worktop must have a name', type: 'error' });
         setLoading(false);
         return;
       }
@@ -49,7 +49,7 @@ const WorktopsCreator = (props: WorktopsCreatorProps) => {
         .select();
       if (error) console.log('error', error);
       if (data) {
-        setMessage({ message: 'Worktop created successfully', type: 'success' });
+        addMessage({ message: 'Worktop created successfully', type: 'success' });
         setLoading(false);
         props.update();
       }
@@ -93,7 +93,6 @@ const WorktopsCreator = (props: WorktopsCreatorProps) => {
         </div>
       </div>
       <div className="flex flex-row justify-end gap-2 items-center">
-        {message && <Message message={message} />}
         <Button text="Create new worktop" icon={AddRounded} onClick={handleCreateNewWorktop} loading={loading} />
       </div>
     </Box>

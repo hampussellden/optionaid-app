@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { CreationMessage, Front, FrontType } from '../types';
 import Button from './Button';
 import { CancelOutlined, CheckCircleOutline, SaveRounded } from '@mui/icons-material';
@@ -6,6 +6,7 @@ import { createClient } from '@/utils/supabase/client';
 import ColorPicker from './ColorPicker';
 import classNames from 'classnames';
 import Message from './Message';
+import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
 
 type FrontsEditorProps = {
   frontType: FrontType;
@@ -18,8 +19,8 @@ const FrontsEditor = (props: FrontsEditorProps) => {
   const [frontTypeInputValue, setFrontTypeInputValue] = useState<string>('');
   const [frontInputValue, setFrontInputValue] = useState<string>('');
   const [frontColorInput, setFrontColorInput] = useState<string | null>(null);
-  const [message, setMessage] = useState<CreationMessage>();
   const [loading, setLoading] = useState<boolean>(false);
+  const { addMessage } = useContext(MessagesContext) as MessagesContextType;
 
   const handleFrontTypeInputValue = (e: React.ChangeEvent<any>) => {
     setFrontTypeInputValue(e.target.value);
@@ -34,7 +35,7 @@ const FrontsEditor = (props: FrontsEditorProps) => {
   const handleSaveFrontTypeChanges = () => {
     const updateFrontType = async () => {
       if (frontTypeInputValue.length < 1) {
-        setMessage({ message: 'A front type must have a name', type: 'error' });
+        addMessage({ message: 'A front type must have a name', type: 'error' });
         setLoading(false);
         return;
       }
@@ -45,7 +46,7 @@ const FrontsEditor = (props: FrontsEditorProps) => {
         .select();
       if (error) console.log('error', error);
       if (data) {
-        setMessage({ message: 'Front type updated successfully', type: 'success' });
+        addMessage({ message: 'Front type updated successfully', type: 'success' });
         setLoading(false);
         props.update();
       }
@@ -70,11 +71,11 @@ const FrontsEditor = (props: FrontsEditorProps) => {
         .eq('id', frontId)
         .select();
       if (error) {
-        setMessage({ message: 'An error occured', type: 'error' });
+        addMessage({ message: 'An error occured', type: 'error' });
         setLoading(false);
       }
       if (data) {
-        setMessage({ message: 'Front updated successfully', type: 'success' });
+        addMessage({ message: 'Front updated successfully', type: 'success' });
         setLoading(false);
         props.update();
       }
@@ -100,7 +101,6 @@ const FrontsEditor = (props: FrontsEditorProps) => {
         />
       </div>
       <div className="ml-auto flex flex-row gap-2">
-        {message && <Message message={message} />}
         <Button text="Save Changes" icon={SaveRounded} onClick={handleSaveFrontTypeChanges} />
       </div>
 
@@ -148,7 +148,6 @@ const FrontsEditor = (props: FrontsEditorProps) => {
             </div>
           </div>
           <div className="ml-auto flex flex-row gap-2">
-            {message && <Message message={message} />}
             <Button text="Save Changes" icon={SaveRounded} onClick={handleSaveFrontChanges} loading={loading} />
           </div>
         </>

@@ -1,13 +1,12 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { createClient } from '@/utils/supabase/client';
-import { Project, CreationMessage } from '../types';
-import classNames from 'classnames';
+import { Project } from '../types';
 import Button from './Button';
-import { FileDownloadRounded, SaveRounded } from '@mui/icons-material';
+import { SaveRounded } from '@mui/icons-material';
 import ReactCSV from './ReactCSV';
 import Box from './Box';
-import Message from './Message';
+import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
 
 export type ProjectEditorProps = {
   project: Project;
@@ -17,16 +16,16 @@ export type ProjectEditorProps = {
 const ProjectEditor = (props: ProjectEditorProps) => {
   const supabase = createClient();
   const [inputValue, setInputValue] = useState<string>('');
-  const [message, setMessage] = useState<CreationMessage | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [exportableProject, setExportableProject] = useState<Project | null>(null);
+  const { addMessage } = useContext(MessagesContext) as MessagesContextType;
   const handleInputChange = (e: React.ChangeEvent<any>) => {
     setInputValue(e.target.value);
   };
 
   const handleProjectUpdate = async () => {
     if (inputValue.length < 5) {
-      setMessage({ message: 'A project name must be at least 5 characters long', type: 'error' });
+      addMessage({ message: 'A project name must be at least 5 characters long', type: 'error' });
       return;
     }
     const updateProject = async () => {
@@ -37,7 +36,7 @@ const ProjectEditor = (props: ProjectEditorProps) => {
         .select();
       if (error) console.log(error);
       if (data) {
-        setMessage({ message: 'Project updated successfully', type: 'success' });
+        addMessage({ message: 'Project updated successfully', type: 'success' });
         setLoading(false);
         props.update();
       }
@@ -78,7 +77,6 @@ const ProjectEditor = (props: ProjectEditorProps) => {
       </div>
       <div className="mt-auto flex flex-row justify-between">
         {exportableProject && <ReactCSV project={exportableProject} />}
-        {message && <Message message={message} />}
         <Button text="Save Changes" onClick={handleProjectUpdate} loading={loading} icon={SaveRounded} />
       </div>
     </Box>

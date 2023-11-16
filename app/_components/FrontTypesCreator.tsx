@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import classNames from 'classnames';
 import Button from './Button';
 import { AddRounded } from '@mui/icons-material';
@@ -6,7 +6,7 @@ import { createClient } from '@/utils/supabase/client';
 7;
 import { CreationMessage } from '../types';
 import Message from './Message';
-
+import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
 type FrontTypesCreatorProps = {
   update: () => void;
 };
@@ -14,15 +14,16 @@ type FrontTypesCreatorProps = {
 const FrontTypesCreator = (props: FrontTypesCreatorProps) => {
   const supabase = createClient();
   const [inputValue, setInputValue] = useState<string>('');
-  const [message, setMessage] = useState<CreationMessage | null>();
   const [loading, setLoading] = useState<boolean>(false);
+  const { addMessage } = useContext(MessagesContext) as MessagesContextType;
+
   const handleInputValue = (e: React.ChangeEvent<any>) => {
     setInputValue(e.target.value);
   };
   const handleCreateNewFrontTYpe = () => {
     const createFrontType = async () => {
       if (inputValue.length < 1) {
-        setMessage({ message: 'A front type must have a name', type: 'error' });
+        addMessage({ message: 'A front type must have a name', type: 'error' });
         setLoading(false);
         return;
       }
@@ -32,7 +33,7 @@ const FrontTypesCreator = (props: FrontTypesCreatorProps) => {
         setLoading(false);
       }
       if (data) {
-        setMessage({ message: 'Front type created successfully', type: 'success' });
+        addMessage({ message: 'Front type created successfully', type: 'success' });
         setLoading(false);
         props.update();
       }
@@ -52,7 +53,6 @@ const FrontTypesCreator = (props: FrontTypesCreatorProps) => {
         value={inputValue}
       />
       <div className="ml-auto flex flex-row gap-2">
-        {message && <Message message={message} />}
         <Button text="Create new front type" icon={AddRounded} onClick={handleCreateNewFrontTYpe} loading={loading} />
       </div>
     </div>

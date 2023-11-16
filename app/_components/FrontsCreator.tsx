@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import classNames from 'classnames';
 import ColorPicker from './ColorPicker';
 import { CheckCircleOutline, CancelOutlined, SaveRounded, AddRounded } from '@mui/icons-material';
@@ -7,6 +7,7 @@ import Button from './Button';
 import { CreationMessage, FrontType } from '../types';
 import Box from './Box';
 import Message from './Message';
+import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
 type FrontsCreatorProps = {
   frontType: FrontType;
   update: () => void;
@@ -16,9 +17,8 @@ const FrontsCreator = (props: FrontsCreatorProps) => {
   const supabase = createClient();
   const [frontColorInput, setFrontColorInput] = useState<string | null>(null);
   const [frontNameInput, setFrontNameInput] = useState<string>('');
-  const [message, setMessage] = useState<CreationMessage | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-
+  const { addMessage } = useContext(MessagesContext) as MessagesContextType;
   const handleFrontColor = (color: string | null) => {
     setFrontColorInput(color);
   };
@@ -29,17 +29,17 @@ const FrontsCreator = (props: FrontsCreatorProps) => {
   const handleCreateNewFront = () => {
     const createFront = async () => {
       if (frontColorInput == null) {
-        setMessage({ message: 'A front must have a color', type: 'error' });
+        addMessage({ message: 'A front must have a color', type: 'error' });
         setLoading(false);
         return;
       }
       if (props.frontType == undefined) {
-        setMessage({ message: 'A front must have a type', type: 'error' });
+        addMessage({ message: 'A front must have a type', type: 'error' });
         setLoading(false);
         return;
       }
       if (frontNameInput.length < 1) {
-        setMessage({ message: 'A front must have a name', type: 'error' });
+        addMessage({ message: 'A front must have a name', type: 'error' });
         setLoading(false);
         return;
       }
@@ -49,7 +49,7 @@ const FrontsCreator = (props: FrontsCreatorProps) => {
         .select();
       if (error) console.log('error', error);
       if (data) {
-        setMessage({ message: 'Front created successfully', type: 'success' });
+        addMessage({ message: 'Front created successfully', type: 'success' });
         setLoading(false);
         props.update();
       }
@@ -92,7 +92,6 @@ const FrontsCreator = (props: FrontsCreatorProps) => {
         </div>
       </div>
       <div className="flex flex-row justify-end gap-2 items-center">
-        {message && <Message message={message} />}
         <Button text="Create new front" icon={AddRounded} onClick={handleCreateNewFront} loading={loading} />
       </div>
     </Box>

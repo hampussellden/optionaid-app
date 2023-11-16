@@ -8,6 +8,7 @@ type ItemListProps = {
   center?: boolean;
   between?: boolean;
   around?: boolean;
+  marginTop?: boolean;
 };
 
 const ItemList = (props: ItemListProps) => {
@@ -19,6 +20,7 @@ const ItemList = (props: ItemListProps) => {
       'justify-center items-center': props.center,
       'justify-between': props.between,
       'justify-around': props.around,
+      'mt-2': props.marginTop,
     },
     'flex gap-2',
   );

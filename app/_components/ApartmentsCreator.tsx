@@ -1,13 +1,12 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { KitchenType } from '@/app/types';
 import { CreationMessage } from '@/app/types';
-import classNames from 'classnames';
 import Box from './Box';
-import Message from './Message';
 import Button from './Button';
 import { AddRounded } from '@mui/icons-material';
+import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
 
 export type ApartmentCreatorProps = {
   kitchenType: KitchenType;
@@ -17,7 +16,7 @@ export type ApartmentCreatorProps = {
 const ApartmentsCreator = (props: ApartmentCreatorProps) => {
   const supabase = createClient();
   const [inputValue, setInputValue] = useState<string>('');
-  const [message, setMessage] = useState<CreationMessage | null>(null);
+  const { addMessage } = useContext(MessagesContext) as MessagesContextType;
 
   const handleInputChange = (e: React.ChangeEvent<any>) => {
     setInputValue(e.target.value);
@@ -25,7 +24,7 @@ const ApartmentsCreator = (props: ApartmentCreatorProps) => {
 
   const handleCreateNewApartment = async () => {
     if (inputValue.length < 1) {
-      setMessage({ message: 'An apartment must have a name', type: 'error' });
+      addMessage({ message: 'An apartment must have a name', type: 'error' });
       return;
     }
     const createNewApartment = async () => {
@@ -36,7 +35,7 @@ const ApartmentsCreator = (props: ApartmentCreatorProps) => {
 
       if (error) console.log('error', error);
       if (data) {
-        setMessage({ message: 'Apartment created successfully', type: 'success' });
+        addMessage({ message: 'Apartment created successfully', type: 'success' });
         props.update();
       }
     };
