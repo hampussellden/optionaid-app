@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import classNames from 'classnames';
 import { CountertopsTwoTone, CountertopsOutlined, AddRounded } from '@mui/icons-material';
 import { createClient } from '@/utils/supabase/client';
 import { Worktop, WorktopType } from '../types';

@@ -1,10 +1,7 @@
 import React, { useState, useContext } from 'react';
-import classNames from 'classnames';
 import Button from './Button';
 import { AddRounded } from '@mui/icons-material';
 import { createClient } from '@/utils/supabase/client';
-import { CreationMessage } from '../types';
-import Message from './Message';
 import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
 
 type WorktopTypesCreatorProps = {};

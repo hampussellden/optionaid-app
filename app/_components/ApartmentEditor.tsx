@@ -35,7 +35,6 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
   useEffect(() => {
     const getUserInfoWithApartmentUserId = async () => {
       const { data: client, error } = await supabase.from('users').select('*').eq('id', props.apartment.user_id);
-      if (error) console.log(error);
       if (client) setCurrentClient(client[0] as ClientUser);
     };
     setCurrentClient(null);
@@ -62,7 +61,10 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
         .update({ user_id: selectedClient.id })
         .eq('id', props.apartment.id)
         .select();
-      if (error) console.log('error', error);
+      if (error) {
+        addMessage({ message: 'Error assigning client', type: 'error' });
+        setLoading(false);
+      }
       if (data) {
         addMessage({ message: 'Client assigned successfully', type: 'success' });
         setCurrentClient(selectedClient);
@@ -75,7 +77,10 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
         .update({ name: inputValue })
         .eq('id', props.apartment.id)
         .select();
-      if (error) console.log('error', error);
+      if (error) {
+        addMessage({ message: 'Error updating apartment name', type: 'error' });
+        setLoading(false);
+      }
       if (data) {
         addMessage({ message: 'Apartment name updated successfully', type: 'success' });
         props.update();
@@ -90,7 +95,10 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
         .update({ user_id: null })
         .eq('id', props.apartment.id)
         .select();
-      if (error) console.log('error', error);
+      if (error) {
+        addMessage({ message: 'Error removing client', type: 'error' });
+        setLoading(false);
+      }
       if (data) {
         addMessage({ message: 'Client removed successfully', type: 'success' });
         setCurrentClient(null);
@@ -133,7 +141,8 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
               setLoading(true), handleRemoveCurrentClient();
             }}
             icon={DeleteOutline}
-            text="Remove"
+            marginZero
+            ariaLabel="Remove client from apartment"
             loading={loading}
             accent
           />

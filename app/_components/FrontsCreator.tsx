@@ -1,12 +1,10 @@
 import React, { useState, useContext } from 'react';
-import classNames from 'classnames';
 import ColorPicker from './ColorPicker';
-import { CheckCircleOutline, CancelOutlined, SaveRounded, AddRounded } from '@mui/icons-material';
+import { CheckCircleOutline, CancelOutlined, AddRounded } from '@mui/icons-material';
 import { createClient } from '@/utils/supabase/client';
 import Button from './Button';
-import { CreationMessage, FrontType } from '../types';
+import { FrontType } from '../types';
 import Box from './Box';
-import Message from './Message';
 import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
 type FrontsCreatorProps = {
   frontType: FrontType;
@@ -47,7 +45,10 @@ const FrontsCreator = (props: FrontsCreatorProps) => {
         .from('fronts')
         .insert([{ name: frontNameInput, color: frontColorInput, front_type_id: props.frontType.id }])
         .select();
-      if (error) console.log('error', error);
+      if (error) {
+        addMessage({ message: 'Error creating front', type: 'error' });
+        setLoading(false);
+      }
       if (data) {
         addMessage({ message: 'Front created successfully', type: 'success' });
         setLoading(false);

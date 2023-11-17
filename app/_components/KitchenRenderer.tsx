@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
-import classNames from 'classnames';
 import KitchenScene from './KitchenScene';
 import MenuItem from './MenuItem';
 import {
-  ArrowLeftOutlined,
-  ArrowLeftRounded,
   ChevronLeftRounded,
   CountertopsOutlined,
-  CreditCardOffOutlined,
   CreditCardOutlined,
   HouseOutlined,
   LockRounded,
@@ -41,7 +37,6 @@ const KitchenRenderer = (props: KitchenRendererProps) => {
     currency: 'SEK',
   });
   const handleBlueprintChange = (blueprint: KitchenObject) => {
-    console.log('blueprint changed');
     setSelectedBlueprint(blueprint);
   };
 

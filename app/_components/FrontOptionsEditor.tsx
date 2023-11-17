@@ -1,20 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import classNames from 'classnames';
+import React, { useState, useEffect, useContext } from 'react';
 import { createClient } from '@/utils/supabase/client';
-import {
-  CreationMessage,
-  KitchenType,
-  Project,
-  FrontOption,
-  WorktopOption,
-  FrontType,
-  WorktopType,
-  Front,
-  Worktop,
-} from '@/app/types';
+import { KitchenType, FrontOption, FrontType, Front } from '@/app/types';
 import Button from './Button';
 import FrontOptionItem from './FrontOptionItem';
 import { AddRounded } from '@mui/icons-material';
+import { MessagesContext, MessagesContextType } from '@/app/admin/context/MessagesContext';
 
 type FrontOptionsEditorProps = {
   kitchenType: KitchenType;
@@ -29,25 +19,42 @@ const FrontOptionsEditor = (props: FrontOptionsEditorProps) => {
   const [addFrontTypeId, setAddFrontTypeId] = useState<number>(1);
   const [addFront, setAddFront] = useState<Front | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const { addMessage } = useContext(MessagesContext) as MessagesContextType;
 
   useEffect(() => {
     const fetchFrontsAndFrontTypes = async () => {
-      const { data: fronts } = await supabase.from('fronts').select('*');
-      setFronts(fronts as Front[]);
-      const { data: frontTypes } = await supabase.from('front_types').select('*');
-      setFrontTypes(frontTypes as FrontType[]);
+      const { data: fronts, error: frontsError } = await supabase.from('fronts').select('*');
+      const { data: frontTypes, error: frontTypesError } = await supabase.from('front_types').select('*');
+      if (frontsError || frontTypesError) {
+        addMessage({ message: 'Error fetching fronts or front types', type: 'error' });
+      }
+      if (fronts && frontTypes) {
+        setFronts(fronts as Front[]);
+        setFrontTypes(frontTypes as FrontType[]);
+      }
     };
     const fetchFrontOptions = async () => {
       const { data: frontOptions, error: frontError } = await supabase
         .from('front_options')
         .select('*, fronts(*,front_types(*))')
-        .eq('kitchen_type_id', props.kitchenType.id);
-      if (frontError) console.log(frontError);
-      setFrontOptions(frontOptions as FrontOption[]);
+        .eq('kitchen_type_id', props.kitchenType.id)
+        .order('price', { ascending: true });
+      if (frontError) {
+        addMessage({ message: 'Error fetching front options', type: 'error' });
+      }
+      if (frontOptions) setFrontOptions(frontOptions as FrontOption[]);
     };
     fetchFrontsAndFrontTypes();
     fetchFrontOptions();
   }, [props.kitchenType]);
+
+  useEffect(() => {
+    fronts?.filter((front: Front) => {
+      if (front.front_type_id === addFrontTypeId) {
+        setAddFront(front);
+      }
+    });
+  }, [addFrontTypeId]);
 
   const handleAddFrontTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     frontTypes?.filter((frontType: FrontType) => {
@@ -56,13 +63,6 @@ const FrontOptionsEditor = (props: FrontOptionsEditorProps) => {
       }
     });
   };
-  useEffect(() => {
-    fronts?.filter((front: Front) => {
-      if (front.front_type_id === addFrontTypeId) {
-        setAddFront(front);
-      }
-    });
-  }, [addFrontTypeId]);
 
   const handleAddFrontChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     fronts?.filter((front: Front) => {
@@ -75,10 +75,21 @@ const FrontOptionsEditor = (props: FrontOptionsEditorProps) => {
   const handlePriceInputChange = (e: React.ChangeEvent<any>) => {
     setPriceInputValue(e.target.value);
   };
+
   const handleRemoveExistingOption = async (id: number) => {
-    const { data, error } = await supabase.from('front_options').delete().eq('id', id);
-    if (error) console.log(error);
-    setFrontOptions(frontOptions.filter((frontOption: FrontOption) => frontOption.id !== id));
+    const removeExistingFrontOption = async () => {
+      const { data, error } = await supabase.from('front_options').delete().eq('id', id);
+      if (error) {
+        addMessage({ message: 'Error removing front option', type: 'error' });
+        setLoading(false);
+      }
+      if (data) {
+        addMessage({ message: 'Front option removed successfully', type: 'success' });
+        setFrontOptions(frontOptions.filter((frontOption: FrontOption) => frontOption.id !== id));
+      }
+    };
+    setLoading(true);
+    removeExistingFrontOption();
   };
 
   const handleAddNewFrontOption = async () => {
@@ -88,8 +99,13 @@ const FrontOptionsEditor = (props: FrontOptionsEditorProps) => {
       .from('front_options')
       .insert([{ kitchen_type_id: props.kitchenType.id, front_id: addFront?.id, price: priceInputValue }])
       .select();
-    if (error) console.log(error);
+    if (error) {
+      addMessage({ message: 'Error adding front option', type: 'error' });
+      setLoading(false);
+    }
     if (data) {
+      addMessage({ message: 'Front option added successfully', type: 'success' });
+      //updates state on database input success to avoid unnecessary fetch
       setFrontOptions([
         ...frontOptions,
         {
@@ -171,10 +187,12 @@ const FrontOptionsEditor = (props: FrontOptionsEditorProps) => {
           />
         </div>
         <Button
-          text="Add option"
           icon={AddRounded}
+          marginZero
+          ariaLabel="Add new front option"
+          text="Add"
           onClick={() => {
-            handleAddNewFrontOption(), setLoading(true);
+            setLoading(true), handleAddNewFrontOption();
           }}
           loading={loading}
         />

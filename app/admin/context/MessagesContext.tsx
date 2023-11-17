@@ -1,7 +1,6 @@
 'use client';
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState } from 'react';
 import { CreationMessage } from '../../types';
-import { DEFAULT_COOKIE_OPTIONS } from '@supabase/ssr';
 
 export type MessagesContextType = {
   messages: CreationMessage[];

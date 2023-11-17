@@ -10,7 +10,7 @@ type BoxProps = {
   noPaddingY?: boolean;
   relative?: boolean;
 };
-const example = 'overflow-y-scroll';
+
 const Box = (props: BoxProps) => {
   const classes = classNames(
     {

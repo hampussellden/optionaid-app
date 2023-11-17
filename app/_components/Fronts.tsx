@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import classNames from 'classnames';
 import FrontsCreator from './FrontsCreator';
 import { createClient } from '@/utils/supabase/client';
 import { Front, FrontType } from '../types';

@@ -1,11 +1,9 @@
 import React, { useState, useContext } from 'react';
-import classNames from 'classnames';
 import { createClient } from '@/utils/supabase/client';
-import { CreationMessage, Worktop, WorktopType } from '../types';
+import { Worktop, WorktopType } from '../types';
 import ColorPicker from './ColorPicker';
 import { CancelOutlined, CheckCircleOutline, SaveRounded } from '@mui/icons-material';
 import Button from './Button';
-import Message from './Message';
 import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
 
 type WorktopsEditorProps = {
@@ -65,7 +63,7 @@ const WorktopsEditor = (props: WorktopsEditorProps) => {
       worktopInputValue.length < 1 ? (worktopName = props.worktop?.name) : (worktopName = worktopInputValue);
 
       !worktopColorInput ? (worktopColor = props.worktop?.color) : (worktopColor = worktopColorInput);
-      console.log('worktopName' + worktopName);
+
       const { data, error } = await supabase
         .from('worktops')
         .update({ name: worktopName, color: worktopColor })

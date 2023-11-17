@@ -2,9 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { KitchenType } from '@/app/types';
-import { User, Apartment, Project } from '@/app/types';
+import { Apartment, Project } from '@/app/types';
 import ApartmentsCreator from './ApartmentsCreator';
-import classNames from 'classnames';
 import ApartmentEditor from './ApartmentEditor';
 import MenuItem from './MenuItem';
 import { AddRounded } from '@mui/icons-material';

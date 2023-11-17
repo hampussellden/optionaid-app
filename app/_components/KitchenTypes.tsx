@@ -4,10 +4,9 @@ import { createClient } from '@/utils/supabase/client';
 import { Project, KitchenType } from '@/app/types';
 import Apartments from './Apartments';
 import KitchenTypesCreator from './KitchenTypesCreator';
-import classNames from 'classnames';
 import KitchenTypesEditor from './KitchenTypesEditor';
 import MenuItem from './MenuItem';
-import { AddRounded } from '@mui/icons-material';
+import { AddRounded, KitchenRounded, KitchenTwoTone } from '@mui/icons-material';
 import ItemList from './ItemList';
 import Box from './Box';
 
@@ -83,6 +82,7 @@ const KitchenTypes = (props: KitchenTypesProps) => {
                 key={kitchenType.id}
                 onClick={() => handleTypeClick(kitchenType)}
                 text={'type ' + kitchenType.name}
+                icon={selectedType?.id === kitchenType.id ? KitchenTwoTone : KitchenRounded}
               />
             ))}
           <MenuItem

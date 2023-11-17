@@ -1,6 +1,5 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import classNames from 'classnames';
 import { Apartment, KitchenType, Front, Worktop, FrontOption, WorktopOption } from '../types';
 import { createClient } from '@/utils/supabase/client';
 import MenuItem from './MenuItem';
@@ -47,20 +46,14 @@ const ClientApartmentEditor = (props: ClientApartmentEditorProps) => {
 
   useEffect(() => {
     const fetchFrontOptionsAndWorktopOptions = async () => {
-      const { data: frontOptions, error } = await supabase
+      const { data: frontOptions } = await supabase
         .from('front_options')
         .select('*,fronts(*,front_types(*))')
         .eq('kitchen_type_id', props.kitchenType.id);
-      if (error) {
-        console.log(error);
-      }
-      const { data: worktopOptions, error: worktopError } = await supabase
+      const { data: worktopOptions } = await supabase
         .from('worktop_options')
         .select('*,worktops(*,worktop_types(*))')
         .eq('kitchen_type_id', props.kitchenType.id);
-      if (worktopError) {
-        console.log(worktopError);
-      }
       if (frontOptions && worktopOptions) {
         setFrontOptions(frontOptions as FrontOption[]);
         setWorktopOptions(worktopOptions as WorktopOption[]);
@@ -108,7 +101,6 @@ const ClientApartmentEditor = (props: ClientApartmentEditorProps) => {
         })
         .eq('id', props.apartment.id)
         .select();
-      if (error) console.log('error', error);
       if (data) {
         setLoading(false);
         props.update();
@@ -137,7 +129,6 @@ const ClientApartmentEditor = (props: ClientApartmentEditorProps) => {
         })
         .eq('id', props.apartment.id)
         .select();
-      if (error) console.log('error', error);
       if (data) setLoading(false);
     };
     setLoading(true);

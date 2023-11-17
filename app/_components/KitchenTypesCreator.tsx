@@ -2,10 +2,9 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { Project } from '@/app/types';
-import classNames from 'classnames';
-import { CreationMessage, Front, Worktop } from '@/app/types';
+import { Front, Worktop } from '@/app/types';
 import Button from './Button';
-import { AddOutlined, AddRounded } from '@mui/icons-material';
+import { AddRounded } from '@mui/icons-material';
 import Box from './Box';
 import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
 
@@ -57,8 +56,10 @@ const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {
           },
         ])
         .select();
-
-      if (error) console.log('error', error);
+      if (error) {
+        addMessage({ message: 'Error creating kitchen type', type: 'error' });
+        setLoading(false);
+      }
       if (data) {
         addMessage({ message: 'Kitchen type created successfully', type: 'success' });
         setLoading(false);

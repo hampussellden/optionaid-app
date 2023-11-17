@@ -1,11 +1,7 @@
 import React, { useState, useContext } from 'react';
-import classNames from 'classnames';
 import Button from './Button';
 import { AddRounded } from '@mui/icons-material';
 import { createClient } from '@/utils/supabase/client';
-7;
-import { CreationMessage } from '../types';
-import Message from './Message';
 import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
 type FrontTypesCreatorProps = {
   update: () => void;
@@ -29,7 +25,7 @@ const FrontTypesCreator = (props: FrontTypesCreatorProps) => {
       }
       const { data, error } = await supabase.from('front_types').insert({ name: inputValue }).select();
       if (error) {
-        console.log('error', error);
+        addMessage({ message: 'Error creating front type', type: 'error' });
         setLoading(false);
       }
       if (data) {

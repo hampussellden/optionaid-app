@@ -1,11 +1,9 @@
 import React, { useState, useContext } from 'react';
-import { CreationMessage, Front, FrontType } from '../types';
+import { Front, FrontType } from '../types';
 import Button from './Button';
 import { CancelOutlined, CheckCircleOutline, SaveRounded } from '@mui/icons-material';
 import { createClient } from '@/utils/supabase/client';
 import ColorPicker from './ColorPicker';
-import classNames from 'classnames';
-import Message from './Message';
 import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
 
 type FrontsEditorProps = {
@@ -44,7 +42,10 @@ const FrontsEditor = (props: FrontsEditorProps) => {
         .update({ name: frontTypeInputValue })
         .eq('name', props.frontType)
         .select();
-      if (error) console.log('error', error);
+      if (error) {
+        addMessage({ message: 'Error updating front type', type: 'error' });
+        setLoading(false);
+      }
       if (data) {
         addMessage({ message: 'Front type updated successfully', type: 'success' });
         setLoading(false);

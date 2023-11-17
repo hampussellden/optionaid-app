@@ -1,12 +1,10 @@
 import React, { useState, useContext } from 'react';
-import classNames from 'classnames';
 import ColorPicker from './ColorPicker';
 import { CheckCircleOutline, CancelOutlined, SaveRounded, AddRounded } from '@mui/icons-material';
 import { createClient } from '@/utils/supabase/client';
 import Button from './Button';
-import { CreationMessage, WorktopType } from '../types';
+import { WorktopType } from '../types';
 import Box from './Box';
-import Message from './Message';
 import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
 type WorktopsCreatorProps = {
   worktopType: WorktopType | null;
@@ -47,7 +45,10 @@ const WorktopsCreator = (props: WorktopsCreatorProps) => {
         .from('worktops')
         .insert([{ name: worktopNameInput, color: worktopColorInput, worktop_type_id: props.worktopType?.id }])
         .select();
-      if (error) console.log('error', error);
+      if (error) {
+        addMessage({ message: 'Error creating worktop', type: 'error' });
+        setLoading(false);
+      }
       if (data) {
         addMessage({ message: 'Worktop created successfully', type: 'success' });
         setLoading(false);

@@ -1,6 +1,5 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import AuthButton from '../_components/AuthButton';
 import { createClient } from '@/utils/supabase/client';
 import { Apartment } from '../types';
 import { LockOpenOutlined, LockOutlined, LockRounded } from '@mui/icons-material';
@@ -16,12 +15,6 @@ const Dashboard = () => {
   const [selectedApartment, setSelectedApartment] = useState<Apartment | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const user = supabase.auth.getUser();
-  const session = supabase.auth.getSession();
-  useEffect(() => {
-    console.log(user);
-    console.log(session);
-  }, [user, session]);
   const handleSelectApartmentToEdit = (apartment: Apartment) => {
     setEditing(false);
     setSelectedApartment(apartment);
@@ -34,16 +27,13 @@ const Dashboard = () => {
         data: { user },
       } = await supabase.auth.getUser();
       if (user) {
-        const { data: apartments, error } = await supabase
+        const { data: apartments } = await supabase
           .from('apartments')
           .select(
             '*,kitchen_types(*,projects(*),fronts(*,front_types(*)),worktops(*,worktop_types(*))),worktop_options(*,worktops(*)),front_options(*,fronts(*))',
           )
           .eq('user_id', user.id)
           .order('id', { ascending: false });
-        if (error) {
-          console.log(error);
-        }
         if (apartments) {
           setApartmentsOnUser(apartments as Apartment[]);
           setLoading(false);

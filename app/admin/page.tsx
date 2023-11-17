@@ -4,16 +4,13 @@ import { createClient } from '@/utils/supabase/client';
 import KitchenTypes from '../_components/KitchenTypes';
 import ProjectCreator from '../_components/ProjectCreator';
 import ProjectEditor from '../_components/ProjectEditor';
-import classNames from 'classnames';
 import { Project } from '@/app/types';
-import { AddRounded } from '@mui/icons-material';
+import { AddRounded, BusinessOutlined } from '@mui/icons-material';
 import MenuItem from '../_components/MenuItem';
-import FrontsCreator from '../_components/FrontsCreator';
 import Fronts from '../_components/Fronts';
 import Worktops from '../_components/Worktops';
 import ItemList from '../_components/ItemList';
 import Box from '../_components/Box';
-import { CreationMessage } from '@/app/types';
 import Message from '../_components/Message';
 import { MessagesContext, MessagesContextType } from './context/MessagesContext';
 
@@ -38,10 +35,6 @@ const Admin = () => {
     };
     fetchProjects();
   }, [loading]);
-
-  useEffect(() => {
-    addMessage({ message: 'Test Message', type: 'success' });
-  }, []);
 
   useEffect(() => {
     setLoading(false);
@@ -86,6 +79,7 @@ const Admin = () => {
                   key={project.id}
                   onClick={() => handleSelectProject(project)}
                   text={project.name}
+                  icon={BusinessOutlined}
                 />
               ))}
             <MenuItem onClick={handleProjectCreatorOpen} icon={AddRounded} text="Project" active={creating} />
@@ -111,7 +105,7 @@ const Admin = () => {
         <Worktops />
       </section>
       {messages.length > 0 && (
-        <section className="flex flex-col-reverse justify-start gap-2 self-start fixed bottom-2 right-2 items-end">
+        <section className="flex flex-col-reverse justify-start gap-2 self-start fixed bottom-2 right-2 items-end transition">
           {messages.map((message, i) => (
             <Message message={message} key={i} />
           ))}

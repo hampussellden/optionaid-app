@@ -1,8 +1,7 @@
 'use client';
 import React, { useState, useContext } from 'react';
-import classNames from 'classnames';
 import { createClient } from '@/utils/supabase/client';
-import { CreationMessage, KitchenType, Project } from '@/app/types';
+import { KitchenType, Project } from '@/app/types';
 import FrontOptionsEditor from './FrontOptionsEditor';
 import WorktopOptionsEditor from './WorktopOptionsEditor';
 import Button from './Button';
@@ -39,7 +38,10 @@ const KitchenTypesEditor = (props: KitchenTypesEditorProps) => {
         .update({ name: typeNameInputValue })
         .eq('id', props.kitchenType.id)
         .select();
-      if (error) console.log('error', error);
+      if (error) {
+        addMessage({ message: 'Error updating kitchen type', type: 'error' });
+        setLoading(false);
+      }
       if (data) {
         addMessage({ message: 'Kitchen type updated successfully', type: 'success' });
         setLoading(false);

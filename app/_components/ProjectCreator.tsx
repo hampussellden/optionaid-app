@@ -1,8 +1,6 @@
 'use client';
 import React, { useState, useContext } from 'react';
 import { createClient } from '@/utils/supabase/client';
-import { Project, CreationMessage } from '@/app/types';
-import classNames from 'classnames';
 import Button from './Button';
 import { SaveRounded } from '@mui/icons-material';
 import Box from './Box';
@@ -32,7 +30,10 @@ const ProjectCreator = (props: ProjectCreatorProps) => {
         .insert([{ name: inputValue }])
         .select();
 
-      if (error) console.log('error', error);
+      if (error) {
+        addMessage({ message: 'Error creating project', type: 'error' });
+        setLoading(false);
+      }
       if (data) {
         addMessage({ message: 'Project created successfully', type: 'success' });
         setLoading(false);

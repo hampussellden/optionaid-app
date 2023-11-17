@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 
 type ButtonProps = {
@@ -11,6 +11,7 @@ type ButtonProps = {
   transparent?: boolean;
   marginZero?: boolean;
   accent?: boolean;
+  ariaLabel?: string;
 };
 
 const Button = (props: ButtonProps) => {
@@ -24,9 +25,11 @@ const Button = (props: ButtonProps) => {
         'border border-secondary hover:bg-secondaryHover': props.transparent,
         'mt-0': props.marginZero,
         'mt-auto self-end': !props.marginZero,
+        'py-2.5': props.icon && !props.text,
       })}
       formAction={props.formAction}
       onClick={props.onClick}
+      aria-label={props.ariaLabel}
     >
       {props.loading && (
         <div

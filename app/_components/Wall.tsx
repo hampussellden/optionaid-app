@@ -1,5 +1,5 @@
 'use client';
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import { Edges } from '@react-three/drei';
 
 export type WallProps = {

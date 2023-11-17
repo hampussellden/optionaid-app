@@ -34,7 +34,10 @@ const ProjectEditor = (props: ProjectEditorProps) => {
         .update({ name: inputValue })
         .eq('id', props.project.id)
         .select();
-      if (error) console.log(error);
+      if (error) {
+        addMessage({ message: 'Error updating project', type: 'error' });
+        setLoading(false);
+      }
       if (data) {
         addMessage({ message: 'Project updated successfully', type: 'success' });
         setLoading(false);
@@ -51,7 +54,9 @@ const ProjectEditor = (props: ProjectEditorProps) => {
         .select('*, kitchen_types(*,apartments(*,users(*)))')
         .eq('id', props.project.id)
         .single();
-      if (error) console.log(error);
+      if (error) {
+        addMessage({ message: 'Error fetching project CSV', type: 'error' });
+      }
       if (exportableProject) {
         setExportableProject(exportableProject as Project);
       }

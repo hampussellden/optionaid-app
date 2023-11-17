@@ -1,20 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import classNames from 'classnames';
+import React, { useState, useEffect, useContext } from 'react';
 import { createClient } from '@/utils/supabase/client';
-import {
-  CreationMessage,
-  KitchenType,
-  Project,
-  FrontOption,
-  WorktopOption,
-  FrontType,
-  WorktopType,
-  Front,
-  Worktop,
-} from '@/app/types';
+import { KitchenType, WorktopOption, WorktopType, Worktop } from '@/app/types';
 import WorktopOptionItem from './WorktopOptionItem';
 import Button from './Button';
 import { AddRounded } from '@mui/icons-material';
+import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
 
 type WorktopOptionsEditor = {
   kitchenType: KitchenType;
@@ -28,25 +18,43 @@ const WorktopOptionsEditor = (props: WorktopOptionsEditor) => {
   const [priceInputValue, setPriceInputValue] = useState<number>(0);
   const [addWorktopTypeId, setaddWorktopTypeId] = useState<number>(1);
   const [addWorktop, setAddWorktop] = useState<Worktop | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const { addMessage } = useContext(MessagesContext) as MessagesContextType;
 
   useEffect(() => {
     const fetchWorktopAndWorktopTypes = async () => {
-      const { data: worktops } = await supabase.from('worktops').select('*');
-      setWorktops(worktops as Worktop[]);
-      const { data: worktopTypes } = await supabase.from('worktop_types').select('*');
-      setWorktopTypes(worktopTypes as WorktopType[]);
+      const { data: worktops, error: worktopsError } = await supabase.from('worktops').select('*');
+      const { data: worktopTypes, error: worktopTypesError } = await supabase.from('worktop_types').select('*');
+      if (worktopsError || worktopTypesError) {
+        addMessage({ message: 'Error fetching worktops or worktop types', type: 'error' });
+      }
+      if (worktops && worktopTypes) {
+        setWorktops(worktops as Worktop[]);
+        setWorktopTypes(worktopTypes as WorktopType[]);
+      }
     };
     const fetchWorktopOptions = async () => {
       const { data: worktopOptions, error: worktopError } = await supabase
         .from('worktop_options')
         .select('*, worktops(*,worktop_types(*))')
-        .eq('kitchen_type_id', props.kitchenType.id);
-      if (worktopError) console.log(worktopError);
-      setWorktopOptions(worktopOptions as WorktopOption[]);
+        .eq('kitchen_type_id', props.kitchenType.id)
+        .order('price', { ascending: true });
+      if (worktopError) {
+        addMessage({ message: 'Error fetching worktop options', type: 'error' });
+      }
+      if (worktopOptions) setWorktopOptions(worktopOptions as WorktopOption[]);
     };
     fetchWorktopAndWorktopTypes();
     fetchWorktopOptions();
   }, [props.kitchenType]);
+
+  useEffect(() => {
+    worktops?.filter((worktop: Worktop) => {
+      if (worktop.worktop_type_id === addWorktopTypeId) {
+        setAddWorktop(worktop);
+      }
+    });
+  }, [addWorktopTypeId]);
 
   const handleAddWorktopTypeId = (event: React.ChangeEvent<HTMLSelectElement>) => {
     worktopTypes?.filter((worktopType: WorktopType) => {
@@ -55,13 +63,6 @@ const WorktopOptionsEditor = (props: WorktopOptionsEditor) => {
       }
     });
   };
-  useEffect(() => {
-    worktops?.filter((worktop: Worktop) => {
-      if (worktop.worktop_type_id === addWorktopTypeId) {
-        setAddWorktop(worktop);
-      }
-    });
-  }, [addWorktopTypeId]);
 
   const handleAddWorktopChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     worktops?.filter((worktop: Worktop) => {
@@ -74,34 +75,56 @@ const WorktopOptionsEditor = (props: WorktopOptionsEditor) => {
   const handlePriceInputChange = (e: React.ChangeEvent<any>) => {
     setPriceInputValue(e.target.value);
   };
+
   const handleRemoveExistingOption = async (id: number) => {
-    const { data, error } = await supabase.from('worktop_options').delete().eq('id', id);
-    if (error) console.log(error);
-    setWorktopOptions(worktopOptions.filter((worktopOption: WorktopOption) => worktopOption.id !== id));
+    const removeEsixtingWorktopOption = async () => {
+      const { data, error } = await supabase.from('worktop_options').delete().eq('id', id);
+      if (error) {
+        addMessage({ message: 'Error removing worktop option', type: 'error' });
+        setLoading(false);
+      }
+      if (data) {
+        addMessage({ message: 'Worktop option removed successfully', type: 'success' });
+        setWorktopOptions(worktopOptions.filter((worktopOption: WorktopOption) => worktopOption.id !== id));
+      }
+    };
+    setLoading(true);
+    removeEsixtingWorktopOption();
   };
 
   const handleNewWorktopOption = async () => {
-    if (!addWorktop) return;
-    if (addWorktopTypeId != addWorktop.worktop_type_id) return;
-    const { data, error } = await supabase
-      .from('worktop_options')
-      .insert([{ kitchen_type_id: props.kitchenType.id, worktop_id: addWorktop.id, price: priceInputValue }])
-      .select();
-    if (error) console.log(error);
-    if (data)
-      setWorktopOptions([
-        ...worktopOptions,
-        {
-          id: data[0].id,
-          kitchen_type_id: props.kitchenType.id,
-          worktop_id: addWorktop.id,
-          price: priceInputValue,
-          worktops: {
-            ...addWorktop,
-            worktop_types: worktopTypes.filter((worktopType: WorktopType) => worktopType.id === addWorktopTypeId)[0],
+    const addNewWorktopOption = async () => {
+      if (!addWorktop) return;
+      if (addWorktopTypeId != addWorktop.worktop_type_id) return;
+      const { data, error } = await supabase
+        .from('worktop_options')
+        .insert([{ kitchen_type_id: props.kitchenType.id, worktop_id: addWorktop.id, price: priceInputValue }])
+        .select();
+      if (error) {
+        addMessage({ message: 'Error adding worktop option', type: 'error' });
+        setLoading(false);
+      }
+      if (data) {
+        addMessage({ message: 'Worktop option added successfully', type: 'success' });
+        //updates state on database input success to avoid unnecessary fetch
+        setWorktopOptions([
+          ...worktopOptions,
+          {
+            id: data[0].id,
+            kitchen_type_id: props.kitchenType.id,
+            worktop_id: addWorktop.id,
+            price: priceInputValue,
+            worktops: {
+              ...addWorktop,
+              worktop_types: worktopTypes.filter((worktopType: WorktopType) => worktopType.id === addWorktopTypeId)[0],
+            },
           },
-        },
-      ]);
+        ]);
+        setLoading(false);
+      }
+    };
+    setLoading(true);
+    addNewWorktopOption();
   };
 
   return (
@@ -119,7 +142,7 @@ const WorktopOptionsEditor = (props: WorktopOptionsEditor) => {
         </div>
       )}
       <p className="text-xl font-bold my-2">Create new worktop option</p>
-      <div className="flex flex-row gap-2">
+      <div className="flex flex-row gap-2 items-end">
         <div className="flex flex-col gap-2">
           <p className="text-lg font-semibold">Worktop Make</p>
           {worktopTypes && (
@@ -167,7 +190,14 @@ const WorktopOptionsEditor = (props: WorktopOptionsEditor) => {
             onChange={handlePriceInputChange}
           />
         </div>
-        <Button text="Add option" icon={AddRounded} onClick={handleNewWorktopOption} />
+        <Button
+          icon={AddRounded}
+          marginZero
+          ariaLabel="Add new worktop option"
+          text="Add"
+          onClick={handleNewWorktopOption}
+          loading={loading}
+        />
       </div>
     </div>
   );

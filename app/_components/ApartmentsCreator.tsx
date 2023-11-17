@@ -2,7 +2,6 @@
 import React, { useState, useContext } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { KitchenType } from '@/app/types';
-import { CreationMessage } from '@/app/types';
 import Box from './Box';
 import Button from './Button';
 import { AddRounded } from '@mui/icons-material';
@@ -16,6 +15,7 @@ export type ApartmentCreatorProps = {
 const ApartmentsCreator = (props: ApartmentCreatorProps) => {
   const supabase = createClient();
   const [inputValue, setInputValue] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
   const { addMessage } = useContext(MessagesContext) as MessagesContextType;
 
   const handleInputChange = (e: React.ChangeEvent<any>) => {
@@ -33,12 +33,17 @@ const ApartmentsCreator = (props: ApartmentCreatorProps) => {
         .insert([{ kitchen_type_id: props.kitchenType.id, name: inputValue }])
         .select();
 
-      if (error) console.log('error', error);
+      if (error) {
+        addMessage({ message: 'Error creating apartment', type: 'error' });
+        setLoading(false);
+      }
       if (data) {
         addMessage({ message: 'Apartment created successfully', type: 'success' });
+        setLoading(false);
         props.update();
       }
     };
+    setLoading(true);
     createNewApartment();
   };
 
@@ -54,7 +59,7 @@ const ApartmentsCreator = (props: ApartmentCreatorProps) => {
           onChange={handleInputChange}
         />
       </div>
-      <Button text="Save new apartment" onClick={handleCreateNewApartment} icon={AddRounded} />
+      <Button text="Save new apartment" onClick={handleCreateNewApartment} icon={AddRounded} loading={loading} />
     </Box>
   );
 };

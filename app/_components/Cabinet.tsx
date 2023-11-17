@@ -1,7 +1,5 @@
 'use client';
-import React, { useRef, useEffect } from 'react';
-import { Mesh } from 'three';
-import { useFrame } from '@react-three/fiber';
+import React from 'react';
 import { Edges } from '@react-three/drei';
 
 export type CabinetProps = {
