@@ -5,6 +5,7 @@ import { CancelOutlined, CheckCircleOutline, SaveRounded } from '@mui/icons-mate
 import { createClient } from '@/utils/supabase/client';
 import ColorPicker from './ColorPicker';
 import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
+import Box from './Box';
 
 type FrontsEditorProps = {
   frontType: FrontType;
@@ -19,6 +20,7 @@ const FrontsEditor = (props: FrontsEditorProps) => {
   const [frontColorInput, setFrontColorInput] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const { addMessage } = useContext(MessagesContext) as MessagesContextType;
+  const color = props.front?.color;
 
   const handleFrontTypeInputValue = (e: React.ChangeEvent<any>) => {
     setFrontTypeInputValue(e.target.value);
@@ -86,7 +88,7 @@ const FrontsEditor = (props: FrontsEditorProps) => {
   };
 
   return (
-    <div className="flex flex-col bg-primary grow rounded p-4 gap-4 scroll-smooth scrollbar-thin scrollbar-track-inherit scrollbar-thumb-secondary scrollbar-track-rounded scrollbar-thumb-rounded overflow-y-auto">
+    <Box primary grow>
       <div className="flex flex-row justify-between">
         <p className="text-2xl font-bold text-text">Editing Front Group</p>
         <p className="text-xl font-semibold text-text">{props.frontType.name}</p>
@@ -111,10 +113,11 @@ const FrontsEditor = (props: FrontsEditorProps) => {
           <div className="flex flex-row justify-between">
             <p className="text-xl font-bold text-text"> Editing Front</p>
             {props.front && (
-              <p className="text-lg text-text font-semibold">
+              <p className="text-lg text-text font-semibold flex gap-2 items-center">
                 {' '}
                 {props.front.name + ' - '}
-                <span className="bg-background p-1 rounded">{props.front.color}</span>
+                <span className="bg-background p-1 rounded">{color}</span>
+                <div style={{ backgroundColor: color }} className="h-9 w-20 rounded"></div>
               </p>
             )}
           </div>
@@ -153,7 +156,7 @@ const FrontsEditor = (props: FrontsEditorProps) => {
           </div>
         </>
       )}
-    </div>
+    </Box>
   );
 };
 

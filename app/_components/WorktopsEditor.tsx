@@ -5,6 +5,7 @@ import ColorPicker from './ColorPicker';
 import { CancelOutlined, CheckCircleOutline, SaveRounded } from '@mui/icons-material';
 import Button from './Button';
 import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
+import Box from './Box';
 
 type WorktopsEditorProps = {
   worktopType: WorktopType;
@@ -19,6 +20,7 @@ const WorktopsEditor = (props: WorktopsEditorProps) => {
   const [worktopInputValue, setWorktopInputValue] = useState<string>('');
   const [worktopColorInput, setWorktopColorInput] = useState<string | null>(null);
   const { addMessage } = useContext(MessagesContext) as MessagesContextType;
+  const color = props.worktop?.color;
   const handleWorktopTypeInputValue = (e: React.ChangeEvent<any>) => {
     setWorktopTypeInputValue(e.target.value);
   };
@@ -84,7 +86,7 @@ const WorktopsEditor = (props: WorktopsEditorProps) => {
   };
 
   return (
-    <div className="flex flex-col grow bg-primary rounded p-4 gap-4 scroll-smooth scrollbar-thin scrollbar-track-inherit scrollbar-thumb-secondary scrollbar-track-rounded scrollbar-thumb-rounded overflow-y-auto">
+    <Box grow primary>
       <div className="flex flex-row justify-between">
         <p className="text-2xl text-text font-bold">Editing Worktop Group</p>
         <p className="text-xl font-semibold text-text">{props.worktopType.make}</p>
@@ -108,10 +110,11 @@ const WorktopsEditor = (props: WorktopsEditorProps) => {
           <div className="flex flex-row justify-between">
             <p className="text-xl font-bold text-text"> Editing Worktop</p>
             {props.worktop && (
-              <p className="text-lg text-text font-semibold">
+              <p className="text-lg text-text font-semibold flex gap-2 items-center">
                 {' '}
                 {props.worktop.name + ' - '}
                 <span className="bg-background p-1 rounded">{props.worktop.color}</span>
+                <div style={{ backgroundColor: color }} className="h-9 w-20 rounded"></div>
               </p>
             )}
           </div>
@@ -150,7 +153,7 @@ const WorktopsEditor = (props: WorktopsEditorProps) => {
           </div>
         </>
       )}
-    </div>
+    </Box>
   );
 };
 
