@@ -9,10 +9,11 @@ export default async function AuthButton() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
+  const { data: data, error } = await supabase.from('users').select('full_name').eq('id', user?.id);
+  const name = data?.[0]?.full_name;
   return user ? (
     <div className="flex items-center gap-4">
-      <p className="text-text font-semibold">{user.email}</p>
+      {name && <p className="text-text font-semibold">{name}</p>}
       <form action="/auth/sign-out" method="post">
         <Button text="Logout" />
       </form>
