@@ -38,6 +38,7 @@ const ClientApartmentEditor = (props: ClientApartmentEditorProps) => {
     price: 0,
     worktops: props.kitchenType.worktops,
   };
+
   useEffect(() => {
     setSelectedFrontOption(props.apartment.front_options ? props.apartment.front_options : null);
     setSelectedWorktopOption(props.apartment.worktop_options ? props.apartment.worktop_options : null);
@@ -213,8 +214,8 @@ const ClientApartmentEditor = (props: ClientApartmentEditorProps) => {
       frontOptions &&
       worktopOptions &&
       loadRender &&
-      props.kitchenType.worktops?.worktop_types &&
-      props.kitchenType.fronts?.front_types ? (
+      props.kitchenType.worktops?.worktop_types.make &&
+      props.kitchenType.fronts?.front_types.name ? (
         <KitchenRenderer
           front={selectedFrontOption?.fronts ?? undefined}
           worktop={selectedWorktopOption?.worktops ?? undefined}
