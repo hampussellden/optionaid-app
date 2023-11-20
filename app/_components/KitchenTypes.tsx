@@ -29,7 +29,7 @@ const KitchenTypes = (props: KitchenTypesProps) => {
     const fetchKitchenTypes = async () => {
       const { data: kitchenTypes } = await supabase
         .from('kitchen_types')
-        .select('*,worktops(*),fronts(*)')
+        .select('*,worktops(*,worktop_types(*)),fronts(*,front_types(*))')
         .eq('project_id', props.project.id)
         .order('id', { ascending: true });
       if (kitchenTypes) {

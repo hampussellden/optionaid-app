@@ -103,14 +103,13 @@ const ClientApartmentEditor = (props: ClientApartmentEditorProps) => {
         .select();
       if (data) {
         setLoading(false);
-        props.update();
       }
     };
     setLoading(true);
     updateApartment();
   };
   const handleSaveAndLockChanges = async () => {
-    const saveApartmentChanges = async () => {
+    const saveAndLockChanges = async () => {
       const { data, error } = await supabase
         .from('apartments')
         .update({
@@ -129,14 +128,17 @@ const ClientApartmentEditor = (props: ClientApartmentEditorProps) => {
         })
         .eq('id', props.apartment.id)
         .select();
-      if (data) setLoading(false);
+      if (data) {
+        setLoading(false);
+        props.update();
+      }
     };
     setLoading(true);
-    saveApartmentChanges();
+    saveAndLockChanges();
   };
 
   return (
-    <div className="flex flex-row gap-2 justify-between w-fill min-h-[85vh]">
+    <div className="flex flex-row gap-2 justify-between w-fill min-h-[85vh] max-h-[90vh]">
       {props.apartment.ready_for_order ? (
         <Box grow center>
           <p className="font-bold text-2xl">

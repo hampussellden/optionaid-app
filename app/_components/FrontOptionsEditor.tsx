@@ -16,7 +16,7 @@ const FrontOptionsEditor = (props: FrontOptionsEditorProps) => {
   const [frontTypes, setFrontTypes] = useState<FrontType[]>([]);
   const [frontOptions, setFrontOptions] = useState<FrontOption[]>([]);
   const [priceInputValue, setPriceInputValue] = useState<number>(0);
-  const [addFrontTypeId, setAddFrontTypeId] = useState<number>(1);
+  const [addFrontType, setAddFrontType] = useState<FrontType | null>(null);
   const [addFront, setAddFront] = useState<Front | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const { addMessage } = useContext(MessagesContext) as MessagesContextType;
@@ -48,18 +48,15 @@ const FrontOptionsEditor = (props: FrontOptionsEditorProps) => {
     fetchFrontOptions();
   }, [props.kitchenType]);
 
-  useEffect(() => {
-    fronts?.filter((front: Front) => {
-      if (front.front_type_id === addFrontTypeId) {
-        setAddFront(front);
-      }
-    });
-  }, [addFrontTypeId]);
-
   const handleAddFrontTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    if (event.target.value === 'Select a front type') {
+      setAddFrontType(null);
+      setAddFront(null);
+      return;
+    }
     frontTypes?.filter((frontType: FrontType) => {
       if (frontType.id === parseInt(event.target.value)) {
-        setAddFrontTypeId(frontType.id);
+        setAddFrontType(frontType);
       }
     });
   };
@@ -78,61 +75,80 @@ const FrontOptionsEditor = (props: FrontOptionsEditorProps) => {
 
   const handleRemoveExistingOption = async (id: number) => {
     const removeExistingFrontOption = async () => {
-      const { data, error } = await supabase.from('front_options').delete().eq('id', id);
+      //Supabase delete will not return data, only eventual error
+      const { error } = await supabase.from('front_options').delete().eq('id', id);
       if (error) {
         addMessage({ message: 'Error removing front option', type: 'error' });
         setLoading(false);
+        return;
       }
-      if (data) {
-        addMessage({ message: 'Front option removed successfully', type: 'success' });
-        setFrontOptions(frontOptions.filter((frontOption: FrontOption) => frontOption.id !== id));
-      }
+      addMessage({ message: 'Front option removed successfully', type: 'success' });
+      setFrontOptions(frontOptions.filter((frontOption: FrontOption) => frontOption.id !== id));
+      setLoading(false);
     };
     setLoading(true);
     removeExistingFrontOption();
   };
 
   const handleAddNewFrontOption = async () => {
-    if (!addFront) return;
-    if (addFrontTypeId != addFront.front_type_id) return;
-    const { data, error } = await supabase
-      .from('front_options')
-      .insert([{ kitchen_type_id: props.kitchenType.id, front_id: addFront?.id, price: priceInputValue }])
-      .select();
-    if (error) {
-      addMessage({ message: 'Error adding front option', type: 'error' });
-      setLoading(false);
-    }
-    if (data) {
-      addMessage({ message: 'Front option added successfully', type: 'success' });
-      //updates state on database input success to avoid unnecessary fetch
-      setFrontOptions([
-        ...frontOptions,
-        {
-          id: data[0].id,
-          kitchen_type_id: props.kitchenType.id,
-          front_id: addFront.id,
-          price: priceInputValue,
-          fronts: {
-            ...addFront,
-            front_types: frontTypes.filter((frontType: FrontType) => frontType.id === addFrontTypeId)[0],
+    const addNewFrontOption = async () => {
+      if (!addFront) {
+        addMessage({ message: 'Please select a front', type: 'error' });
+        setLoading(false);
+        return;
+      }
+      if (addFrontType?.id != addFront.front_type_id) {
+        addMessage({ message: 'Please select a front', type: 'error' });
+        setLoading(false);
+        return;
+      }
+      const { data, error } = await supabase
+        .from('front_options')
+        .insert([{ kitchen_type_id: props.kitchenType.id, front_id: addFront?.id, price: priceInputValue }])
+        .select();
+      if (error) {
+        addMessage({ message: 'Error adding front option', type: 'error' });
+        setLoading(false);
+      }
+      if (data) {
+        addMessage({ message: 'Front option added successfully', type: 'success' });
+        //updates state on database input success to avoid unnecessary fetch
+        setFrontOptions([
+          ...frontOptions,
+          {
+            id: data[0].id,
+            kitchen_type_id: props.kitchenType.id,
+            front_id: addFront.id,
+            price: priceInputValue,
+            fronts: {
+              ...addFront,
+              front_types: frontTypes.filter((frontType: FrontType) => frontType.id === addFrontType.id)[0],
+            },
           },
-        },
-      ]);
-      setLoading(false);
-    }
+        ]);
+        setLoading(false);
+      }
+    };
+    setLoading(true);
+    addNewFrontOption();
   };
 
   return (
     <div className="">
-      <p className="text-xl font-bold my-2">Current front options on this type</p>
+      <div className="flex flex-row justify-between">
+        <p className="text-xl text-text font-bold my-2">Current front options on this type</p>
+        <p className="text-lg text-text font-semibold">
+          Standard: {props.kitchenType.fronts?.front_types.name} {props.kitchenType.fronts?.name}
+        </p>
+      </div>
       {frontOptions && (
-        <div className="flex flex-col gap-2 items-start mb-8">
+        <div className="flex flex-col gap-2 items-start mb-4 flex-wrap max-h-96">
           {frontOptions.map((frontOption: FrontOption) => (
             <FrontOptionItem
               frontOption={frontOption}
               handleRemoveExistingOption={handleRemoveExistingOption}
               key={frontOption.id}
+              loading={loading}
             />
           ))}
         </div>
@@ -146,9 +162,9 @@ const FrontOptionsEditor = (props: FrontOptionsEditorProps) => {
               className="rounded py-2 px-4 text-text font-semibold text-lg bg-background"
               name="newFrontOptionType"
               id="newFrontOptionType"
-              value={addFrontTypeId}
               onChange={handleAddFrontTypeChange}
             >
+              <option value={undefined}>Select a front type</option>
               {frontTypes.map((frontType: FrontType) => (
                 <option value={frontType.id} key={frontType.id}>
                   {frontType.name}
@@ -157,45 +173,47 @@ const FrontOptionsEditor = (props: FrontOptionsEditorProps) => {
             </select>
           )}
         </div>
-        {fronts && (
+        {fronts && addFrontType?.id && (
           <div className="flex flex-col gap-2">
             <p className="text-lg font-semibold">Front</p>
             <select
               className="rounded py-2 px-4 text-text font-semibold text-lg bg-background"
               name="newFrontOptionFront"
               id="newFrontOptionFront"
-              value={addFront?.id}
               onChange={handleAddFrontChange}
             >
+              <option value={undefined}>select a front</option>
               {fronts
-                .filter((front: Front) => front.front_type_id === addFrontTypeId)
-                .map((front: Front, index: number) => (
-                  <option value={front.id} selected={index == 0 ? true : false} key={front.id}>
+                .filter((front: Front) => front.front_type_id === addFrontType.id)
+                .map((front: Front) => (
+                  <option value={front.id} key={front.id}>
                     {front.name}
                   </option>
                 ))}
             </select>
           </div>
         )}
-        <div className="flex flex-col gap-2">
-          <p className="text-lg font-semibold">Price</p>
-          <input
-            className="py-2 px-4 rounded text-text font-semibold text-lg bg-background"
-            type="number"
-            value={priceInputValue}
-            onChange={handlePriceInputChange}
-          />
-        </div>
-        <Button
-          icon={AddRounded}
-          marginZero
-          ariaLabel="Add new front option"
-          text="Add"
-          onClick={() => {
-            setLoading(true), handleAddNewFrontOption();
-          }}
-          loading={loading}
-        />
+        {addFront && (
+          <>
+            <div className="flex flex-col gap-2">
+              <p className="text-lg font-semibold">Price</p>
+              <input
+                className="py-2 px-4 rounded text-text font-semibold text-lg bg-background"
+                type="number"
+                value={priceInputValue}
+                onChange={handlePriceInputChange}
+              />
+            </div>
+            <Button
+              icon={AddRounded}
+              marginZero
+              ariaLabel="Add new front option"
+              text="Add"
+              onClick={handleAddNewFrontOption}
+              loading={loading}
+            />
+          </>
+        )}
       </div>
     </div>
   );

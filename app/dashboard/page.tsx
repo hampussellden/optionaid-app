@@ -45,6 +45,7 @@ const Dashboard = () => {
 
   const handleApartmentsLoading = () => {
     setLoading(true);
+    setEditing(false);
   };
 
   return (

@@ -16,7 +16,7 @@ const WorktopOptionsEditor = (props: WorktopOptionsEditor) => {
   const [worktopTypes, setWorktopTypes] = useState<WorktopType[]>([]);
   const [worktopOptions, setWorktopOptions] = useState<WorktopOption[]>([]);
   const [priceInputValue, setPriceInputValue] = useState<number>(0);
-  const [addWorktopTypeId, setaddWorktopTypeId] = useState<number>(1);
+  const [addWorktopType, setAddWorktopType] = useState<WorktopType | null>(null);
   const [addWorktop, setAddWorktop] = useState<Worktop | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const { addMessage } = useContext(MessagesContext) as MessagesContextType;
@@ -48,18 +48,15 @@ const WorktopOptionsEditor = (props: WorktopOptionsEditor) => {
     fetchWorktopOptions();
   }, [props.kitchenType]);
 
-  useEffect(() => {
-    worktops?.filter((worktop: Worktop) => {
-      if (worktop.worktop_type_id === addWorktopTypeId) {
-        setAddWorktop(worktop);
-      }
-    });
-  }, [addWorktopTypeId]);
-
-  const handleAddWorktopTypeId = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleAddWorktopTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    if (event.target.value === 'Select a worktop type') {
+      setAddWorktopType(null);
+      setAddWorktop(null);
+      return;
+    }
     worktopTypes?.filter((worktopType: WorktopType) => {
       if (worktopType.id === parseInt(event.target.value)) {
-        setaddWorktopTypeId(worktopType.id);
+        setAddWorktopType(worktopType);
       }
     });
   };
@@ -78,15 +75,15 @@ const WorktopOptionsEditor = (props: WorktopOptionsEditor) => {
 
   const handleRemoveExistingOption = async (id: number) => {
     const removeEsixtingWorktopOption = async () => {
-      const { data, error } = await supabase.from('worktop_options').delete().eq('id', id);
+      const { error } = await supabase.from('worktop_options').delete().eq('id', id);
       if (error) {
         addMessage({ message: 'Error removing worktop option', type: 'error' });
         setLoading(false);
+        return;
       }
-      if (data) {
-        addMessage({ message: 'Worktop option removed successfully', type: 'success' });
-        setWorktopOptions(worktopOptions.filter((worktopOption: WorktopOption) => worktopOption.id !== id));
-      }
+      addMessage({ message: 'Worktop option removed successfully', type: 'success' });
+      setWorktopOptions(worktopOptions.filter((worktopOption: WorktopOption) => worktopOption.id !== id));
+      setLoading(false);
     };
     setLoading(true);
     removeEsixtingWorktopOption();
@@ -95,7 +92,7 @@ const WorktopOptionsEditor = (props: WorktopOptionsEditor) => {
   const handleNewWorktopOption = async () => {
     const addNewWorktopOption = async () => {
       if (!addWorktop) return;
-      if (addWorktopTypeId != addWorktop.worktop_type_id) return;
+      if (addWorktopType?.id != addWorktop.worktop_type_id) return;
       const { data, error } = await supabase
         .from('worktop_options')
         .insert([{ kitchen_type_id: props.kitchenType.id, worktop_id: addWorktop.id, price: priceInputValue }])
@@ -116,7 +113,9 @@ const WorktopOptionsEditor = (props: WorktopOptionsEditor) => {
             price: priceInputValue,
             worktops: {
               ...addWorktop,
-              worktop_types: worktopTypes.filter((worktopType: WorktopType) => worktopType.id === addWorktopTypeId)[0],
+              worktop_types: worktopTypes.filter(
+                (worktopType: WorktopType) => worktopType.id === addWorktopType?.id,
+              )[0],
             },
           },
         ]);
@@ -129,7 +128,12 @@ const WorktopOptionsEditor = (props: WorktopOptionsEditor) => {
 
   return (
     <div>
-      <p className="text-xl font-bold my-2">Current Front options on this type</p>
+      <div className="flex flex-row justify-between">
+        <p className="text-xl font-bold my-2">Current Front options on this type</p>
+        <p className="text-lg text-text font-semibold">
+          Standard: {props.kitchenType.worktops?.worktop_types.make} {props.kitchenType.worktops?.name}
+        </p>
+      </div>
       {worktopOptions && (
         <div className="flex flex-col gap-2 items-start mb-8">
           {worktopOptions.map((worktopOption: WorktopOption) => (
@@ -150,9 +154,9 @@ const WorktopOptionsEditor = (props: WorktopOptionsEditor) => {
               className="rounded py-2 px-4 text-text font-semibold text-lg bg-background"
               name="newWorktopOptionType"
               id="newWorktopOptionType"
-              value={addWorktopTypeId}
-              onChange={handleAddWorktopTypeId}
+              onChange={handleAddWorktopTypeChange}
             >
+              <option value={undefined}>Select a worktop type</option>
               {worktopTypes.map((worktopType: WorktopType) => (
                 <option value={worktopType.id} key={worktopType.id}>
                   {worktopType.make}
@@ -161,43 +165,47 @@ const WorktopOptionsEditor = (props: WorktopOptionsEditor) => {
             </select>
           )}
         </div>
-        {worktops && (
+        {worktops && addWorktopType && (
           <div className="flex flex-col gap-2">
             <p className="text-lg font-semibold">Worktop</p>
             <select
               className="rounded py-2 px-4 text-text font-semibold text-lg bg-background"
               name="newFrontOptionFront"
               id="newFrontOptionFront"
-              value={addWorktop?.id}
               onChange={handleAddWorktopChange}
             >
+              <option value={undefined}>Select a worktop</option>
               {worktops
-                .filter((worktop: Worktop) => worktop.worktop_type_id === addWorktopTypeId)
+                .filter((worktop: Worktop) => worktop.worktop_type_id === addWorktopType?.id)
                 .map((worktop: Worktop, index: number) => (
-                  <option value={worktop.id} selected={index == 0 ? true : false} key={worktop.id}>
+                  <option value={worktop.id} key={worktop.id}>
                     {worktop.name}
                   </option>
                 ))}
             </select>
           </div>
         )}
-        <div className="flex flex-col gap-2">
-          <p className="text-lg font-semibold">Price</p>
-          <input
-            className="py-2 px-4 rounded text-text font-semibold text-lg bg-background"
-            type="number"
-            value={priceInputValue}
-            onChange={handlePriceInputChange}
-          />
-        </div>
-        <Button
-          icon={AddRounded}
-          marginZero
-          ariaLabel="Add new worktop option"
-          text="Add"
-          onClick={handleNewWorktopOption}
-          loading={loading}
-        />
+        {addWorktop && (
+          <>
+            <div className="flex flex-col gap-2">
+              <p className="text-lg font-semibold">Price</p>
+              <input
+                className="py-2 px-4 rounded text-text font-semibold text-lg bg-background"
+                type="number"
+                value={priceInputValue}
+                onChange={handlePriceInputChange}
+              />
+            </div>
+            <Button
+              icon={AddRounded}
+              marginZero
+              ariaLabel="Add new worktop option"
+              text="Add"
+              onClick={handleNewWorktopOption}
+              loading={loading}
+            />
+          </>
+        )}
       </div>
     </div>
   );

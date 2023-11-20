@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import Button from './Button';
 import { WorktopOption } from '@/app/types';
 import { DeleteOutline } from '@mui/icons-material';
+import { CountertopsOutlined } from '@mui/icons-material';
 type WorktopOptionItemProps = {
   worktopOption: WorktopOption;
-  onClick?: any;
   loading?: boolean;
   handleRemoveExistingOption: (id: number) => void;
 };
@@ -12,12 +12,16 @@ type WorktopOptionItemProps = {
 const WorktopOptionItem = (props: WorktopOptionItemProps) => {
   const worktopOption = props.worktopOption;
   const [loading, setLoading] = useState<boolean>(false);
+
   return (
-    <div className="flex flex-row gap-4 w-full items-center">
-      <div className="flex flex-row justify-between rounded bg-secondary py-2 px-4 gap-4 min-w-[35%]">
-        <p className="text-lg font-semibold">
-          {worktopOption.worktops?.worktop_types.make} {worktopOption.worktops?.name}
-        </p>
+    <div className="flex flex-row items-center gap-4 w-full max-w-sm">
+      <div className="flex flex-row justify-between rounded bg-secondary py-2 px-4 w-full">
+        <div className="flex flex-row items-center gap-1 mr-4">
+          <CountertopsOutlined />
+          <p className="text-lg font-semibold">
+            {worktopOption.worktops?.worktop_types.make} {worktopOption.worktops?.name}
+          </p>
+        </div>
         <p className="text-lg font-semibold">{worktopOption.price}:-</p>
       </div>
       <Button
@@ -26,7 +30,7 @@ const WorktopOptionItem = (props: WorktopOptionItemProps) => {
         marginZero
         ariaLabel="Delete worktop option"
         onClick={() => {
-          props.onClick && props.onClick(), props.handleRemoveExistingOption(worktopOption.id), setLoading(true);
+          props.handleRemoveExistingOption(worktopOption.id), setLoading(true);
         }}
         accent
       />
