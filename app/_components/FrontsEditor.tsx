@@ -42,13 +42,14 @@ const FrontsEditor = (props: FrontsEditorProps) => {
       const { data, error } = await supabase
         .from('front_types')
         .update({ name: frontTypeInputValue })
-        .eq('name', props.frontType)
+        .eq('id', props.frontType.id)
         .select();
       if (error) {
         addMessage({ message: 'Error updating front type', type: 'error' });
         setLoading(false);
       }
       if (data) {
+        console.log(data);
         addMessage({ message: 'Front type updated successfully', type: 'success' });
         setLoading(false);
         props.update();
