@@ -49,7 +49,6 @@ const FrontsEditor = (props: FrontsEditorProps) => {
         setLoading(false);
       }
       if (data) {
-        console.log(data);
         addMessage({ message: 'Front type updated successfully', type: 'success' });
         setLoading(false);
         props.update();
