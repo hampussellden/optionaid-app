@@ -25,6 +25,21 @@ const Fronts = (props: FrontsProps) => {
       if (frontTypes) {
         setFrontTypes(frontTypes as FrontType[]);
         setLoading(false);
+        // This will make sure that we rerender the chosen front type and front if this is a refresh/update fetch
+        if (selectedFront) {
+          frontTypes.forEach((frontType) => {
+            if (frontType.id === selectedFrontType?.id) {
+              setSelectedFrontType(frontType as FrontType);
+            }
+            if (frontType.fronts) {
+              frontType.fronts.forEach((front) => {
+                if (front.id === selectedFront.id) {
+                  setSelectedFront(front as Front);
+                }
+              });
+            }
+          });
+        }
       }
     };
     fetchFrontTypes();

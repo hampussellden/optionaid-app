@@ -25,6 +25,21 @@ const Worktops = (props: WorktopsProps) => {
       if (worktopTypes) {
         setWorktopTypes(worktopTypes as WorktopType[]);
         setLoading(false);
+        // This will make sure that we rerender the chosen worktop type and worktop if this is a refresh/update fetch
+        if (selectedWorktop) {
+          worktopTypes.forEach((worktopType) => {
+            if (worktopType.id === selectedWorktopType?.id) {
+              setSelectedWorktopType(worktopType as WorktopType);
+            }
+            if (worktopType.worktops) {
+              worktopType.worktops.forEach((worktop) => {
+                if (worktop.id === selectedWorktop.id) {
+                  setSelectedWorktop(worktop as Worktop);
+                }
+              });
+            }
+          });
+        }
       }
     };
     fetchWorktopTypes();
