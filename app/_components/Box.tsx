@@ -9,6 +9,7 @@ type BoxProps = {
   noPaddingX?: boolean;
   noPaddingY?: boolean;
   relative?: boolean;
+  horizontal?: boolean;
 };
 
 const Box = (props: BoxProps) => {
@@ -21,8 +22,10 @@ const Box = (props: BoxProps) => {
       'py-4': !props.noPaddingY,
       'px-4': !props.noPaddingX,
       'flex relative': props.relative,
+      'flex-row': props.horizontal,
+      'flex-col': !props.horizontal,
     },
-    'flex flex-col overflow-y-auto rounded min-w-fit scroll-smooth scrollbar-thin scrollbar-track-rounded scrollbar-thumb-rounded gap-4 justify-start',
+    'flex overflow-y-auto rounded min-w-fit scroll-smooth scrollbar-thin scrollbar-track-rounded scrollbar-thumb-rounded gap-4 justify-start',
   );
 
   return <div className={classes}>{props.children}</div>;

@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { ClientUser, Apartment, Project, KitchenType } from '@/app/types';
 import Button from './Button';
-import { DeleteOutline, SaveRounded } from '@mui/icons-material';
+import { DeleteOutline, LockRounded, SaveRounded } from '@mui/icons-material';
 import Box from './Box';
 import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
 
@@ -119,6 +119,12 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
           {props.project.name} - type {props.kitchenType.name} - {props.apartment.name}
         </p>
       </div>
+      {props.apartment.ready_for_order && (
+        <Box horizontal>
+          <LockRounded />
+          <p className="text-text text-xl font-bold">This apartment is ready for order</p>
+        </Box>
+      )}
       <div className="flex flex-row gap-2 items-center">
         <p className="text-lg font-semibold">Apartment name: </p>
         <input
