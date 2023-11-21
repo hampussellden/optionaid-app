@@ -122,7 +122,7 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
       {props.apartment.ready_for_order && (
         <Box horizontal>
           <LockRounded />
-          <p className="text-text text-xl font-bold">This apartment is ready for order</p>
+          <p className="text-text text-lg font-bold">This apartment is ready for order</p>
         </Box>
       )}
       <div className="flex flex-row gap-2 items-center">
