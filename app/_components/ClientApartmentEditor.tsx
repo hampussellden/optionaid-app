@@ -7,6 +7,7 @@ import { CountertopsOutlined, CountertopsTwoTone, SensorDoorOutlined, SensorDoor
 import KitchenRenderer from './KitchenRenderer';
 import ItemList from './ItemList';
 import Box from './Box';
+import LoadingSpinner from './LoadingSpinner';
 
 type ClientApartmentEditorProps = {
   apartment: Apartment;
@@ -203,12 +204,9 @@ const ClientApartmentEditor = (props: ClientApartmentEditorProps) => {
           </ItemList>
         </Box>
       ) : (
-        <div className="w-full flex justify-center items-center bg-static">
-          <div
-            className="inline-block h-40 w-40 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-            role="status"
-          ></div>
-        </div>
+        <Box center grow>
+          <LoadingSpinner size="large" />
+        </Box>
       )}
       {!props.apartment.ready_for_order &&
       frontOptions &&
@@ -229,12 +227,9 @@ const ClientApartmentEditor = (props: ClientApartmentEditorProps) => {
         />
       ) : (
         !props.apartment.ready_for_order && (
-          <div className="w-full flex justify-center items-center bg-static">
-            <div
-              className="inline-block h-40 w-40 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-              role="status"
-            ></div>
-          </div>
+          <Box center grow>
+            <LoadingSpinner size="large" />
+          </Box>
         )
       )}
     </div>

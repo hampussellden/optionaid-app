@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import LoadingSpinner from './LoadingSpinner';
 
 type ButtonProps = {
   text?: string;
@@ -31,12 +32,7 @@ const Button = (props: ButtonProps) => {
       onClick={props.onClick}
       aria-label={props.ariaLabel}
     >
-      {props.loading && (
-        <div
-          className="inline-block h-6 w-6 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-          role="status"
-        ></div>
-      )}
+      {props.loading && <LoadingSpinner size="small" />}
       {!props.loading && (
         <>
           {props.icon && <Icon />}

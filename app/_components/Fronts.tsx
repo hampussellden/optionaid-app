@@ -8,6 +8,7 @@ import FrontsEditor from './FrontsEditor';
 import FrontTypesCreator from './FrontTypesCreator';
 import ItemList from './ItemList';
 import Box from './Box';
+import LoadingSpinner from './LoadingSpinner';
 type FrontsProps = {};
 
 const Fronts = (props: FrontsProps) => {
@@ -130,6 +131,11 @@ const Fronts = (props: FrontsProps) => {
         <Box grow>
           <p className="text-2xl font-bold text-text">Fronts</p>
           <p className="text-lg font-semibold text-text">Select a front type to edit</p>
+        </Box>
+      )}
+      {loading && (
+        <Box grow center>
+          <LoadingSpinner size="large" />
         </Box>
       )}
     </>
