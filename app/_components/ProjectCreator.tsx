@@ -43,7 +43,6 @@ const ProjectCreator = (props: ProjectCreatorProps) => {
     setLoading(true);
     createNewProject();
   };
-  /* {classNames({'text-accent' : message.type == 'error', : 'text-secondary': message.type == 'success'}, 'text-lg font-semibold')} */
   return (
     <Box grow primary>
       <h4 className="text-2xl font-bold">Creating new project</h4>
