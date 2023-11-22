@@ -63,11 +63,7 @@ const Admin = () => {
   const handleProjectLoading = () => {
     setLoading(true);
   };
-  /*
-  const handleMessages = (message: CreationMessage) => {
-    setMessages([...messages, message]);
-  };
-*/
+
   return (
     <>
       <section className="flex flex-row justify-start gap-2 self-start w-full h-full max-h-160 min-h-[24rem]">

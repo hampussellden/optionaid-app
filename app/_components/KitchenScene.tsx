@@ -32,15 +32,6 @@ const KitchenScene = (props: KitchenSceneProps) => {
   const sink = props.blueprint.sink;
   const stove = props.blueprint.stove;
 
-  /*
-   polar={[-Math.PI / 1, Math.PI / 1]}
-  azimuth={[-Math.PI / 1, Math.PI / 1]}
-
-  polar={[-Math.PI / 12.5, Math.PI / 10]}
-  azimuth={[-Math.PI / 5, Math.PI / 8]}
-
-  fff7db
-  */
   return (
     <div className="rounded grow">
       <Canvas camera={{ position: [0, 5, -25] }} color="#c3c3c3">
@@ -81,7 +72,4 @@ const KitchenScene = (props: KitchenSceneProps) => {
     </div>
   );
 };
-/*
- */
-
 export default KitchenScene;
