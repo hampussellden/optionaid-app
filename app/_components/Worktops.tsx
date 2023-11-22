@@ -118,6 +118,7 @@ const Worktops = () => {
             />
           </ItemList>
         )}
+        {loading && <LoadingSpinner size="small" />}
       </Box>
       {editing && selectedWorktopType && (
         <WorktopsEditor worktopType={selectedWorktopType} worktop={selectedWorktop} update={handleWorktopLoading} />
@@ -128,7 +129,7 @@ const Worktops = () => {
       {creating && selectedWorktopType && (
         <WorktopsCreator worktopType={selectedWorktopType} update={handleWorktopLoading} />
       )}
-      {!editing && !creating && !selectedWorktopType && (
+      {!loading && !editing && !creating && !selectedWorktopType && (
         <Box grow>
           <p className="text-2xl font-bold text-text">Worktops</p>
           <p className="text-lg font-semibold text-text">Select a worktop type to edit</p>

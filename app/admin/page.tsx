@@ -72,19 +72,22 @@ const Admin = () => {
     <>
       <section className="flex flex-row justify-start gap-2 self-start w-full h-full max-h-160 min-h-[24rem]">
         <Box>
-          <ItemList>
-            {projects &&
-              projects.map((project: any) => (
-                <MenuItem
-                  active={selectedProject?.id === project.id ? true : false}
-                  key={project.id}
-                  onClick={() => handleSelectProject(project)}
-                  text={project.name}
-                  icon={BusinessOutlined}
-                />
-              ))}
-            <MenuItem onClick={handleProjectCreatorOpen} icon={AddRounded} text="Project" active={creating} />
-          </ItemList>
+          {!loading && (
+            <ItemList>
+              {projects &&
+                projects.map((project: any) => (
+                  <MenuItem
+                    active={selectedProject?.id === project.id ? true : false}
+                    key={project.id}
+                    onClick={() => handleSelectProject(project)}
+                    text={project.name}
+                    icon={BusinessOutlined}
+                  />
+                ))}
+              <MenuItem onClick={handleProjectCreatorOpen} icon={AddRounded} text="Project" active={creating} />
+            </ItemList>
+          )}
+          {loading && <LoadingSpinner size="small" />}
         </Box>
         {selectedProject && !loading && (
           <KitchenTypes

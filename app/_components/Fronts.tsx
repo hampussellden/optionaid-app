@@ -119,6 +119,7 @@ const Fronts = (props: FrontsProps) => {
             />
           </ItemList>
         )}
+        {loading && <LoadingSpinner size="small" />}
       </Box>
       {!loading && editing && selectedFrontType && (
         <FrontsEditor frontType={selectedFrontType} front={selectedFront} update={handleFrontsLoading} />
