@@ -25,8 +25,14 @@ const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {
 
   useEffect(() => {
     const fetchFrontsAndWorktops = async () => {
-      const { data: fronts } = await supabase.from('fronts').select('*,front_types(*)');
-      const { data: worktops } = await supabase.from('worktops').select('*,worktop_types(*)');
+      const { data: fronts } = await supabase
+        .from('fronts')
+        .select('*,front_types(*)')
+        .order('front_type_id', { ascending: true });
+      const { data: worktops } = await supabase
+        .from('worktops')
+        .select('*,worktop_types(*)')
+        .order('worktop_type_id', { ascending: true });
       if (fronts && worktops) {
         setFronts(fronts as Front[]);
         setWorktops(worktops as Worktop[]);

@@ -24,7 +24,11 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
   const { addMessage } = useContext(MessagesContext) as MessagesContextType;
   useEffect(() => {
     const fetchClientUsers = async () => {
-      const { data: clients } = await supabase.from('users').select('*').eq('app_role', 'client');
+      const { data: clients } = await supabase
+        .from('users')
+        .select('*')
+        .eq('app_role', 'client')
+        .order('full_name', { ascending: true });
       if (clients) {
         setClients(clients as ClientUser[]);
       }
