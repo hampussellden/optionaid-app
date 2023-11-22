@@ -66,7 +66,11 @@ const Admin = () => {
 
   return (
     <>
-      <section className="flex flex-row justify-start gap-2 self-start w-full h-full max-h-160 min-h-[24rem]">
+      <section
+        className="flex flex-row justify-start gap-2 self-start w-full h-full max-h-160 min-h-[24rem]"
+        title="Project manage section"
+        id="project-manage-section"
+      >
         <Box>
           {!loading && (
             <ItemList>
@@ -104,7 +108,11 @@ const Admin = () => {
           </Box>
         )}
       </section>
-      <section className="flex flex-row justify-start gap-2 self-start w-full h-full max-h-160 min-h-[24rem]">
+      <section
+        className="flex flex-row justify-start gap-2 self-start w-full h-full max-h-160 min-h-[24rem]"
+        title="Fronts and worktops manage section"
+        id="fronts-and-worktops-manage-section"
+      >
         <Fronts />
         <Worktops />
       </section>
