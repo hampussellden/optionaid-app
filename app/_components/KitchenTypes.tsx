@@ -9,6 +9,7 @@ import MenuItem from './MenuItem';
 import { AddRounded, KitchenRounded, KitchenTwoTone } from '@mui/icons-material';
 import ItemList from './ItemList';
 import Box from './Box';
+import LoadingSpinner from './LoadingSpinner';
 
 export type KitchenTypesProps = {
   project: Project;
@@ -19,7 +20,7 @@ export type KitchenTypesProps = {
 const KitchenTypes = (props: KitchenTypesProps) => {
   const supabase = createClient();
   const [kitchenTypes, setKitchenTypes] = useState<KitchenType[] | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [selectedType, setSelectedType] = useState<KitchenType | null>(null);
   const [editing, setEditing] = useState<boolean>(false);
   const [creating, setCreating] = useState<boolean>(false);
@@ -74,25 +75,29 @@ const KitchenTypes = (props: KitchenTypesProps) => {
   return (
     <>
       <Box>
-        <ItemList>
-          {kitchenTypes &&
-            kitchenTypes.map((kitchenType: any) => (
-              <MenuItem
-                active={selectedType?.id === kitchenType.id ? true : false}
-                key={kitchenType.id}
-                onClick={() => handleTypeClick(kitchenType)}
-                text={'type ' + kitchenType.name}
-                icon={selectedType?.id === kitchenType.id ? KitchenTwoTone : KitchenRounded}
-              />
-            ))}
-          <MenuItem
-            active={creating}
-            key={'new'}
-            onClick={handleOpenKitchenTypeCreator}
-            text={'new type'}
-            icon={AddRounded}
-          />
-        </ItemList>
+        {loading ? (
+          <LoadingSpinner size="small" />
+        ) : (
+          <ItemList>
+            {kitchenTypes &&
+              kitchenTypes.map((kitchenType: any) => (
+                <MenuItem
+                  active={selectedType?.id === kitchenType.id ? true : false}
+                  key={kitchenType.id}
+                  onClick={() => handleTypeClick(kitchenType)}
+                  text={'type ' + kitchenType.name}
+                  icon={selectedType?.id === kitchenType.id ? KitchenTwoTone : KitchenRounded}
+                />
+              ))}
+            <MenuItem
+              active={creating}
+              key={'new'}
+              onClick={handleOpenKitchenTypeCreator}
+              text={'new type'}
+              icon={AddRounded}
+            />
+          </ItemList>
+        )}
       </Box>
       {selectedType && !loading && (
         <Apartments

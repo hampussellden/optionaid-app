@@ -20,7 +20,7 @@ const Button = (props: ButtonProps) => {
   return (
     <button
       className={classNames(
-        'rounded py-2 px-4 text-xl font-semibold flex flex-row gap-2 items-center justify-center focus:outline',
+        'rounded py-2 px-4 text-xl font-semibold flex flex-row gap-2 items-center justify-center focus:outline-none',
         {
           'bg-accent hover:bg-accentHover': props.accent,
           'w-full': props.fullWidth,

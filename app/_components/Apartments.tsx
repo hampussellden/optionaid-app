@@ -9,6 +9,7 @@ import MenuItem from './MenuItem';
 import { AddRounded } from '@mui/icons-material';
 import ItemList from './ItemList';
 import Box from './Box';
+import LoadingSpinner from './LoadingSpinner';
 
 export type ApartmentsProps = {
   project: Project;
@@ -23,7 +24,7 @@ const Apartments = (props: ApartmentsProps) => {
   const [creating, setCreating] = useState<boolean>(false);
   const [apartments, setApartments] = useState<Apartment[] | null>(null);
   const [selectedApartment, setSelectedApartment] = useState<Apartment | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchAparments = async () => {
@@ -62,18 +63,22 @@ const Apartments = (props: ApartmentsProps) => {
   return (
     <>
       <Box>
-        <ItemList>
-          {apartments &&
-            apartments.map((apartment: any) => (
-              <MenuItem
-                active={selectedApartment?.id == apartment.id ? true : false}
-                key={apartment.id}
-                onClick={() => handleApartmentClick(apartment)}
-                text={apartment.name}
-              />
-            ))}
-          <MenuItem icon={AddRounded} text="Apartment" active={creating} onClick={handleOpenApartmentCreator} />
-        </ItemList>
+        {loading ? (
+          <LoadingSpinner size="medium" />
+        ) : (
+          <ItemList>
+            {apartments &&
+              apartments.map((apartment: any) => (
+                <MenuItem
+                  active={selectedApartment?.id == apartment.id ? true : false}
+                  key={apartment.id}
+                  onClick={() => handleApartmentClick(apartment)}
+                  text={apartment.name}
+                />
+              ))}
+            <MenuItem icon={AddRounded} text="Apartment" active={creating} onClick={handleOpenApartmentCreator} />
+          </ItemList>
+        )}
       </Box>
       {editing && selectedApartment && (
         <ApartmentEditor

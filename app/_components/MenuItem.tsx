@@ -18,7 +18,7 @@ const MenuItem = (props: MenuItemProps) => {
     <button
       className={classNames(
         { 'bg-secondary': props.active, 'hover:bg-secondaryHover': !props.noHover },
-        'p-2 rounded text-lg font-semibold flex flex-row items-center gap-2 focus:outline',
+        'p-2 rounded text-lg font-semibold flex flex-row items-center gap-2 focus:outline-none',
       )}
       onClick={props.onClick}
     >
