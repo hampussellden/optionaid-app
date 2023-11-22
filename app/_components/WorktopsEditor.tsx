@@ -95,6 +95,7 @@ const WorktopsEditor = (props: WorktopsEditorProps) => {
         <p className="text-lg text-text font-semibold">Change Front type name</p>
         <input
           type="text"
+          title="Worktop type name"
           value={worktopTypeInputValue}
           onChange={handleWorktopTypeInputValue}
           className="text-text bg-background rounded py-2 px-4 font-semibold"
@@ -123,6 +124,7 @@ const WorktopsEditor = (props: WorktopsEditorProps) => {
               <p className="text-lg text-text font-semibold">Change Worktop name</p>
               <input
                 type="text"
+                title="Worktop name"
                 value={worktopInputValue}
                 onChange={handleWorktopInputValue}
                 className="text-text bg-background rounded py-2 px-4 font-semibold"

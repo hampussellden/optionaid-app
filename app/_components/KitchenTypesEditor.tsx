@@ -64,6 +64,7 @@ const KitchenTypesEditor = (props: KitchenTypesEditorProps) => {
         <input
           className="bg-background text-text p-2 rounded"
           type="text"
+          title="Kitchen type name"
           value={typeNameInputValue}
           onChange={handleTypeNameInputChange}
         />

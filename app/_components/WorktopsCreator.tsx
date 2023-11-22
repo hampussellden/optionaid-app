@@ -70,6 +70,7 @@ const WorktopsCreator = (props: WorktopsCreatorProps) => {
         <input
           className="text-text bg-background rounded py-2 px-4 font-semibold"
           type="text"
+          title="Worktop name"
           value={worktopNameInput}
           onChange={handleWorktopNameInput}
         />

@@ -69,6 +69,7 @@ const FrontsCreator = (props: FrontsCreatorProps) => {
         <input
           className="text-text bg-background rounded py-2 px-4 font-semibold"
           type="text"
+          aria-label="Front name"
           value={frontNameInput}
           onChange={handleFrontNameInput}
         />

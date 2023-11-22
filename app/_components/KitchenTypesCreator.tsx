@@ -92,6 +92,7 @@ const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {
         <p className="text-lg font-semibold text-text">Type Name</p>
         <input
           type="text"
+          title="Kitchen type name"
           value={inputValue}
           className="w-1/2 px-4 py-2 text-xl font-semibold rounded bg-background text-text"
           onChange={handleInputChange}

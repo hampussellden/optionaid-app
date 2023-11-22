@@ -51,6 +51,7 @@ const ProjectCreator = (props: ProjectCreatorProps) => {
         <p className="text-lg font-semibold text-text">Project Name</p>
         <input
           type="text"
+          title="Project name"
           value={inputValue}
           className="px-4 py-2 text-xl font-semibold rounded text-text bg-background"
           onChange={handleInputChange}

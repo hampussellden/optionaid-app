@@ -54,6 +54,7 @@ const ApartmentsCreator = (props: ApartmentCreatorProps) => {
         <p className="text-lg font-semibold text-text">Apartment Name</p>
         <input
           type="text"
+          title="Apartment name"
           value={inputValue}
           className="w-1/3 px-4 py-2 text-lg font-semibold rounded text-text bg-background"
           onChange={handleInputChange}

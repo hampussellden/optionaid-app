@@ -200,6 +200,7 @@ const FrontOptionsEditor = (props: FrontOptionsEditorProps) => {
               <input
                 className="py-2 px-4 rounded text-text font-semibold text-lg bg-background"
                 type="number"
+                title="Front option price"
                 value={priceInputValue}
                 onChange={handlePriceInputChange}
               />

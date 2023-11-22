@@ -44,6 +44,7 @@ const FrontTypesCreator = (props: FrontTypesCreatorProps) => {
       <p className="text-lg font-semibold text-text">Front type name</p>
       <input
         type="text"
+        title="Front type name"
         className="text-text bg-background rounded py-2 px-4 font-semibold"
         onChange={handleInputValue}
         value={inputValue}

@@ -76,6 +76,7 @@ const ProjectEditor = (props: ProjectEditorProps) => {
         <input
           className="bg-background text-text p-2 rounded"
           type="text"
+          title="Project name"
           value={inputValue}
           onChange={handleInputChange}
         />

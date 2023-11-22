@@ -98,6 +98,7 @@ const FrontsEditor = (props: FrontsEditorProps) => {
         <p className="text-lg text-text font-semibold">Change Front type name</p>
         <input
           type="text"
+          title="Front type name"
           value={frontTypeInputValue}
           onChange={handleFrontTypeInputValue}
           className="text-text bg-background rounded py-2 px-4 font-semibold"
@@ -126,6 +127,7 @@ const FrontsEditor = (props: FrontsEditorProps) => {
               <p className="text-lg text-text font-semibold">Change Front name</p>
               <input
                 type="text"
+                title="Front name"
                 value={frontInputValue}
                 onChange={handleFrontInputValue}
                 className="text-text bg-background rounded py-2 px-4 font-semibold"

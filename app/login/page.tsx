@@ -15,6 +15,7 @@ export default function Login() {
         <input
           className="rounded-md px-4 py-2 bg-inherit border border-secondary mb-6"
           name="email"
+          title="email"
           placeholder="you@example.com"
           required
         />
@@ -25,6 +26,7 @@ export default function Login() {
           className="rounded-md px-4 py-2 bg-inherit border border-secondary mb-6"
           type="password"
           name="password"
+          title="password"
           placeholder="••••••••"
           required
         />
@@ -35,6 +37,7 @@ export default function Login() {
           className="rounded-md px-4 py-2 bg-inherit border border-secondary mb-6"
           type="fullName"
           name="fullName"
+          title="full name"
           placeholder="John Doe"
         />
         <Button text="Sign In" fullWidth marginZero />

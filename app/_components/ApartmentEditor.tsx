@@ -129,6 +129,7 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
         <p className="text-lg font-semibold">Apartment name: </p>
         <input
           type="text"
+          title="Apartment name"
           className="text-text font-semibold text-lg bg-background p-2 rounded"
           value={inputValue}
           onChange={handleInputChange}

@@ -41,6 +41,7 @@ const WorktopTypesCreator = (props: WorktopTypesCreatorProps) => {
       <p className="text-lg font-semibold text-text">Worktop make</p>
       <input
         type="text"
+        aria-aria-label="Worktop make"
         className="text-text bg-background rounded py-2 px-4 font-semibold"
         onChange={handleInputValue}
         value={inputValue}
