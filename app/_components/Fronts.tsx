@@ -135,7 +135,7 @@ const Fronts = (props: FrontsProps) => {
       )}
       {loading && (
         <Box grow center>
-          <LoadingSpinner size="large" />
+          <LoadingSpinner size="medium" />
         </Box>
       )}
     </>

@@ -8,11 +8,11 @@ import WorktopsEditor from './WorktopsEditor';
 import ItemList from './ItemList';
 import WorktopsCreator from './WorktopsCreator';
 import Box from './Box';
-type WorktopsProps = {};
+import LoadingSpinner from './LoadingSpinner';
 
-const Worktops = (props: WorktopsProps) => {
+const Worktops = () => {
   const supabase = createClient();
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [creating, setCreating] = useState<boolean>(false);
   const [editing, setEditing] = useState<boolean>(false);
   const [worktopTypes, setWorktopTypes] = useState<WorktopType[]>([]);
@@ -132,6 +132,11 @@ const Worktops = (props: WorktopsProps) => {
         <Box grow>
           <p className="text-2xl font-bold text-text">Worktops</p>
           <p className="text-lg font-semibold text-text">Select a worktop type to edit</p>
+        </Box>
+      )}
+      {loading && (
+        <Box grow center>
+          <LoadingSpinner size="medium" />
         </Box>
       )}
     </>

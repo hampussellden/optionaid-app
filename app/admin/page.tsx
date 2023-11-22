@@ -13,10 +13,11 @@ import ItemList from '../_components/ItemList';
 import Box from '../_components/Box';
 import Message from '../_components/Message';
 import { MessagesContext, MessagesContextType } from './context/MessagesContext';
+import LoadingSpinner from '../_components/LoadingSpinner';
 
 const Admin = () => {
   const supabase = createClient();
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [projects, setProjects] = useState<Project[] | null>([]);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [editing, setEditing] = useState<boolean>(false);
@@ -69,7 +70,7 @@ const Admin = () => {
 */
   return (
     <>
-      <section className="flex flex-row justify-start gap-2 self-start w-full h-full max-h-160">
+      <section className="flex flex-row justify-start gap-2 self-start w-full h-full max-h-160 min-h-[24rem]">
         <Box>
           <ItemList>
             {projects &&
@@ -95,12 +96,16 @@ const Admin = () => {
         {editing && selectedProject && <ProjectEditor project={selectedProject} update={handleProjectLoading} />}
         {creating && <ProjectCreator update={handleProjectLoading} />}
         {!creating && !editing && !selectedProject && (
-          <Box center grow>
-            <p className="text-3xl font-bold text-text">Select a project to edit</p>
+          <Box grow center>
+            {loading ? (
+              <LoadingSpinner size="medium" />
+            ) : (
+              <p className="text-3xl font-bold text-text">Select a project to edit</p>
+            )}
           </Box>
         )}
       </section>
-      <section className="flex flex-row justify-start gap-2 self-start w-full h-full max-h-160">
+      <section className="flex flex-row justify-start gap-2 self-start w-full h-full max-h-160 min-h-[24rem]">
         <Fronts />
         <Worktops />
       </section>
