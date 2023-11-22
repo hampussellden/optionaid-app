@@ -78,7 +78,7 @@ const FrontsCreator = (props: FrontsCreatorProps) => {
       <div className="flex flex-col gap-2">
         <p className="text-lg text-text font-semibold">Change font color code</p>
         <ColorPicker onClick={handleFrontColor} />
-        <div>
+        <div className="flex justify-between">
           {frontColorInput ? (
             <p className="ml-5 text-lg font-semibold text-text flex flex-row gap-2 items-center">
               Color set
@@ -91,10 +91,8 @@ const FrontsCreator = (props: FrontsCreatorProps) => {
               <CancelOutlined />
             </p>
           )}
+          <Button text="Create new front" icon={AddRounded} onClick={handleCreateNewFront} loading={loading} />
         </div>
-      </div>
-      <div className="flex flex-row justify-end gap-2 items-center">
-        <Button text="Create new front" icon={AddRounded} onClick={handleCreateNewFront} loading={loading} />
       </div>
     </Box>
   );

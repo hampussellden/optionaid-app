@@ -79,7 +79,7 @@ const WorktopsCreator = (props: WorktopsCreatorProps) => {
       <div className="flex flex-col gap-2">
         <p className="text-lg text-text font-semibold">Change font color code</p>
         <ColorPicker onClick={handleWorktopColor} />
-        <div>
+        <div className="flex justify-between">
           {worktopColorInput ? (
             <p className="ml-5 text-lg font-semibold text-text flex flex-row gap-2 items-center">
               Color set
@@ -92,10 +92,8 @@ const WorktopsCreator = (props: WorktopsCreatorProps) => {
               <CancelOutlined />
             </p>
           )}
+          <Button text="Create new worktop" icon={AddRounded} onClick={handleCreateNewWorktop} loading={loading} />
         </div>
-      </div>
-      <div className="flex flex-row justify-end gap-2 items-center">
-        <Button text="Create new worktop" icon={AddRounded} onClick={handleCreateNewWorktop} loading={loading} />
       </div>
     </Box>
   );

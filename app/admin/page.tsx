@@ -109,11 +109,17 @@ const Admin = () => {
         )}
       </section>
       <section
-        className="flex flex-row justify-start gap-2 self-start w-full h-full max-h-160 min-h-[24rem]"
-        title="Fronts and worktops manage section"
-        id="fronts-and-worktops-manage-section"
+        className="flex flex-row justify-start gap-2 self-start w-full h-full max-h-144 min-h-[24rem]"
+        title="Fronts manage section"
+        id="fronts-manage-section"
       >
         <Fronts />
+      </section>
+      <section
+        className="flex flex-row justify-start gap-2 self-start w-full h-full max-h-144 min-h-[24rem]"
+        title="Worktops manage section"
+        id="worktops-manage-section"
+      >
         <Worktops />
       </section>
       {messages.length > 0 && (

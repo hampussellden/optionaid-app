@@ -25,7 +25,7 @@ const Box = (props: BoxProps) => {
       'flex-row': props.horizontal,
       'flex-col': !props.horizontal,
     },
-    'flex overflow-y-auto rounded min-w-fit scroll-smooth scrollbar-thin scrollbar-track-rounded scrollbar-thumb-rounded gap-4 justify-start',
+    'flex overflow-y-auto rounded min-w-[8rem] scroll-smooth scrollbar-thin scrollbar-track-rounded scrollbar-thumb-rounded gap-4 justify-start',
   );
 
   return <div className={classes}>{props.children}</div>;

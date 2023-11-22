@@ -104,7 +104,7 @@ const FrontsEditor = (props: FrontsEditorProps) => {
           className="text-text bg-background rounded py-2 px-4 font-semibold"
         />
       </div>
-      <div className="ml-auto flex flex-row gap-2">
+      <div className="ml-auto mt-auto flex flex-row gap-2">
         <Button text="Save Changes" icon={SaveRounded} onClick={handleSaveFrontTypeChanges} />
       </div>
 
@@ -137,7 +137,7 @@ const FrontsEditor = (props: FrontsEditorProps) => {
             <div className="flex flex-col gap-2">
               <p className="text-lg text-text font-semibold">Change font color code</p>
               <ColorPicker onClick={handleFrontColor} />
-              <div>
+              <div className="flex justify-between">
                 {frontColorInput ? (
                   <p className="ml-5 text-lg font-semibold text-text flex flex-row gap-2 items-center">
                     Color set
@@ -150,11 +150,9 @@ const FrontsEditor = (props: FrontsEditorProps) => {
                     <CancelOutlined />
                   </p>
                 )}
+                <Button text="Save Changes" icon={SaveRounded} onClick={handleSaveFrontChanges} loading={loading} />
               </div>
             </div>
-          </div>
-          <div className="ml-auto flex flex-row gap-2">
-            <Button text="Save Changes" icon={SaveRounded} onClick={handleSaveFrontChanges} loading={loading} />
           </div>
         </>
       )}

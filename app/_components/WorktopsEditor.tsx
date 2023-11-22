@@ -101,7 +101,7 @@ const WorktopsEditor = (props: WorktopsEditorProps) => {
           className="text-text bg-background rounded py-2 px-4 font-semibold"
         />
       </div>
-      <div className="ml-auto flex flex-row gap-2">
+      <div className="ml-auto mt-auto flex flex-row gap-2">
         <Button text="Save Changes" icon={SaveRounded} onClick={handleSaveWorktopTypeChanges} loading={loading} />
       </div>
 
@@ -134,7 +134,7 @@ const WorktopsEditor = (props: WorktopsEditorProps) => {
             <div className="flex flex-col gap-2">
               <p className="text-lg text-text font-semibold">Change font color code</p>
               <ColorPicker onClick={handleWorktopColor} />
-              <div>
+              <div className="flex justify-between">
                 {worktopColorInput ? (
                   <p className="ml-5 text-lg font-semibold text-text flex flex-row gap-2 items-center">
                     Color set
@@ -147,11 +147,9 @@ const WorktopsEditor = (props: WorktopsEditorProps) => {
                     <CancelOutlined />
                   </p>
                 )}
+                <Button text="Save Changes" icon={SaveRounded} onClick={handleSaveWorktopChanges} loading={loading} />
               </div>
             </div>
-          </div>
-          <div className="ml-auto flex flex-row gap-2">
-            <Button text="Save Changes" icon={SaveRounded} onClick={handleSaveWorktopChanges} loading={loading} />
           </div>
         </>
       )}
