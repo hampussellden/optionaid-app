@@ -45,7 +45,7 @@ const ProjectCreator = (props: ProjectCreatorProps) => {
   };
   return (
     <Box grow primary>
-      <h4 className="text-2xl font-bold">Creating new project</h4>
+      <h2 className="text-2xl font-bold">Creating new project</h2>
 
       <div className="flex flex-row  items-center gap-2">
         <p className="text-lg font-semibold text-text">Project Name</p>

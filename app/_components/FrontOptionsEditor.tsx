@@ -162,6 +162,8 @@ const FrontOptionsEditor = (props: FrontOptionsEditorProps) => {
               className="rounded py-2 px-4 text-text font-semibold text-lg bg-background"
               name="newFrontOptionType"
               id="newFrontOptionType"
+              aria-label="Select a front type"
+              title="Select a front type"
               onChange={handleAddFrontTypeChange}
             >
               <option value={undefined}>Select a front type</option>
@@ -180,6 +182,8 @@ const FrontOptionsEditor = (props: FrontOptionsEditorProps) => {
               className="rounded py-2 px-4 text-text font-semibold text-lg bg-background"
               name="newFrontOptionFront"
               id="newFrontOptionFront"
+              aria-label="Select a front"
+              title="Select a front"
               onChange={handleAddFrontChange}
             >
               <option value={undefined}>select a front</option>

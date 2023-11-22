@@ -86,7 +86,7 @@ const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {
   };
   return (
     <Box grow primary>
-      <h4 className="text-2xl font-bold">Creating New Kitchen Type</h4>
+      <h2 className="text-2xl font-bold">Creating New Kitchen Type</h2>
 
       <div className="flex flex-row items-center gap-2 max-w-lg">
         <p className="text-lg font-semibold text-text">Type Name</p>
@@ -105,6 +105,8 @@ const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {
           className="rounded w-1/2 px-4 py-2 text-text font-semibold bg-background"
           name="standard-front-picker"
           id="standard-front-picker"
+          aria-label="Choose Standard Front"
+          title="Choose Standard Front"
           value={standardFront?.id}
           onChange={handleStandardFront}
         >
@@ -121,8 +123,10 @@ const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {
         <p className="text-lg font-semibold text-text">Standard Worktop</p>
         <select
           className="rounded px-4 py-2 text-text font-semibold bg-background"
-          name="standard-front-picker"
-          id="standard-front-picker"
+          name="standard-worktop-picker"
+          id="standard-worktop-picker"
+          aria-label="Choose Standard Worktop"
+          title="Choose Standard Worktop"
           value={standardWorktop?.id}
           onChange={handleStandardWorktop}
         >

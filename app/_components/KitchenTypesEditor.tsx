@@ -54,7 +54,7 @@ const KitchenTypesEditor = (props: KitchenTypesEditorProps) => {
   return (
     <Box primary grow>
       <div className="flex flex-row justify-between">
-        <h4 className="text-2xl font-bold">Editing kitchen type</h4>
+        <h2 className="text-2xl font-bold">Editing kitchen type</h2>
         <p className="text-xl font-semibold ml-auto">
           {props.project.name} - type {props.kitchenType.name}
         </p>

@@ -49,7 +49,7 @@ const ApartmentsCreator = (props: ApartmentCreatorProps) => {
 
   return (
     <Box grow primary>
-      <h4 className="text-2xl font-bold">Creating new apartment</h4>
+      <h2 className="text-2xl font-bold">Creating new apartment</h2>
       <div className="flex flex-row  items-center gap-2 max-w-lg">
         <p className="text-lg font-semibold text-text">Apartment Name</p>
         <input

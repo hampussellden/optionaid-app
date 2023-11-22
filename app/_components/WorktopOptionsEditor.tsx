@@ -154,6 +154,8 @@ const WorktopOptionsEditor = (props: WorktopOptionsEditor) => {
               className="rounded py-2 px-4 text-text font-semibold text-lg bg-background"
               name="newWorktopOptionType"
               id="newWorktopOptionType"
+              aria-label="Select a worktop type"
+              title="Select a worktop type"
               onChange={handleAddWorktopTypeChange}
             >
               <option value={undefined}>Select a worktop type</option>
@@ -172,6 +174,8 @@ const WorktopOptionsEditor = (props: WorktopOptionsEditor) => {
               className="rounded py-2 px-4 text-text font-semibold text-lg bg-background"
               name="newFrontOptionFront"
               id="newFrontOptionFront"
+              aria-label="Select a worktop"
+              title="Select a worktop"
               onChange={handleAddWorktopChange}
             >
               <option value={undefined}>Select a worktop</option>

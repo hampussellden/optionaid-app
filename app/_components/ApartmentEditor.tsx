@@ -162,6 +162,8 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
             className="text-text font-semibold text-lg bg-background p-2 rounded"
             name="clients"
             id="clients"
+            aria-labell="Select a client"
+            title="Select a client"
             onChange={handleClientChange}
           >
             <option value={undefined} selected>

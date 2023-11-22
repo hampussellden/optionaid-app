@@ -67,7 +67,7 @@ const ProjectEditor = (props: ProjectEditorProps) => {
   return (
     <Box grow primary>
       <div className="flex flex-row justify-between">
-        <h4 className="text-2xl font-bold">Editing Project</h4>
+        <h2 className="text-2xl font-bold">Editing Project</h2>
         <p className="text-xl font-semibold ml-auto">{props.project.name}</p>
       </div>
 
