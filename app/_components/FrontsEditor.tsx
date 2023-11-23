@@ -66,7 +66,13 @@ const FrontsEditor = (props: FrontsEditorProps) => {
 
       frontInputValue.length < 1 ? (frontName = props.front?.name) : (frontName = frontInputValue);
 
-      !frontColorInput ? (frontColor = props.front?.color) : (frontColor = frontColorInput);
+      if (!frontColorInput) {
+        addMessage({ message: 'A front must have a color', type: 'error' });
+        setLoading(false);
+        return;
+      }
+
+      frontColor = frontColorInput;
 
       const { data, error } = await supabase
         .from('fronts')

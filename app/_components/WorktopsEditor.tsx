@@ -64,7 +64,13 @@ const WorktopsEditor = (props: WorktopsEditorProps) => {
 
       worktopInputValue.length < 1 ? (worktopName = props.worktop?.name) : (worktopName = worktopInputValue);
 
-      !worktopColorInput ? (worktopColor = props.worktop?.color) : (worktopColor = worktopColorInput);
+      if (!worktopColorInput) {
+        addMessage({ message: 'A worktop must have a color', type: 'error' });
+        setLoading(false);
+        return;
+      }
+
+      worktopColor = worktopColorInput;
 
       const { data, error } = await supabase
         .from('worktops')
