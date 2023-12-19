@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import FrontsCreator from './FrontsCreator';
 import { createClient } from '@/utils/supabase/client';
 import { Front, FrontType } from '../types';
@@ -9,42 +9,17 @@ import FrontTypesCreator from './FrontTypesCreator';
 import ItemList from './ItemList';
 import Box from './Box';
 import LoadingSpinner from './LoadingSpinner';
+import { FrontsContext, FrontsContextType } from '../admin/context/FrontsContext';
 type FrontsProps = {};
 
 const Fronts = (props: FrontsProps) => {
   const supabase = createClient();
-  const [loading, setLoading] = useState<boolean>(true);
-  const [frontTypes, setFrontTypes] = useState<FrontType[] | null>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const { frontTypes, fronts } = useContext(FrontsContext) as FrontsContextType;
   const [creating, setCreating] = useState(false);
   const [editing, setEditing] = useState<boolean>(false);
   const [selectedFrontType, setSelectedFrontType] = useState<FrontType | null>(null);
   const [selectedFront, setSelectedFront] = useState<Front | null>(null);
-
-  useEffect(() => {
-    const fetchFrontTypes = async () => {
-      const { data: frontTypes } = await supabase.from('front_types').select('*, fronts(*)');
-      if (frontTypes) {
-        setFrontTypes(frontTypes as FrontType[]);
-        setLoading(false);
-        // This will make sure that we rerender the chosen front type and front if this is a refresh/update fetch
-        if (selectedFront) {
-          frontTypes.forEach((frontType) => {
-            if (frontType.id === selectedFrontType?.id) {
-              setSelectedFrontType(frontType as FrontType);
-            }
-            if (frontType.fronts) {
-              frontType.fronts.forEach((front) => {
-                if (front.id === selectedFront.id) {
-                  setSelectedFront(front as Front);
-                }
-              });
-            }
-          });
-        }
-      }
-    };
-    fetchFrontTypes();
-  }, [loading]);
 
   const handleSelectFrontType = (frontType: FrontType) => {
     setSelectedFront(null);
@@ -72,9 +47,6 @@ const Fronts = (props: FrontsProps) => {
     setEditing(false);
     setSelectedFront(null);
   };
-  const handleFrontsLoading = () => {
-    setLoading(true);
-  };
 
   return (
     <>
@@ -90,17 +62,19 @@ const Fronts = (props: FrontsProps) => {
                     active={selectedFrontType?.id === frontType.id ? true : false}
                     onClick={() => handleSelectFrontType(frontType)}
                   />
-                  {frontType.fronts && selectedFrontType?.id === frontType.id && (
+                  {fronts && selectedFrontType?.id === frontType.id && (
                     <ItemList indent marginTop>
-                      {frontType.fronts.map((front) => (
-                        <MenuItem
-                          key={front.id}
-                          text={front.name}
-                          icon={SensorDoorOutlined}
-                          onClick={() => handleSelectFront(front)}
-                          active={selectedFront?.id === front.id ? true : false}
-                        />
-                      ))}
+                      {fronts
+                        .filter((front) => front.front_type_id === selectedFrontType.id)
+                        .map((front) => (
+                          <MenuItem
+                            key={front.id}
+                            text={front.name}
+                            icon={SensorDoorOutlined}
+                            onClick={() => handleSelectFront(front)}
+                            active={selectedFront?.id === front.id ? true : false}
+                          />
+                        ))}
                       <MenuItem
                         icon={AddRounded}
                         text="Create Front"
@@ -121,13 +95,9 @@ const Fronts = (props: FrontsProps) => {
         )}
         {loading && <LoadingSpinner size="small" />}
       </Box>
-      {!loading && editing && selectedFrontType && (
-        <FrontsEditor frontType={selectedFrontType} front={selectedFront} update={handleFrontsLoading} />
-      )}
-      {!loading && creating && selectedFrontType && (
-        <FrontsCreator frontType={selectedFrontType} update={handleFrontsLoading} />
-      )}
-      {!loading && creating && !selectedFrontType && <FrontTypesCreator update={handleFrontsLoading} />}
+      {!loading && editing && selectedFrontType && <FrontsEditor frontType={selectedFrontType} front={selectedFront} />}
+      {!loading && creating && selectedFrontType && <FrontsCreator frontType={selectedFrontType} />}
+      {!loading && creating && !selectedFrontType && <FrontTypesCreator />}
       {!loading && !editing && !creating && !selectedFrontType && (
         <Box grow>
           <p className="text-2xl font-bold text-text">Fronts</p>

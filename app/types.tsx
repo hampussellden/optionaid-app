@@ -58,7 +58,7 @@ export type Front = {
   name: string;
   front_type_id: number;
   color: string;
-  front_types: FrontType;
+  front_types?: FrontType;
 };
 export type WorktopType = {
   id: number;

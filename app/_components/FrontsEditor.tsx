@@ -5,12 +5,12 @@ import { CancelOutlined, CheckCircleOutline, SaveRounded } from '@mui/icons-mate
 import { createClient } from '@/utils/supabase/client';
 import ColorPicker from './ColorPicker';
 import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
+import { FrontsContext, FrontsContextType } from '../admin/context/FrontsContext';
 import Box from './Box';
 
 type FrontsEditorProps = {
   frontType: FrontType;
   front?: Front | null;
-  update: () => void;
 };
 
 const FrontsEditor = (props: FrontsEditorProps) => {
@@ -20,6 +20,7 @@ const FrontsEditor = (props: FrontsEditorProps) => {
   const [frontColorInput, setFrontColorInput] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const { addMessage } = useContext(MessagesContext) as MessagesContextType;
+  const { updateFrontType, updateFront } = useContext(FrontsContext) as FrontsContextType;
   const color = props.front?.color;
 
   const handleFrontTypeInputValue = (e: React.ChangeEvent<any>) => {
@@ -33,7 +34,7 @@ const FrontsEditor = (props: FrontsEditorProps) => {
   };
 
   const handleSaveFrontTypeChanges = () => {
-    const updateFrontType = async () => {
+    const updateFrontTypeContextAndDatabase = async () => {
       if (frontTypeInputValue.length < 1) {
         addMessage({ message: 'A front type must have a name', type: 'error' });
         setLoading(false);
@@ -51,14 +52,14 @@ const FrontsEditor = (props: FrontsEditorProps) => {
       if (data) {
         addMessage({ message: 'Front type updated successfully', type: 'success' });
         setLoading(false);
-        props.update();
+        updateFrontType(frontTypeInputValue, props.frontType.id);
       }
     };
     setLoading(true);
-    updateFrontType();
+    updateFrontTypeContextAndDatabase();
   };
   const handleSaveFrontChanges = () => {
-    const updateFront = async () => {
+    const updateFrontContextAndDatabase = async () => {
       if (props.front?.id == undefined || null) return;
       var frontName;
       var frontColor;
@@ -86,11 +87,12 @@ const FrontsEditor = (props: FrontsEditorProps) => {
       if (data) {
         addMessage({ message: 'Front updated successfully', type: 'success' });
         setLoading(false);
-        props.update();
+        updateFront(frontName, frontColor, frontId);
+        // props.update();
       }
     };
-    setLoading(true);
-    updateFront();
+    // setLoading(true);
+    updateFrontContextAndDatabase();
   };
 
   return (

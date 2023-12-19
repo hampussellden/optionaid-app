@@ -3,15 +3,16 @@ import Button from './Button';
 import { AddRounded } from '@mui/icons-material';
 import { createClient } from '@/utils/supabase/client';
 import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
-type FrontTypesCreatorProps = {
-  update: () => void;
-};
+import { FrontsContext, FrontsContextType } from '../admin/context/FrontsContext';
+import { FrontType } from '../types';
+type FrontTypesCreatorProps = {};
 
 const FrontTypesCreator = (props: FrontTypesCreatorProps) => {
   const supabase = createClient();
   const [inputValue, setInputValue] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const { addMessage } = useContext(MessagesContext) as MessagesContextType;
+  const { addFrontType } = useContext(FrontsContext) as FrontsContextType;
 
   const handleInputValue = (e: React.ChangeEvent<any>) => {
     setInputValue(e.target.value);
@@ -31,7 +32,10 @@ const FrontTypesCreator = (props: FrontTypesCreatorProps) => {
       if (data) {
         addMessage({ message: 'Front type created successfully', type: 'success' });
         setLoading(false);
-        props.update();
+        let myFrontType = {} as FrontType;
+        myFrontType.id = data[0].id;
+        myFrontType.name = inputValue;
+        addFrontType(myFrontType);
       }
     };
     setLoading(true);

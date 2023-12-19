@@ -3,12 +3,12 @@ import ColorPicker from './ColorPicker';
 import { CheckCircleOutline, CancelOutlined, AddRounded } from '@mui/icons-material';
 import { createClient } from '@/utils/supabase/client';
 import Button from './Button';
-import { FrontType } from '../types';
+import { Front, FrontType } from '../types';
 import Box from './Box';
 import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
+import { FrontsContext, FrontsContextType } from '../admin/context/FrontsContext';
 type FrontsCreatorProps = {
   frontType: FrontType;
-  update: () => void;
 };
 
 const FrontsCreator = (props: FrontsCreatorProps) => {
@@ -17,6 +17,7 @@ const FrontsCreator = (props: FrontsCreatorProps) => {
   const [frontNameInput, setFrontNameInput] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const { addMessage } = useContext(MessagesContext) as MessagesContextType;
+  const { addFront } = useContext(FrontsContext) as FrontsContextType;
   const handleFrontColor = (color: string | null) => {
     setFrontColorInput(color);
   };
@@ -52,7 +53,11 @@ const FrontsCreator = (props: FrontsCreatorProps) => {
       if (data) {
         addMessage({ message: 'Front created successfully', type: 'success' });
         setLoading(false);
-        props.update();
+        const id = data[0].id;
+        const name = frontNameInput;
+        const color = frontColorInput;
+        const frontTypeId = props.frontType.id;
+        addFront({ id, name, color, front_type_id: frontTypeId });
       }
     };
     setLoading(true);
