@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import FrontsCreator from './FrontsCreator';
-import { createClient } from '@/utils/supabase/client';
 import { Front, FrontType } from '../types';
 import { AddRounded, SensorDoorOutlined, SensorDoorTwoTone } from '@mui/icons-material';
 import MenuItem from './MenuItem';
@@ -13,8 +12,6 @@ import { FrontsContext, FrontsContextType } from '../admin/context/FrontsContext
 type FrontsProps = {};
 
 const Fronts = (props: FrontsProps) => {
-  const supabase = createClient();
-  const [loading, setLoading] = useState<boolean>(false);
   const { frontTypes, fronts } = useContext(FrontsContext) as FrontsContextType;
   const [creating, setCreating] = useState(false);
   const [editing, setEditing] = useState<boolean>(false);
@@ -51,7 +48,7 @@ const Fronts = (props: FrontsProps) => {
   return (
     <>
       <Box>
-        {!loading && (
+        {frontTypes.length > 0 ? (
           <ItemList>
             {frontTypes &&
               frontTypes.map((frontType) => (
@@ -92,21 +89,17 @@ const Fronts = (props: FrontsProps) => {
               active={creating && !selectedFrontType ? true : false}
             />
           </ItemList>
+        ) : (
+          <LoadingSpinner size="small" />
         )}
-        {loading && <LoadingSpinner size="small" />}
       </Box>
-      {!loading && editing && selectedFrontType && <FrontsEditor frontType={selectedFrontType} front={selectedFront} />}
-      {!loading && creating && selectedFrontType && <FrontsCreator frontType={selectedFrontType} />}
-      {!loading && creating && !selectedFrontType && <FrontTypesCreator />}
-      {!loading && !editing && !creating && !selectedFrontType && (
+      {editing && selectedFrontType && <FrontsEditor frontType={selectedFrontType} front={selectedFront} />}
+      {creating && selectedFrontType && <FrontsCreator frontType={selectedFrontType} />}
+      {creating && !selectedFrontType && <FrontTypesCreator />}
+      {!editing && !creating && !selectedFrontType && (
         <Box grow>
           <p className="text-2xl font-bold text-text">Fronts</p>
           <p className="text-lg font-semibold text-text">Select a front type to edit</p>
-        </Box>
-      )}
-      {loading && (
-        <Box grow center>
-          <LoadingSpinner size="medium" />
         </Box>
       )}
     </>
