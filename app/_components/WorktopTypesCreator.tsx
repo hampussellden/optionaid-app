@@ -3,11 +3,13 @@ import Button from './Button';
 import { AddRounded } from '@mui/icons-material';
 import { createClient } from '@/utils/supabase/client';
 import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
-
+import { WorktopsContext, WorktopContextType } from '../admin/context/WorktopsContext';
+import { WorktopType } from '../types';
 type WorktopTypesCreatorProps = {};
 
 const WorktopTypesCreator = (props: WorktopTypesCreatorProps) => {
   const supabase = createClient();
+  const { addWorktopType } = useContext(WorktopsContext) as WorktopContextType;
   const [inputValue, setInputValue] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const { addMessage } = useContext(MessagesContext) as MessagesContextType;
@@ -27,6 +29,10 @@ const WorktopTypesCreator = (props: WorktopTypesCreatorProps) => {
       if (data) {
         addMessage({ message: 'Worktop type created successfully', type: 'success' });
         setLoading(false);
+        let myWorktopType = {} as WorktopType;
+        myWorktopType.id = data[0].id;
+        myWorktopType.make = inputValue;
+        addWorktopType(myWorktopType);
       }
     };
     setLoading(true);

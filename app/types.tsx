@@ -70,7 +70,7 @@ export type Worktop = {
   worktop_type_id: number;
   color: string;
   name: string;
-  worktop_types: WorktopType;
+  worktop_types?: WorktopType;
 };
 export type FrontOption = {
   front_id: number | null;

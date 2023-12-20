@@ -5,16 +5,17 @@ import ColorPicker from './ColorPicker';
 import { CancelOutlined, CheckCircleOutline, SaveRounded } from '@mui/icons-material';
 import Button from './Button';
 import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
+import { WorktopsContext, WorktopContextType } from '../admin/context/WorktopsContext';
 import Box from './Box';
 
 type WorktopsEditorProps = {
   worktopType: WorktopType;
   worktop?: Worktop | null;
-  update: () => void;
 };
 
 const WorktopsEditor = (props: WorktopsEditorProps) => {
   const supabase = createClient();
+  const { updateWorktop, updateWorktopType } = useContext(WorktopsContext) as WorktopContextType;
   const [loading, setLoading] = useState<boolean>(false);
   const [worktopTypeInputValue, setWorktopTypeInputValue] = useState<string>('');
   const [worktopInputValue, setWorktopInputValue] = useState<string>('');
@@ -31,7 +32,7 @@ const WorktopsEditor = (props: WorktopsEditorProps) => {
     setWorktopColorInput(color);
   };
   const handleSaveWorktopTypeChanges = () => {
-    const updateWorktopType = async () => {
+    const updateWorktopTypeContextAndDatabase = async () => {
       if (worktopTypeInputValue.length < 1) {
         addMessage({ message: 'A worktop type must have a name', type: 'error' });
         setLoading(false);
@@ -49,14 +50,14 @@ const WorktopsEditor = (props: WorktopsEditorProps) => {
       if (data) {
         addMessage({ message: 'Worktop type updated successfully', type: 'success' });
         setLoading(false);
-        props.update();
+        updateWorktopType(worktopTypeInputValue, props.worktopType.id);
       }
     };
     setLoading(true);
-    updateWorktopType();
+    updateWorktopTypeContextAndDatabase();
   };
   const handleSaveWorktopChanges = () => {
-    const updateWorktop = async () => {
+    const updateWorktopContextAndDatabase = async () => {
       if (props.worktop?.id == undefined || null) return;
       var worktopName;
       var worktopColor;
@@ -84,11 +85,11 @@ const WorktopsEditor = (props: WorktopsEditorProps) => {
       if (data) {
         addMessage({ message: 'Worktop updated successfully', type: 'success' });
         setLoading(false);
-        props.update();
+        updateWorktop(worktopName, worktopColor, worktopId);
       }
     };
     setLoading(true);
-    updateWorktop();
+    updateWorktopContextAndDatabase();
   };
 
   return (

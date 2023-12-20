@@ -6,13 +6,14 @@ import Button from './Button';
 import { WorktopType } from '../types';
 import Box from './Box';
 import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
+import { WorktopsContext, WorktopContextType } from '../admin/context/WorktopsContext';
 type WorktopsCreatorProps = {
   worktopType: WorktopType | null;
-  update: () => void;
 };
 
 const WorktopsCreator = (props: WorktopsCreatorProps) => {
   const supabase = createClient();
+  const { addWorktop } = useContext(WorktopsContext) as WorktopContextType;
   const [worktopColorInput, setWorktopColorInput] = useState<string | null>(null);
   const [worktopNameInput, setWorktopNameInput] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
@@ -52,7 +53,11 @@ const WorktopsCreator = (props: WorktopsCreatorProps) => {
       if (data) {
         addMessage({ message: 'Worktop created successfully', type: 'success' });
         setLoading(false);
-        props.update();
+        const id = data[0].id;
+        const name = worktopNameInput;
+        const color = worktopColorInput;
+        const worktopTypeId = props.worktopType.id;
+        addWorktop({ id, name, color, worktop_type_id: worktopTypeId });
       }
     };
     setLoading(true);

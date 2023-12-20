@@ -24,7 +24,7 @@ const Admin = () => {
   const [creating, setCreating] = useState<boolean>(false);
   const [kitchenTypeKey, setKitchenTypeKey] = useState(0);
 
-  const { messages, addMessage } = useContext(MessagesContext) as MessagesContextType;
+  const { messages } = useContext(MessagesContext) as MessagesContextType;
 
   useEffect(() => {
     const fetchProjects = async () => {
