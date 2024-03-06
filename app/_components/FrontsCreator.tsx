@@ -3,7 +3,7 @@ import ColorPicker from './ColorPicker';
 import { CheckCircleOutline, CancelOutlined, AddRounded } from '@mui/icons-material';
 import { createClient } from '@/utils/supabase/client';
 import Button from './Button';
-import { Front, FrontType } from '../types';
+import { Front, FrontType, FrontWithoutId } from '../types';
 import Box from './Box';
 import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
 import { FrontsContext, FrontsContextType } from '../admin/context/FrontsContext';
@@ -42,23 +42,14 @@ const FrontsCreator = (props: FrontsCreatorProps) => {
         setLoading(false);
         return;
       }
-      const { data, error } = await supabase
-        .from('fronts')
-        .insert([{ name: frontNameInput, color: frontColorInput, front_type_id: props.frontType.id }])
-        .select();
-      if (error) {
-        addMessage({ message: 'Error creating front', type: 'error' });
-        setLoading(false);
-      }
-      if (data) {
-        addMessage({ message: 'Front created successfully', type: 'success' });
-        setLoading(false);
-        const id = data[0].id;
-        const name = frontNameInput;
-        const color = frontColorInput;
-        const frontTypeId = props.frontType.id;
-        addFront({ id, name, color, front_type_id: frontTypeId });
-      }
+
+      const newFront: FrontWithoutId = {
+        name: frontNameInput,
+        color: frontColorInput,
+        front_type_id: props.frontType.id,
+      };
+      addMessage(await addFront(newFront));
+      setLoading(false);
     };
     setLoading(true);
     createFront();

@@ -60,6 +60,7 @@ export type Front = {
   color: string;
   front_types?: FrontType;
 };
+export type FrontWithoutId = Omit<Front, 'id'>;
 export type WorktopType = {
   id: number;
   make: string;
