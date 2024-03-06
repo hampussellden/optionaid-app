@@ -4,7 +4,6 @@ import { Worktop, WorktopType, CreationMessage, WorktopWithoutId } from '@/app/t
 import { createClient } from '@/utils/supabase/client';
 
 export type WorktopContextType = {
-  children?: any;
   worktopTypes: WorktopType[];
   addWorktopType: (worktopType: WorktopType) => void;
   updateWorktopType: (input: string, id: number) => void;
