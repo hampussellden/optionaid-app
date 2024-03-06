@@ -72,6 +72,7 @@ export type Worktop = {
   name: string;
   worktop_types?: WorktopType;
 };
+export type WorktopWithoutId = Omit<Worktop, 'id'>;
 export type FrontOption = {
   front_id: number | null;
   id: number;

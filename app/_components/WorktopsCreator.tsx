@@ -3,7 +3,7 @@ import ColorPicker from './ColorPicker';
 import { CheckCircleOutline, CancelOutlined, SaveRounded, AddRounded } from '@mui/icons-material';
 import { createClient } from '@/utils/supabase/client';
 import Button from './Button';
-import { WorktopType } from '../types';
+import { Worktop, WorktopType, WorktopWithoutId } from '../types';
 import Box from './Box';
 import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
 import { WorktopsContext, WorktopContextType } from '../admin/context/WorktopsContext';
@@ -42,23 +42,14 @@ const WorktopsCreator = (props: WorktopsCreatorProps) => {
         setLoading(false);
         return;
       }
-      const { data, error } = await supabase
-        .from('worktops')
-        .insert([{ name: worktopNameInput, color: worktopColorInput, worktop_type_id: props.worktopType?.id }])
-        .select();
-      if (error) {
-        addMessage({ message: 'Error creating worktop', type: 'error' });
-        setLoading(false);
-      }
-      if (data) {
-        addMessage({ message: 'Worktop created successfully', type: 'success' });
-        setLoading(false);
-        const id = data[0].id;
-        const name = worktopNameInput;
-        const color = worktopColorInput;
-        const worktopTypeId = props.worktopType.id;
-        addWorktop({ id, name, color, worktop_type_id: worktopTypeId });
-      }
+
+      const newWorktop: WorktopWithoutId = {
+        name: worktopNameInput,
+        color: worktopColorInput,
+        worktop_type_id: props.worktopType?.id,
+      };
+      addMessage(await addWorktop(newWorktop));
+      setLoading(false);
     };
     setLoading(true);
     createWorktop();
