@@ -10,7 +10,7 @@ import { MessagesContext, MessagesContextType } from '../admin/context/MessagesC
 
 export type KitchenTypesCreatorProps = {
   project: Project;
-  update: () => void;
+  // update: () => void;
 };
 
 const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {
@@ -69,7 +69,6 @@ const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {
       if (data) {
         addMessage({ message: 'Kitchen type created successfully', type: 'success' });
         setLoading(false);
-        props.update();
       }
     };
     setLoading(true);
@@ -119,7 +118,7 @@ const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {
           {fronts &&
             fronts.map((front: Front, index: number) => (
               <option value={front.id} selected={index == 0 ? true : false} key={front.id}>
-                {front.front_types.name + ' ' + front.name}
+                {front.front_types?.name + ' ' + front.name}
               </option>
             ))}
         </select>
@@ -139,7 +138,7 @@ const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {
           {worktops &&
             worktops.map((worktop: Worktop, index: number) => (
               <option value={worktop.id} selected={index == 0 ? true : false} key={worktop.id}>
-                {worktop.worktop_types.make + ' ' + worktop.name}
+                {worktop.worktop_types?.make + ' ' + worktop.name}
               </option>
             ))}
         </select>

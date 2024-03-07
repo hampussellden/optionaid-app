@@ -9,7 +9,6 @@ import { MessagesContext, MessagesContextType } from '../admin/context/MessagesC
 
 export type ApartmentCreatorProps = {
   kitchenType: KitchenType;
-  update: () => void;
 };
 
 const ApartmentsCreator = (props: ApartmentCreatorProps) => {
@@ -40,7 +39,6 @@ const ApartmentsCreator = (props: ApartmentCreatorProps) => {
       if (data) {
         addMessage({ message: 'Apartment created successfully', type: 'success' });
         setLoading(false);
-        props.update();
       }
     };
     setLoading(true);

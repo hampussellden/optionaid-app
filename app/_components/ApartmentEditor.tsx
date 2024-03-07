@@ -11,7 +11,6 @@ export type ApartmentEditorProps = {
   apartment: Apartment;
   kitchenType: KitchenType;
   project: Project;
-  update: () => void;
 };
 
 const ApartmentEditor = (props: ApartmentEditorProps) => {
@@ -22,6 +21,7 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
   const [currentClient, setCurrentClient] = useState<ClientUser | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const { addMessage } = useContext(MessagesContext) as MessagesContextType;
+
   useEffect(() => {
     const fetchClientUsers = async () => {
       const { data: clients } = await supabase
@@ -38,6 +38,7 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
 
   useEffect(() => {
     const getUserInfoWithApartmentUserId = async () => {
+      if (!props.apartment.user_id) return;
       const { data: client, error } = await supabase.from('users').select('*').eq('id', props.apartment.user_id);
       if (client) setCurrentClient(client[0] as ClientUser);
     };
@@ -53,6 +54,7 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
       if (event.target.value === 'undefined') setSelectedClient(null);
     });
   };
+
   const handleSaveChanges = async () => {
     if (inputValue.length < 1 && !selectedClient) {
       addMessage({ message: 'You must either assign a client or change the apartment name', type: 'error' });
@@ -72,7 +74,6 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
       if (data) {
         addMessage({ message: 'Client assigned successfully', type: 'success' });
         setCurrentClient(selectedClient);
-        props.update();
       }
     }
     if (inputValue.length > 0) {
@@ -87,11 +88,11 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
       }
       if (data) {
         addMessage({ message: 'Apartment name updated successfully', type: 'success' });
-        props.update();
       }
     }
     setLoading(false);
   };
+
   const handleRemoveCurrentClient = async () => {
     if (currentClient) {
       const { data, error } = await supabase
@@ -124,9 +125,20 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
         </p>
       </div>
       {props.apartment.ready_for_order && (
-        <Box horizontal>
-          <LockRounded />
-          <p className="text-text text-lg font-bold">This apartment is ready for order</p>
+        <Box>
+          <Box horizontal>
+            <LockRounded />
+            <p className="text-text text-lg font-bold">This apartment is ready for order</p>
+          </Box>
+          <p className="text-xl italic ">This customer chose:</p>
+          <p>
+            {props.apartment.front_options?.fronts?.front_types?.name} {props.apartment.front_options?.fronts?.name}
+          </p>
+          <p>
+            {props.apartment.worktop_options?.worktops?.worktop_types?.make}{' '}
+            {props.apartment.worktop_options?.worktops?.name}
+          </p>
+          <p>for a total of: {props.apartment.total_cost}</p>
         </Box>
       )}
       <div className="flex flex-row gap-2 items-center">
@@ -165,12 +177,10 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
           <select
             className="text-text font-semibold text-lg bg-background p-2 rounded"
             name="clients"
-            id="clients"
-            aria-labell="Select a client"
             title="Select a client"
             onChange={handleClientChange}
           >
-            <option value={undefined} selected>
+            <option value={undefined} defaultValue={'Select a client'}>
               Select a client
             </option>
             {clients.map((client: ClientUser, i: number) => (

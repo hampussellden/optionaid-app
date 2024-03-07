@@ -12,7 +12,6 @@ import { MessagesContext, MessagesContextType } from '../admin/context/MessagesC
 export type KitchenTypesEditorProps = {
   kitchenType: KitchenType;
   project: Project;
-  update: () => void;
 };
 
 const KitchenTypesEditor = (props: KitchenTypesEditorProps) => {
@@ -45,7 +44,6 @@ const KitchenTypesEditor = (props: KitchenTypesEditorProps) => {
       if (data) {
         addMessage({ message: 'Kitchen type updated successfully', type: 'success' });
         setLoading(false);
-        props.update();
       }
     };
     updateKitchenType();

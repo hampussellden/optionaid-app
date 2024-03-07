@@ -1,6 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
-import { createClient } from '@/utils/supabase/client';
+import React, { useContext, useEffect, useState } from 'react';
 import { KitchenType } from '@/app/types';
 import { Apartment, Project } from '@/app/types';
 import ApartmentsCreator from './ApartmentsCreator';
@@ -9,7 +8,7 @@ import MenuItem from './MenuItem';
 import { AddRounded } from '@mui/icons-material';
 import ItemList from './ItemList';
 import Box from './Box';
-import LoadingSpinner from './LoadingSpinner';
+import { ProjectsContext, ProjectsContextType } from '../admin/context/ProjectsContext';
 
 export type ApartmentsProps = {
   project: Project;
@@ -19,27 +18,10 @@ export type ApartmentsProps = {
 };
 
 const Apartments = (props: ApartmentsProps) => {
-  const supabase = createClient();
   const [editing, setEditing] = useState<boolean>(false);
   const [creating, setCreating] = useState<boolean>(false);
-  const [apartments, setApartments] = useState<Apartment[] | null>(null);
+  const { apartments } = useContext(ProjectsContext) as ProjectsContextType;
   const [selectedApartment, setSelectedApartment] = useState<Apartment | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    const fetchAparments = async () => {
-      const { data: apartments } = await supabase
-        .from('apartments')
-        .select('*')
-        .eq('kitchen_type_id', props.kitchenType.id)
-        .order('id', { ascending: true });
-      if (apartments) {
-        setApartments(apartments as Apartment[]);
-        setLoading(false);
-      }
-    };
-    fetchAparments();
-  }, [loading]);
 
   const handleApartmentClick = (apartment: Apartment) => {
     if (selectedApartment?.id === apartment.id) return;
@@ -56,19 +38,31 @@ const Apartments = (props: ApartmentsProps) => {
     props.handleTypeEditorClose();
   };
 
-  const handleApartmentsLoading = () => {
-    setLoading(true);
-  };
+  useEffect(() => {
+    if (!selectedApartment) return;
+    setSelectedApartment(null);
+    setEditing(false);
+    setCreating(false);
+  }, [props.kitchenType]);
 
   return (
     <>
       <Box>
-        {loading ? (
-          <LoadingSpinner size="medium" />
-        ) : (
-          <ItemList>
-            {apartments &&
-              apartments.map((apartment: any) => (
+        <ItemList>
+          {apartments &&
+            apartments
+              .filter((apartment) => apartment.kitchen_type_id === props.kitchenType.id)
+              .sort((a, b) => {
+                const nameA = a.name.toUpperCase();
+                const nameB = b.name.toUpperCase();
+                if (nameA < nameB) {
+                  return -1;
+                } else if (nameA > nameB) {
+                  return 1;
+                }
+                return 0;
+              })
+              .map((apartment: any) => (
                 <MenuItem
                   active={selectedApartment?.id == apartment.id ? true : false}
                   key={apartment.id}
@@ -76,19 +70,13 @@ const Apartments = (props: ApartmentsProps) => {
                   text={apartment.name}
                 />
               ))}
-            <MenuItem icon={AddRounded} text="Apartment" active={creating} onClick={handleOpenApartmentCreator} />
-          </ItemList>
-        )}
+          <MenuItem icon={AddRounded} text="Apartment" active={creating} onClick={handleOpenApartmentCreator} />
+        </ItemList>
       </Box>
       {editing && selectedApartment && (
-        <ApartmentEditor
-          kitchenType={props.kitchenType}
-          apartment={selectedApartment}
-          project={props.project}
-          update={handleApartmentsLoading}
-        />
+        <ApartmentEditor kitchenType={props.kitchenType} apartment={selectedApartment} project={props.project} />
       )}
-      {creating && <ApartmentsCreator kitchenType={props.kitchenType} update={handleApartmentsLoading} />}
+      {creating && <ApartmentsCreator kitchenType={props.kitchenType} />}
     </>
   );
 };

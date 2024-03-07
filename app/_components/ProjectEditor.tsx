@@ -10,7 +10,7 @@ import { MessagesContext, MessagesContextType } from '../admin/context/MessagesC
 
 export type ProjectEditorProps = {
   project: Project;
-  update: () => void;
+  // update: () => void;
 };
 
 const ProjectEditor = (props: ProjectEditorProps) => {
@@ -41,7 +41,7 @@ const ProjectEditor = (props: ProjectEditorProps) => {
       if (data) {
         addMessage({ message: 'Project updated successfully', type: 'success' });
         setLoading(false);
-        props.update();
+        // props.update();
       }
     };
     setLoading(true);

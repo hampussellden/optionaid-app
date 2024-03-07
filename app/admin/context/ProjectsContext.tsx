@@ -16,8 +16,10 @@ export type ProjectsContextType = {
   projects: Project[];
   addProject: (project: ProjectWithoutId) => Promise<CreationMessage>;
   updateProject: (project: Project) => Promise<CreationMessage>;
+  kitchenTypes: KitchenType[];
   addKitchenType: (kitchenType: KitchenTypeWithoutId) => Promise<CreationMessage>;
   updateKitchenType: (kitcenType: KitchenType) => Promise<CreationMessage>;
+  apartments: Apartment[];
   addApartment: (apartment: ApartmentWithoutId) => Promise<CreationMessage>;
   updateApartment: (apartment: Apartment) => Promise<CreationMessage>;
 };
@@ -147,9 +149,71 @@ const ProjectsProvider = ({ children }: { children: any }) => {
     return { message: 'Something went wrong', type: 'error' };
   };
 
+  // Fetch projects
+  useEffect(() => {
+    const fetchProjects = async () => {
+      const { data: projects, error } = await supabase.from('projects').select('*');
+
+      if (error) {
+        return;
+      }
+
+      if (projects) {
+        setProjects(projects as Project[]);
+      }
+    };
+    fetchProjects();
+  }, []);
+
+  // Fetch kitchen types
+  useEffect(() => {
+    const fetchKitchenTypes = async () => {
+      const { data: kitchenTypes, error } = await supabase
+        .from('kitchen_types')
+        .select('*,fronts(*,front_types(*)),worktops(*,worktop_types(*))');
+
+      if (error) {
+        return;
+      }
+
+      if (kitchenTypes) {
+        setKitchenTypes(kitchenTypes as KitchenType[]);
+      }
+    };
+    fetchKitchenTypes();
+  }, []);
+
+  // Fetch apartments
+  useEffect(() => {
+    const fetchApartments = async () => {
+      const { data: apartments, error } = await supabase
+        .from('apartments')
+        .select('*,users(*),front_options(*,fronts(*,front_types(*))),worktop_options(*,worktops(*,worktop_types(*)))');
+
+      if (error) {
+        return;
+      }
+
+      if (apartments) {
+        setApartments(apartments as Apartment[]);
+      }
+    };
+    fetchApartments();
+  });
+
   return (
     <ProjectsContext.Provider
-      value={{ projects, addProject, updateProject, addKitchenType, updateKitchenType, addApartment, updateApartment }}
+      value={{
+        projects,
+        addProject,
+        updateProject,
+        kitchenTypes,
+        addKitchenType,
+        updateKitchenType,
+        apartments,
+        addApartment,
+        updateApartment,
+      }}
     >
       {children}
     </ProjectsContext.Provider>

@@ -138,7 +138,7 @@ const FrontOptionsEditor = (props: FrontOptionsEditorProps) => {
       <div className="flex flex-row justify-between">
         <p className="text-xl text-text font-bold my-2">Current front options on this type</p>
         <p className="text-lg text-text font-semibold">
-          Standard: {props.kitchenType.fronts?.front_types.name} {props.kitchenType.fronts?.name}
+          Standard: {props.kitchenType.fronts?.front_types?.name} {props.kitchenType.fronts?.name}
         </p>
       </div>
       {frontOptions && (

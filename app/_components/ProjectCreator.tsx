@@ -7,7 +7,7 @@ import Box from './Box';
 import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
 
 type ProjectCreatorProps = {
-  update: () => void;
+  // update: () => void;
 };
 
 const ProjectCreator = (props: ProjectCreatorProps) => {
@@ -37,7 +37,7 @@ const ProjectCreator = (props: ProjectCreatorProps) => {
       if (data) {
         addMessage({ message: 'Project created successfully', type: 'success' });
         setLoading(false);
-        props.update();
+        // props.update();
       }
     };
     setLoading(true);
