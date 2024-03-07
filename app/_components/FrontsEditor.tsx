@@ -2,7 +2,6 @@ import React, { useState, useContext } from 'react';
 import { Front, FrontType } from '../types';
 import Button from './Button';
 import { CancelOutlined, CheckCircleOutline, SaveRounded } from '@mui/icons-material';
-import { createClient } from '@/utils/supabase/client';
 import ColorPicker from './ColorPicker';
 import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
 import { FrontsContext, FrontsContextType } from '../admin/context/FrontsContext';
@@ -14,7 +13,6 @@ type FrontsEditorProps = {
 };
 
 const FrontsEditor = (props: FrontsEditorProps) => {
-  const supabase = createClient();
   const [frontTypeInputValue, setFrontTypeInputValue] = useState<string>('');
   const [frontInputValue, setFrontInputValue] = useState<string>('');
   const [frontColorInput, setFrontColorInput] = useState<string | null>(null);
@@ -40,20 +38,9 @@ const FrontsEditor = (props: FrontsEditorProps) => {
         setLoading(false);
         return;
       }
-      const { data, error } = await supabase
-        .from('front_types')
-        .update({ name: frontTypeInputValue })
-        .eq('id', props.frontType.id)
-        .select();
-      if (error) {
-        addMessage({ message: 'Error updating front type', type: 'error' });
-        setLoading(false);
-      }
-      if (data) {
-        addMessage({ message: 'Front type updated successfully', type: 'success' });
-        setLoading(false);
-        updateFrontType(frontTypeInputValue, props.frontType.id);
-      }
+      const updatedFrontType: FrontType = { id: props.frontType.id, name: frontTypeInputValue };
+      addMessage(await updateFrontType(updatedFrontType));
+      setLoading(false);
     };
     setLoading(true);
     updateFrontTypeContextAndDatabase();
@@ -61,37 +48,25 @@ const FrontsEditor = (props: FrontsEditorProps) => {
   const handleSaveFrontChanges = () => {
     const updateFrontContextAndDatabase = async () => {
       if (props.front?.id == undefined || null) return;
-      var frontName;
-      var frontColor;
-      var frontId = props.front?.id;
-
-      frontInputValue.length < 1 ? (frontName = props.front?.name) : (frontName = frontInputValue);
-
       if (!frontColorInput) {
         addMessage({ message: 'A front must have a color', type: 'error' });
         setLoading(false);
         return;
       }
+      const color = frontColorInput;
+      const id = props.front?.id;
+      const name = frontInputValue.length < 1 ? props.front?.name : frontInputValue;
 
-      frontColor = frontColorInput;
-
-      const { data, error } = await supabase
-        .from('fronts')
-        .update({ name: frontName, color: frontColor })
-        .eq('id', frontId)
-        .select();
-      if (error) {
-        addMessage({ message: 'An error occured', type: 'error' });
-        setLoading(false);
-      }
-      if (data) {
-        addMessage({ message: 'Front updated successfully', type: 'success' });
-        setLoading(false);
-        updateFront(frontName, frontColor, frontId);
-        // props.update();
-      }
+      const updatedFront: Front = {
+        id: id,
+        name: name,
+        front_type_id: props.frontType.id,
+        color: color,
+      };
+      addMessage(await updateFront(updatedFront));
+      setLoading(false);
     };
-    // setLoading(true);
+    setLoading(true);
     updateFrontContextAndDatabase();
   };
 

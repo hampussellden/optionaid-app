@@ -6,10 +6,10 @@ import { createClient } from '@/utils/supabase/client';
 export type FrontsContextType = {
   frontTypes: FrontType[];
   addFrontType: (frontType: FrontTypeWithoutId) => Promise<CreationMessage>;
-  updateFrontType: (input: string, id: number) => void;
+  updateFrontType: (frontType: FrontType) => Promise<CreationMessage>;
   fronts: Front[];
   addFront: (front: FrontWithoutId) => Promise<CreationMessage>;
-  updateFront: (input: string, frontColor: string, id: number) => void;
+  updateFront: (front: Front) => Promise<CreationMessage>;
 };
 export const FrontsContext = createContext<FrontsContextType | undefined>(undefined);
 
@@ -32,7 +32,7 @@ const FrontsProvider = ({ children }: { children: React.ReactNode }) => {
       setFrontTypes((prevFrontTypes) => [...prevFrontTypes, latestFrontType]);
       return { message: 'Front type created successfully', type: 'success' };
     }
-    return { message: '', type: 'error' };
+    return { message: 'Something went wrong', type: 'error' };
   };
   const addFront = async (front: FrontWithoutId): Promise<CreationMessage> => {
     const { data, error } = await supabase
@@ -53,22 +53,53 @@ const FrontsProvider = ({ children }: { children: React.ReactNode }) => {
       setFronts((prevFronts) => [...prevFronts, latestFront]);
       return { message: 'Front created successfully', type: 'success' };
     }
-    return { message: '', type: 'error' };
+    return { message: 'Something went wrong', type: 'error' };
   };
 
-  const updateFrontType = (input: string, id: number) => {
-    let newState = [...frontTypes];
-    let index = newState.findIndex((frontType) => frontType.id === id);
-    newState[index].name = input;
-    setFrontTypes(newState);
+  const updateFrontType = async (frontType: FrontType): Promise<CreationMessage> => {
+    const { data, error } = await supabase
+      .from('front_types')
+      .update({ name: frontType.name })
+      .eq('id', frontType.id)
+      .select();
+    if (error) {
+      return { message: 'Error updating front type', type: 'error' };
+    }
+    if (data) {
+      let newState = [...frontTypes];
+      let index = newState.findIndex((frontType) => frontType.id === frontType.id);
+      newState[index].name = frontType.name;
+      setFrontTypes(newState);
+
+      return { message: 'Front type updated successfully', type: 'success' };
+    }
+    return { message: 'Something went wrong', type: 'error' };
   };
 
-  const updateFront = (input: string, frontColor: string, id: number) => {
-    let newState = [...fronts];
-    let index = newState.findIndex((front) => front.id === id);
-    newState[index].name = input;
-    newState[index].color = frontColor;
-    setFronts(newState);
+  const updateFront = async (front: Front): Promise<CreationMessage> => {
+    const { data, error } = await supabase
+      .from('fronts')
+      .update({ name: front.name, color: front.color })
+      .eq('id', front.id)
+      .select();
+    if (error) {
+      return { message: 'Error updating front', type: 'error' };
+    }
+    if (data) {
+      const updatedFront: Front = {
+        id: front.id,
+        name: front.name,
+        color: front.color,
+        front_type_id: front.front_type_id,
+      };
+      let newState = [...fronts];
+      let index = newState.findIndex((item) => item.id === updatedFront.id);
+      newState[index].name = updateFront.name;
+      newState[index].color = updatedFront.color;
+      setFronts(newState);
+      return { message: 'Front updated successfully', type: 'success' };
+    }
+    return { message: 'Something went wrong', type: 'error' };
   };
   useEffect(() => {
     const fetchFrontTypes = async () => {
