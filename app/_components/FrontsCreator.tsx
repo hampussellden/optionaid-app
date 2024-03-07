@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
 import ColorPicker from './ColorPicker';
 import { CheckCircleOutline, CancelOutlined, AddRounded } from '@mui/icons-material';
-import { createClient } from '@/utils/supabase/client';
 import Button from './Button';
 import { Front, FrontType, FrontWithoutId } from '../types';
 import Box from './Box';
@@ -12,7 +11,6 @@ type FrontsCreatorProps = {
 };
 
 const FrontsCreator = (props: FrontsCreatorProps) => {
-  const supabase = createClient();
   const [frontColorInput, setFrontColorInput] = useState<string | null>(null);
   const [frontNameInput, setFrontNameInput] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);

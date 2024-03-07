@@ -1,15 +1,15 @@
 'use client';
 import React, { createContext, useEffect, useState } from 'react';
-import { Worktop, WorktopType, CreationMessage, WorktopWithoutId } from '@/app/types';
+import { Worktop, WorktopType, CreationMessage, WorktopWithoutId, WorktopTypeWithoutId } from '@/app/types';
 import { createClient } from '@/utils/supabase/client';
 
 export type WorktopContextType = {
   worktopTypes: WorktopType[];
-  addWorktopType: (worktopType: WorktopType) => void;
-  updateWorktopType: (input: string, id: number) => void;
+  addWorktopType: (worktopType: WorktopTypeWithoutId) => Promise<CreationMessage>;
+  updateWorktopType: (worktopType: WorktopType) => Promise<CreationMessage>;
   worktops: Worktop[];
   addWorktop: (worktop: WorktopWithoutId) => Promise<CreationMessage>;
-  updateWorktop: (input: string, worktopColor: string, id: number) => void;
+  updateWorktop: (worktop: Worktop) => Promise<CreationMessage>;
 };
 export const WorktopsContext = createContext<WorktopContextType | undefined>(undefined);
 
@@ -17,8 +17,22 @@ const WorktopsProvider = ({ children }: { children: any }) => {
   const supabase = createClient();
   const [worktopTypes, setWorktopTypes] = useState<WorktopType[]>([]);
   const [worktops, setWorktops] = useState<Worktop[]>([]);
-  const addWorktopType = (worktopType: WorktopType) => {
-    setWorktopTypes((prevWorktopTypes) => [...prevWorktopTypes, worktopType]);
+  const addWorktopType = async (worktopType: WorktopTypeWithoutId): Promise<CreationMessage> => {
+    const { data, error } = await supabase.from('worktop_types').insert({ make: worktopType.make }).select();
+
+    if (error) {
+      return { message: 'Error creating worktop type', type: 'error' };
+    }
+
+    if (data) {
+      let latestWorktopType: WorktopType = {
+        id: data[0].id,
+        make: worktopType.make,
+      };
+      setWorktopTypes((prevWorktopTypes) => [...prevWorktopTypes, latestWorktopType]);
+      return { message: 'Worktop type created successfully', type: 'success' };
+    }
+    return { message: 'Something went wrong', type: 'error' };
   };
   const addWorktop = async (worktop: WorktopWithoutId): Promise<CreationMessage> => {
     const { data, error } = await supabase
@@ -43,19 +57,40 @@ const WorktopsProvider = ({ children }: { children: any }) => {
     return { message: '', type: 'error' };
   };
 
-  const updateWorktopType = (input: string, id: number) => {
-    let newState = [...worktopTypes];
-    let index = newState.findIndex((worktopType) => worktopType.id === id);
-    newState[index].make = input;
-    setWorktopTypes(newState);
+  const updateWorktopType = async (worktopType: WorktopType): Promise<CreationMessage> => {
+    const { data, error } = await supabase
+      .from('worktop_types')
+      .update({ make: worktopType.make })
+      .eq('id', worktopType.id)
+      .select();
+
+    if (error) return { message: 'An error occured', type: 'error' };
+    if (data) {
+      let newState = [...worktopTypes];
+      let index = newState.findIndex((item) => item.id === worktopType.id);
+      newState[index].make = worktopType.make;
+      setWorktopTypes(newState);
+      return { message: 'Worktop type updated successfully', type: 'success' };
+    }
+    return { message: 'Something went wrong', type: 'error' };
   };
 
-  const updateWorktop = (input: string, worktopColor: string, id: number) => {
-    let newState = [...worktops];
-    let index = newState.findIndex((worktop) => worktop.id === id);
-    newState[index].name = input;
-    newState[index].color = worktopColor;
-    setWorktops(newState);
+  const updateWorktop = async (worktop: Worktop): Promise<CreationMessage> => {
+    const { data, error } = await supabase
+      .from('worktops')
+      .update({ name: worktop.name, color: worktop.color })
+      .eq('id', worktop.id)
+      .select();
+    if (error) return { message: 'An error occured', type: 'error' };
+    if (data) {
+      let newState = [...worktops];
+      let index = newState.findIndex((item) => item.id === worktop.id);
+      newState[index].name = worktop.name;
+      newState[index].color = worktop.color;
+      setWorktops(newState);
+      return { message: 'Worktop updated successfully', type: 'success' };
+    }
+    return { message: 'Something went wrong', type: 'error' };
   };
   useEffect(() => {
     const fetchWorktopTypes = async () => {

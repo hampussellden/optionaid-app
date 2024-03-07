@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react';
-import { createClient } from '@/utils/supabase/client';
 import { Worktop, WorktopType } from '../types';
 import ColorPicker from './ColorPicker';
 import { CancelOutlined, CheckCircleOutline, SaveRounded } from '@mui/icons-material';
@@ -14,7 +13,6 @@ type WorktopsEditorProps = {
 };
 
 const WorktopsEditor = (props: WorktopsEditorProps) => {
-  const supabase = createClient();
   const { updateWorktop, updateWorktopType } = useContext(WorktopsContext) as WorktopContextType;
   const [loading, setLoading] = useState<boolean>(false);
   const [worktopTypeInputValue, setWorktopTypeInputValue] = useState<string>('');
@@ -38,20 +36,12 @@ const WorktopsEditor = (props: WorktopsEditorProps) => {
         setLoading(false);
         return;
       }
-      const { data, error } = await supabase
-        .from('worktop_types')
-        .update({ make: worktopTypeInputValue })
-        .eq('id', props.worktopType.id)
-        .select();
-      if (error) {
-        addMessage({ message: 'An error occured', type: 'error' });
-        setLoading(false);
-      }
-      if (data) {
-        addMessage({ message: 'Worktop type updated successfully', type: 'success' });
-        setLoading(false);
-        updateWorktopType(worktopTypeInputValue, props.worktopType.id);
-      }
+      const updatedWorktop: WorktopType = {
+        id: props.worktopType.id,
+        make: worktopTypeInputValue,
+      };
+      addMessage(await updateWorktopType(updatedWorktop));
+      setLoading(false);
     };
     setLoading(true);
     updateWorktopTypeContextAndDatabase();
@@ -59,34 +49,23 @@ const WorktopsEditor = (props: WorktopsEditorProps) => {
   const handleSaveWorktopChanges = () => {
     const updateWorktopContextAndDatabase = async () => {
       if (props.worktop?.id == undefined || null) return;
-      var worktopName;
-      var worktopColor;
-      var worktopId = props.worktop?.id;
-
-      worktopInputValue.length < 1 ? (worktopName = props.worktop?.name) : (worktopName = worktopInputValue);
-
       if (!worktopColorInput) {
         addMessage({ message: 'A worktop must have a color', type: 'error' });
         setLoading(false);
         return;
       }
+      var name = worktopInputValue.length < 1 ? props.worktop?.name : worktopInputValue;
+      var color = worktopColorInput;
+      var id = props.worktop?.id;
 
-      worktopColor = worktopColorInput;
-
-      const { data, error } = await supabase
-        .from('worktops')
-        .update({ name: worktopName, color: worktopColor })
-        .eq('id', worktopId)
-        .select();
-      if (error) {
-        addMessage({ message: 'An error occured', type: 'error' });
-        setLoading(false);
-      }
-      if (data) {
-        addMessage({ message: 'Worktop updated successfully', type: 'success' });
-        setLoading(false);
-        updateWorktop(worktopName, worktopColor, worktopId);
-      }
+      const updatedWorktop: Worktop = {
+        id: id,
+        name: name,
+        color: color,
+        worktop_type_id: props.worktopType.id,
+      };
+      addMessage(await updateWorktop(updatedWorktop));
+      setLoading(false);
     };
     setLoading(true);
     updateWorktopContextAndDatabase();

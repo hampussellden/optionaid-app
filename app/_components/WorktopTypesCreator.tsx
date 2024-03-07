@@ -4,11 +4,10 @@ import { AddRounded } from '@mui/icons-material';
 import { createClient } from '@/utils/supabase/client';
 import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
 import { WorktopsContext, WorktopContextType } from '../admin/context/WorktopsContext';
-import { WorktopType } from '../types';
+import { WorktopType, WorktopTypeWithoutId } from '../types';
 type WorktopTypesCreatorProps = {};
 
 const WorktopTypesCreator = (props: WorktopTypesCreatorProps) => {
-  const supabase = createClient();
   const { addWorktopType } = useContext(WorktopsContext) as WorktopContextType;
   const [inputValue, setInputValue] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
@@ -21,19 +20,11 @@ const WorktopTypesCreator = (props: WorktopTypesCreatorProps) => {
         setLoading(false);
         return;
       }
-      const { data, error } = await supabase.from('worktop_types').insert({ make: inputValue }).select();
-      if (error) {
-        addMessage({ message: 'An error occured', type: 'error' });
-        setLoading(false);
-      }
-      if (data) {
-        addMessage({ message: 'Worktop type created successfully', type: 'success' });
-        setLoading(false);
-        let myWorktopType = {} as WorktopType;
-        myWorktopType.id = data[0].id;
-        myWorktopType.make = inputValue;
-        addWorktopType(myWorktopType);
-      }
+      const newWorktopType: WorktopTypeWithoutId = {
+        make: inputValue,
+      };
+      addMessage(await addWorktopType(newWorktopType));
+      setLoading(false);
     };
     setLoading(true);
     createWorktopType();

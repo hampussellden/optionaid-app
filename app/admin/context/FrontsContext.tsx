@@ -67,7 +67,7 @@ const FrontsProvider = ({ children }: { children: React.ReactNode }) => {
     }
     if (data) {
       let newState = [...frontTypes];
-      let index = newState.findIndex((frontType) => frontType.id === frontType.id);
+      let index = newState.findIndex((item) => item.id === frontType.id);
       newState[index].name = frontType.name;
       setFrontTypes(newState);
 
@@ -94,7 +94,7 @@ const FrontsProvider = ({ children }: { children: React.ReactNode }) => {
       };
       let newState = [...fronts];
       let index = newState.findIndex((item) => item.id === updatedFront.id);
-      newState[index].name = updateFront.name;
+      newState[index].name = updatedFront.name;
       newState[index].color = updatedFront.color;
       setFronts(newState);
       return { message: 'Front updated successfully', type: 'success' };

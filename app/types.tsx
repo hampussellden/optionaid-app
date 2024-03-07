@@ -67,6 +67,7 @@ export type WorktopType = {
   make: string;
   worktops?: Worktop[];
 };
+export type WorktopTypeWithoutId = Omit<WorktopType, 'id'>;
 export type Worktop = {
   id: number;
   worktop_type_id: number;
