@@ -9,6 +9,7 @@ import { AddRounded, KitchenRounded, KitchenTwoTone } from '@mui/icons-material'
 import ItemList from './ItemList';
 import Box from './Box';
 import { ProjectsContext, ProjectsContextType } from '../admin/context/ProjectsContext';
+import { sortByName } from '@/utils/helpers/sorting';
 
 export type KitchenTypesProps = {
   project: Project;
@@ -56,17 +57,7 @@ const KitchenTypes = (props: KitchenTypesProps) => {
           {kitchenTypes &&
             kitchenTypes
               .filter((kitchenType: KitchenType) => kitchenType.project_id === props.project.id)
-              .sort((a, b) => {
-                let nameA = a.name ?? '';
-                let nameB = b.name ?? '';
-                if (nameA < nameB) {
-                  return -1;
-                }
-                if (nameA > (nameB ?? '')) {
-                  return 1;
-                }
-                return 0;
-              })
+              .sort(sortByName)
               .map((kitchenType: any, key: number) => (
                 <MenuItem
                   active={selectedType?.id === kitchenType.id ? true : false}

@@ -9,6 +9,7 @@ import KitchenTypes from '../_components/KitchenTypes';
 import ProjectEditor from '../_components/ProjectEditor';
 import ProjectCreator from '../_components/ProjectCreator';
 import { AddRounded, BusinessOutlined } from '@mui/icons-material';
+import { sortByName } from '@/utils/helpers/sorting';
 
 const AdminProjectsView = () => {
   const { projects } = useContext(ProjectsContext) as ProjectsContextType;
@@ -45,15 +46,17 @@ const AdminProjectsView = () => {
       <Box>
         <ItemList>
           {projects &&
-            projects.map((project: any) => (
-              <MenuItem
-                active={selectedProject?.id === project.id ? true : false}
-                key={project.id}
-                onClick={() => handleProjectClick(project)}
-                text={project.name}
-                icon={BusinessOutlined}
-              />
-            ))}
+            projects
+              .sort(sortByName)
+              .map((project: any) => (
+                <MenuItem
+                  active={selectedProject?.id === project.id ? true : false}
+                  key={project.id}
+                  onClick={() => handleProjectClick(project)}
+                  text={project.name}
+                  icon={BusinessOutlined}
+                />
+              ))}
           <MenuItem onClick={handleProjectCreatorOpen} icon={AddRounded} text="Project" active={creating} />
         </ItemList>
       </Box>

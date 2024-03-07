@@ -9,6 +9,7 @@ import { AddRounded } from '@mui/icons-material';
 import ItemList from './ItemList';
 import Box from './Box';
 import { ProjectsContext, ProjectsContextType } from '../admin/context/ProjectsContext';
+import { sortByName } from '@/utils/helpers/sorting';
 
 export type ApartmentsProps = {
   project: Project;
@@ -52,16 +53,7 @@ const Apartments = (props: ApartmentsProps) => {
           {apartments &&
             apartments
               .filter((apartment) => apartment.kitchen_type_id === props.kitchenType.id)
-              .sort((a, b) => {
-                const nameA = a.name.toUpperCase();
-                const nameB = b.name.toUpperCase();
-                if (nameA < nameB) {
-                  return -1;
-                } else if (nameA > nameB) {
-                  return 1;
-                }
-                return 0;
-              })
+              .sort(sortByName)
               .map((apartment: any) => (
                 <MenuItem
                   active={selectedApartment?.id == apartment.id ? true : false}
