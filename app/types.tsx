@@ -53,6 +53,7 @@ export type FrontType = {
   name: string;
   fronts?: Front[];
 };
+export type FrontTypeWithoutId = Omit<FrontType, 'id'>;
 export type Front = {
   id: number;
   name: string;

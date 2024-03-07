@@ -24,19 +24,8 @@ const FrontTypesCreator = (props: FrontTypesCreatorProps) => {
         setLoading(false);
         return;
       }
-      const { data, error } = await supabase.from('front_types').insert({ name: inputValue }).select();
-      if (error) {
-        addMessage({ message: 'Error creating front type', type: 'error' });
-        setLoading(false);
-      }
-      if (data) {
-        addMessage({ message: 'Front type created successfully', type: 'success' });
-        setLoading(false);
-        let myFrontType = {} as FrontType;
-        myFrontType.id = data[0].id;
-        myFrontType.name = inputValue;
-        addFrontType(myFrontType);
-      }
+      addMessage(await addFrontType({ name: inputValue }));
+      setLoading(false);
     };
     setLoading(true);
     createFrontType();

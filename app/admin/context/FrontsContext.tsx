@@ -1,11 +1,11 @@
 'use client';
 import { createContext, useEffect, useState } from 'react';
-import { CreationMessage, Front, FrontType, FrontWithoutId } from '@/app/types';
+import { CreationMessage, Front, FrontType, FrontTypeWithoutId, FrontWithoutId } from '@/app/types';
 import { createClient } from '@/utils/supabase/client';
 
 export type FrontsContextType = {
   frontTypes: FrontType[];
-  addFrontType: (frontType: FrontType) => void;
+  addFrontType: (frontType: FrontTypeWithoutId) => Promise<CreationMessage>;
   updateFrontType: (input: string, id: number) => void;
   fronts: Front[];
   addFront: (front: FrontWithoutId) => Promise<CreationMessage>;
@@ -18,8 +18,21 @@ const FrontsProvider = ({ children }: { children: React.ReactNode }) => {
   const [frontTypes, setFrontTypes] = useState<FrontType[]>([]);
   const [fronts, setFronts] = useState<Front[]>([]);
 
-  const addFrontType = (frontType: FrontType) => {
-    setFrontTypes((prevFrontTypes) => [...prevFrontTypes, frontType]);
+  const addFrontType = async (frontType: FrontTypeWithoutId): Promise<CreationMessage> => {
+    const { data, error } = await supabase.from('front_types').insert({ name: frontType.name }).select();
+
+    if (error) {
+      return { message: 'Error creating front type', type: 'error' };
+    }
+    if (data) {
+      const latestFrontType: FrontType = {
+        id: data[0].id,
+        name: frontType.name,
+      };
+      setFrontTypes((prevFrontTypes) => [...prevFrontTypes, latestFrontType]);
+      return { message: 'Front type created successfully', type: 'success' };
+    }
+    return { message: '', type: 'error' };
   };
   const addFront = async (front: FrontWithoutId): Promise<CreationMessage> => {
     const { data, error } = await supabase
