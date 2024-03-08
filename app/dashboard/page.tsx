@@ -7,6 +7,7 @@ import MenuItem from '../_components/MenuItem';
 import ClientApartmentEditor from '../_components/ClientApartmentEditor';
 import ItemList from '../_components/ItemList';
 import Box from '../_components/Box';
+import { dashboardApartmentsAllData } from '@/utils/helpers/supabaseSelect';
 
 const Dashboard = () => {
   const supabase = createClient();
@@ -29,9 +30,7 @@ const Dashboard = () => {
       if (user) {
         const { data: apartments } = await supabase
           .from('apartments')
-          .select(
-            '*,kitchen_types(*,projects(*),fronts(*,front_types(*)),worktops(*,worktop_types(*))),worktop_options(*,worktops(*,worktop_types(*))),front_options(*,fronts(*,front_types(*)))',
-          )
+          .select(dashboardApartmentsAllData)
           .eq('user_id', user.id)
           .order('id', { ascending: false });
         if (apartments) {

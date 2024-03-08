@@ -8,6 +8,7 @@ import KitchenRenderer from './KitchenRenderer';
 import ItemList from './ItemList';
 import Box from './Box';
 import LoadingSpinner from './LoadingSpinner';
+import { frontOptionsWithFronts, worktopOptionsWithWorktops } from '@/utils/helpers/supabaseSelect';
 
 type ClientApartmentEditorProps = {
   apartment: Apartment;
@@ -50,11 +51,11 @@ const ClientApartmentEditor = (props: ClientApartmentEditorProps) => {
     const fetchFrontOptionsAndWorktopOptions = async () => {
       const { data: frontOptions } = await supabase
         .from('front_options')
-        .select('*,fronts(*,front_types(*))')
+        .select(frontOptionsWithFronts)
         .eq('kitchen_type_id', props.kitchenType.id);
       const { data: worktopOptions } = await supabase
         .from('worktop_options')
-        .select('*,worktops(*,worktop_types(*))')
+        .select(worktopOptionsWithWorktops)
         .eq('kitchen_type_id', props.kitchenType.id);
       if (frontOptions && worktopOptions) {
         setFrontOptions(frontOptions as FrontOption[]);
@@ -212,8 +213,8 @@ const ClientApartmentEditor = (props: ClientApartmentEditorProps) => {
       frontOptions &&
       worktopOptions &&
       loadRender &&
-      props.kitchenType.worktops?.worktop_types.make &&
-      props.kitchenType.fronts?.front_types.name ? (
+      props.kitchenType.worktops?.worktop_types?.make &&
+      props.kitchenType.fronts?.front_types?.name ? (
         <KitchenRenderer
           front={selectedFrontOption?.fronts ?? undefined}
           worktop={selectedWorktopOption?.worktops ?? undefined}

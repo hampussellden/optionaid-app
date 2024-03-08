@@ -11,7 +11,7 @@ import {
   New_Apartment,
 } from '@/app/types';
 import { createClient } from '@/utils/supabase/client';
-import { apartmentsAllData, kitchenTypesAllData } from '@/utils/helpers/supabaseSelect';
+import { apartmentsInteriorDeep, kitchenTypesAllData } from '@/utils/helpers/supabaseSelect';
 
 export type ProjectsContextType = {
   projects: Project[];
@@ -185,7 +185,7 @@ const ProjectsProvider = ({ children }: { children: any }) => {
   // Fetch apartments
   useEffect(() => {
     const fetchApartments = async () => {
-      const { data: apartments, error } = await supabase.from('apartments').select(apartmentsAllData);
+      const { data: apartments, error } = await supabase.from('apartments').select(apartmentsInteriorDeep);
 
       if (error) {
         return;
