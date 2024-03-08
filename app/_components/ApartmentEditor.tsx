@@ -138,7 +138,8 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
             {props.apartment.worktop_options?.worktops?.worktop_types?.make}{' '}
             {props.apartment.worktop_options?.worktops?.name}
           </p>
-          <p>for a total of: {props.apartment.total_cost}</p>
+          <p>for a total of: {props.apartment.total_cost} SEK</p>
+          {/* @TODO Add region specifik currecy */}
         </Box>
       )}
       <div className="flex flex-row gap-2 items-center">
