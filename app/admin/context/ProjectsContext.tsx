@@ -10,8 +10,8 @@ import {
   ApartmentWithoutId,
   New_Apartment,
 } from '@/app/types';
-import { createClient } from '@/utils/supabase/client';
-import { apartmentsInteriorDeep, kitchenTypesAllData } from '@/utils/helpers/supabaseSelect';
+import { createClient } from '@/utilities/supabase/client';
+import { apartmentsInteriorDeep, kitchenTypesAllData } from '@/utilities/helpers/supabaseSelect';
 
 export type ProjectsContextType = {
   projects: Project[];

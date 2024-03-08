@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { CountertopsTwoTone, CountertopsOutlined, AddRounded } from '@mui/icons-material';
-import { Worktop, WorktopType } from '../types';
+import { Worktop, WorktopType } from '../app/types';
 import MenuItem from './MenuItem';
 import WorktopTypesCreator from './WorktopTypesCreator';
 import WorktopsEditor from './WorktopsEditor';
@@ -8,7 +8,7 @@ import ItemList from './ItemList';
 import WorktopsCreator from './WorktopsCreator';
 import Box from './Box';
 import LoadingSpinner from './LoadingSpinner';
-import { WorktopsContext, WorktopContextType } from '../admin/context/WorktopsContext';
+import { WorktopsContext, WorktopContextType } from '../app/admin/context/WorktopsContext';
 type WorktopsProps = {};
 
 const Worktops = (props: WorktopsProps) => {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { createClient } from '@/utils/supabase/client';
+import { createClient } from '@/utilities/supabase/client';
 import { KitchenType, FrontOption, FrontType, Front } from '@/app/types';
 import Button from './Button';
 import FrontOptionItem from './FrontOptionItem';

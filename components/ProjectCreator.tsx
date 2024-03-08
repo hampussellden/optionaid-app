@@ -1,10 +1,10 @@
 'use client';
 import React, { useState, useContext } from 'react';
-import { createClient } from '@/utils/supabase/client';
+import { createClient } from '@/utilities/supabase/client';
 import Button from './Button';
 import { SaveRounded } from '@mui/icons-material';
 import Box from './Box';
-import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
+import { MessagesContext, MessagesContextType } from '../app/admin/context/MessagesContext';
 
 type ProjectCreatorProps = {
   // update: () => void;

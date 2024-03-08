@@ -1,14 +1,14 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { Apartment, KitchenType, Front, Worktop, FrontOption, WorktopOption } from '../types';
-import { createClient } from '@/utils/supabase/client';
+import { Apartment, KitchenType, Front, Worktop, FrontOption, WorktopOption } from '../app/types';
+import { createClient } from '@/utilities/supabase/client';
 import MenuItem from './MenuItem';
 import { CountertopsOutlined, CountertopsTwoTone, SensorDoorOutlined, SensorDoorTwoTone } from '@mui/icons-material';
 import KitchenRenderer from './KitchenRenderer';
 import ItemList from './ItemList';
 import Box from './Box';
 import LoadingSpinner from './LoadingSpinner';
-import { frontOptionsWithFronts, worktopOptionsWithWorktops } from '@/utils/helpers/supabaseSelect';
+import { frontOptionsWithFronts, worktopOptionsWithWorktops } from '@/utilities/helpers/supabaseSelect';
 
 type ClientApartmentEditorProps = {
   apartment: Apartment;

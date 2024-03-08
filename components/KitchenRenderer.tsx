@@ -10,7 +10,7 @@ import {
   SaveRounded,
   SensorDoorOutlined,
 } from '@mui/icons-material';
-import { Front, Worktop } from '../types';
+import { Front, Worktop } from '../app/types';
 import Button from './Button';
 import Box from './Box';
 import ItemList from './ItemList';

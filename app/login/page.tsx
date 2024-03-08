@@ -1,5 +1,5 @@
 import Messages from './messages';
-import Button from '../_components/Button';
+import Button from '../../components/Button';
 
 export default function Login() {
   return (

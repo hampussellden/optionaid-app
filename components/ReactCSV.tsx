@@ -1,6 +1,6 @@
 import React from 'react';
 import { CSVLink, CSVDownload } from 'react-csv';
-import { Project } from '../types';
+import { Project } from '../app/types';
 import { FileDownloadRounded } from '@mui/icons-material';
 
 export type ReactCSVProps = {

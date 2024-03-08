@@ -1,13 +1,13 @@
 'use client';
 import React, { useState, useContext } from 'react';
-import { createClient } from '@/utils/supabase/client';
+import { createClient } from '@/utilities/supabase/client';
 import { KitchenType, Project } from '@/app/types';
 import FrontOptionsEditor from './FrontOptionsEditor';
 import WorktopOptionsEditor from './WorktopOptionsEditor';
 import Button from './Button';
 import { SaveRounded } from '@mui/icons-material';
 import Box from './Box';
-import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
+import { MessagesContext, MessagesContextType } from '../app/admin/context/MessagesContext';
 
 export type KitchenTypesEditorProps = {
   kitchenType: KitchenType;

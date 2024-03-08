@@ -8,8 +8,8 @@ import MenuItem from './MenuItem';
 import { AddRounded, KitchenRounded, KitchenTwoTone } from '@mui/icons-material';
 import ItemList from './ItemList';
 import Box from './Box';
-import { ProjectsContext, ProjectsContextType } from '../admin/context/ProjectsContext';
-import { sortByName } from '@/utils/helpers/sorting';
+import { ProjectsContext, ProjectsContextType } from '@/app/admin/context/ProjectsContext';
+import { sortByName } from '@/utilities/helpers/sorting';
 
 export type KitchenTypesProps = {
   project: Project;

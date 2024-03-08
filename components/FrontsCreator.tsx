@@ -2,10 +2,10 @@ import React, { useState, useContext } from 'react';
 import ColorPicker from './ColorPicker';
 import { CheckCircleOutline, CancelOutlined, AddRounded } from '@mui/icons-material';
 import Button from './Button';
-import { Front, FrontType, FrontWithoutId } from '../types';
+import { Front, FrontType, FrontWithoutId } from '../app/types';
 import Box from './Box';
-import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
-import { FrontsContext, FrontsContextType } from '../admin/context/FrontsContext';
+import { MessagesContext, MessagesContextType } from '../app/admin/context/MessagesContext';
+import { FrontsContext, FrontsContextType } from '../app/admin/context/FrontsContext';
 type FrontsCreatorProps = {
   frontType: FrontType;
 };

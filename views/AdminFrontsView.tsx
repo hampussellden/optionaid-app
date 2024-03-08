@@ -1,4 +1,4 @@
-import Fronts from '../_components/Fronts';
+import Fronts from '@/components/Fronts';
 
 const AdminFrontsView = () => {
   return (

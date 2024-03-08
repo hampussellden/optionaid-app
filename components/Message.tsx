@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
-import { CreationMessage } from '../types';
+import { CreationMessage } from '../app/types';
 
 type MessageProps = {
   message: CreationMessage;

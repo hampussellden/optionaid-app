@@ -1,13 +1,13 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { createClient } from '@/utils/supabase/client';
+import { createClient } from '@/utilities/supabase/client';
 import { Apartment } from '../types';
 import { LockOpenOutlined, LockOutlined, LockRounded } from '@mui/icons-material';
-import MenuItem from '../_components/MenuItem';
-import ClientApartmentEditor from '../_components/ClientApartmentEditor';
-import ItemList from '../_components/ItemList';
-import Box from '../_components/Box';
-import { dashboardApartmentsAllData } from '@/utils/helpers/supabaseSelect';
+import MenuItem from '../../components/MenuItem';
+import ClientApartmentEditor from '../../components/ClientApartmentEditor';
+import ItemList from '../../components/ItemList';
+import Box from '../../components/Box';
+import { dashboardApartmentsAllData } from '@/utilities/helpers/supabaseSelect';
 
 const Dashboard = () => {
   const supabase = createClient();

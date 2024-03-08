@@ -1,4 +1,4 @@
-import Worktops from '../_components/Worktops';
+import Worktops from '@/components/Worktops';
 
 const AdminWorktopsView = () => {
   return (

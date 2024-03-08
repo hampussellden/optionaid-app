@@ -1,12 +1,12 @@
 'use client';
 import React, { useEffect, useState, useContext } from 'react';
-import { createClient } from '@/utils/supabase/client';
+import { createClient } from '@/utilities/supabase/client';
 import { Project } from '@/app/types';
 import { Front, Worktop } from '@/app/types';
 import Button from './Button';
 import { AddRounded } from '@mui/icons-material';
 import Box from './Box';
-import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
+import { MessagesContext, MessagesContextType } from '../app/admin/context/MessagesContext';
 
 export type KitchenTypesCreatorProps = {
   project: Project;

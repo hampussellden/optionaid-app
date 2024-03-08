@@ -1,7 +1,7 @@
 'use client';
 import { createContext, useEffect, useState } from 'react';
 import { CreationMessage, Front, FrontType, FrontTypeWithoutId, FrontWithoutId } from '@/app/types';
-import { createClient } from '@/utils/supabase/client';
+import { createClient } from '@/utilities/supabase/client';
 
 export type FrontsContextType = {
   frontTypes: FrontType[];

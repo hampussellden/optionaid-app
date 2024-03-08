@@ -1,10 +1,10 @@
 import React, { useState, useContext } from 'react';
-import { Worktop, WorktopType } from '../types';
+import { Worktop, WorktopType } from '../app/types';
 import ColorPicker from './ColorPicker';
 import { CancelOutlined, CheckCircleOutline, SaveRounded } from '@mui/icons-material';
 import Button from './Button';
-import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
-import { WorktopsContext, WorktopContextType } from '../admin/context/WorktopsContext';
+import { MessagesContext, MessagesContextType } from '../app/admin/context/MessagesContext';
+import { WorktopsContext, WorktopContextType } from '../app/admin/context/WorktopsContext';
 import Box from './Box';
 
 type WorktopsEditorProps = {

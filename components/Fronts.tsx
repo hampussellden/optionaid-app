@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import FrontsCreator from './FrontsCreator';
-import { Front, FrontType } from '../types';
+import { Front, FrontType } from '../app/types';
 import { AddRounded, SensorDoorOutlined, SensorDoorTwoTone } from '@mui/icons-material';
 import MenuItem from './MenuItem';
 import FrontsEditor from './FrontsEditor';
@@ -8,7 +8,7 @@ import FrontTypesCreator from './FrontTypesCreator';
 import ItemList from './ItemList';
 import Box from './Box';
 import LoadingSpinner from './LoadingSpinner';
-import { FrontsContext, FrontsContextType } from '../admin/context/FrontsContext';
+import { FrontsContext, FrontsContextType } from '../app/admin/context/FrontsContext';
 type FrontsProps = {};
 
 const Fronts = (props: FrontsProps) => {

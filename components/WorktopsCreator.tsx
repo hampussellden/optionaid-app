@@ -1,12 +1,12 @@
 import React, { useState, useContext } from 'react';
 import ColorPicker from './ColorPicker';
 import { CheckCircleOutline, CancelOutlined, SaveRounded, AddRounded } from '@mui/icons-material';
-import { createClient } from '@/utils/supabase/client';
+import { createClient } from '@/utilities/supabase/client';
 import Button from './Button';
-import { Worktop, WorktopType, WorktopWithoutId } from '../types';
+import { Worktop, WorktopType, WorktopWithoutId } from '../app/types';
 import Box from './Box';
-import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
-import { WorktopsContext, WorktopContextType } from '../admin/context/WorktopsContext';
+import { MessagesContext, MessagesContextType } from '../app/admin/context/MessagesContext';
+import { WorktopsContext, WorktopContextType } from '../app/admin/context/WorktopsContext';
 type WorktopsCreatorProps = {
   worktopType: WorktopType | null;
 };

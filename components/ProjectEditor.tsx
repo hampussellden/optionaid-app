@@ -1,12 +1,12 @@
 'use client';
 import React, { useState, useEffect, useContext } from 'react';
-import { createClient } from '@/utils/supabase/client';
-import { Project } from '../types';
+import { createClient } from '@/utilities/supabase/client';
+import { Project } from '../app/types';
 import Button from './Button';
 import { SaveRounded } from '@mui/icons-material';
 import ReactCSV from './ReactCSV';
 import Box from './Box';
-import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
+import { MessagesContext, MessagesContextType } from '../app/admin/context/MessagesContext';
 
 export type ProjectEditorProps = {
   project: Project;

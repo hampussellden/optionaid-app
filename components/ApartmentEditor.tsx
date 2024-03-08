@@ -1,11 +1,11 @@
 'use client';
 import React, { useState, useEffect, useContext } from 'react';
-import { createClient } from '@/utils/supabase/client';
+import { createClient } from '@/utilities/supabase/client';
 import { ClientUser, Apartment, Project, KitchenType } from '@/app/types';
 import Button from './Button';
 import { DeleteOutline, LockRounded, SaveRounded } from '@mui/icons-material';
 import Box from './Box';
-import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
+import { MessagesContext, MessagesContextType } from '../app/admin/context/MessagesContext';
 
 export type ApartmentEditorProps = {
   apartment: Apartment;

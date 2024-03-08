@@ -1,10 +1,10 @@
 import React, { useState, useContext } from 'react';
-import { Front, FrontType } from '../types';
+import { Front, FrontType } from '../app/types';
 import Button from './Button';
 import { CancelOutlined, CheckCircleOutline, SaveRounded } from '@mui/icons-material';
 import ColorPicker from './ColorPicker';
-import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
-import { FrontsContext, FrontsContextType } from '../admin/context/FrontsContext';
+import { MessagesContext, MessagesContextType } from '../app/admin/context/MessagesContext';
+import { FrontsContext, FrontsContextType } from '../app/admin/context/FrontsContext';
 import Box from './Box';
 
 type FrontsEditorProps = {

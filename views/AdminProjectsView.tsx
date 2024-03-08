@@ -1,15 +1,15 @@
 'use client';
 import React, { useContext, useState } from 'react';
-import { ProjectsContext, ProjectsContextType } from '../admin/context/ProjectsContext';
+import { ProjectsContext, ProjectsContextType } from '@/app/admin/context/ProjectsContext';
 import { Project } from '@/app/types';
-import ItemList from '../_components/ItemList';
-import MenuItem from '../_components/MenuItem';
-import Box from '../_components/Box';
-import KitchenTypes from '../_components/KitchenTypes';
-import ProjectEditor from '../_components/ProjectEditor';
-import ProjectCreator from '../_components/ProjectCreator';
+import ItemList from '@/components/ItemList';
+import MenuItem from '@/components/MenuItem';
+import Box from '@/components/Box';
+import KitchenTypes from '@/components/KitchenTypes';
+import ProjectEditor from '@/components/ProjectEditor';
+import ProjectCreator from '@/components/ProjectCreator';
 import { AddRounded, BusinessOutlined } from '@mui/icons-material';
-import { sortByName } from '@/utils/helpers/sorting';
+import { sortByName } from '@/utilities/helpers/sorting';
 
 const AdminProjectsView = () => {
   const { projects } = useContext(ProjectsContext) as ProjectsContextType;

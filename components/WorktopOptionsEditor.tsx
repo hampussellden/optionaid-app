@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { createClient } from '@/utils/supabase/client';
+import { createClient } from '@/utilities/supabase/client';
 import { KitchenType, WorktopOption, WorktopType, Worktop } from '@/app/types';
 import WorktopOptionItem from './WorktopOptionItem';
 import Button from './Button';
 import { AddRounded } from '@mui/icons-material';
-import { MessagesContext, MessagesContextType } from '../admin/context/MessagesContext';
+import { MessagesContext, MessagesContextType } from '../app/admin/context/MessagesContext';
 
 type WorktopOptionsEditor = {
   kitchenType: KitchenType;

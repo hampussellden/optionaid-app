@@ -1,7 +1,7 @@
 'use client';
 import React, { createContext, useEffect, useState } from 'react';
 import { Worktop, WorktopType, CreationMessage, WorktopWithoutId, WorktopTypeWithoutId } from '@/app/types';
-import { createClient } from '@/utils/supabase/client';
+import { createClient } from '@/utilities/supabase/client';
 
 export type WorktopContextType = {
   worktopTypes: WorktopType[];
