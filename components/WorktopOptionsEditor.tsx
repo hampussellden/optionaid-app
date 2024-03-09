@@ -131,7 +131,7 @@ const WorktopOptionsEditor = (props: WorktopOptionsEditor) => {
       <div className="flex flex-row justify-between">
         <p className="text-xl font-bold my-2">Current Front options on this type</p>
         <p className="text-lg text-text font-semibold">
-          Standard: {props.kitchenType.worktops?.worktop_types.make} {props.kitchenType.worktops?.name}
+          Standard: {props.kitchenType.worktops?.worktop_types?.make} {props.kitchenType.worktops?.name}
         </p>
       </div>
       {worktopOptions && (

@@ -19,7 +19,7 @@ const WorktopOptionItem = (props: WorktopOptionItemProps) => {
         <div className="flex flex-row items-center gap-1 mr-4">
           <CountertopsOutlined />
           <p className="text-lg font-semibold">
-            {worktopOption.worktops?.worktop_types.make} {worktopOption.worktops?.name}
+            {worktopOption.worktops?.worktop_types?.make} {worktopOption.worktops?.name}
           </p>
         </div>
         <p className="text-lg font-semibold">{worktopOption.price}:-</p>
