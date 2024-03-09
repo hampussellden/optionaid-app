@@ -1,12 +1,13 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { createClient } from '@/utils/supabase/client';
+import { createClient } from '@/utilities/supabase/client';
 import { Apartment } from '../types';
 import { LockOpenOutlined, LockOutlined, LockRounded } from '@mui/icons-material';
-import MenuItem from '../_components/MenuItem';
-import ClientApartmentEditor from '../_components/ClientApartmentEditor';
-import ItemList from '../_components/ItemList';
-import Box from '../_components/Box';
+import MenuItem from '../../components/MenuItem';
+import ClientApartmentEditor from '../../components/ClientApartmentEditor';
+import ItemList from '../../components/ItemList';
+import Box from '../../components/Box';
+import { dashboardApartmentsAllData } from '@/utilities/helpers/supabaseSelect';
 
 const Dashboard = () => {
   const supabase = createClient();
@@ -29,9 +30,7 @@ const Dashboard = () => {
       if (user) {
         const { data: apartments } = await supabase
           .from('apartments')
-          .select(
-            '*,kitchen_types(*,projects(*),fronts(*,front_types(*)),worktops(*,worktop_types(*))),worktop_options(*,worktops(*,worktop_types(*))),front_options(*,fronts(*,front_types(*)))',
-          )
+          .select(dashboardApartmentsAllData)
           .eq('user_id', user.id)
           .order('id', { ascending: false });
         if (apartments) {

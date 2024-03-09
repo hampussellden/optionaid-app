@@ -1,5 +1,5 @@
 import './globals.css';
-import AuthButton from './_components/AuthButton';
+import AuthButton from '../components/AuthButton';
 
 export const dynamic = 'force-dynamic';
 
