@@ -18,7 +18,7 @@ const FrontOptionItem = (props: FrontOptionItemProps) => {
         <div className="flex flex-row items-center gap-1 mr-4">
           <SensorDoorOutlined />
           <p className="text-lg font-semibold">
-            {frontOption.fronts?.front_types.name} {frontOption.fronts?.name}
+            {frontOption.fronts?.front_types?.name} {frontOption.fronts?.name}
           </p>
         </div>
         <p className="text-lg font-semibold">{frontOption.price}:-</p>
