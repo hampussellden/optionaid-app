@@ -7,3 +7,4 @@ export const worktopsWithType = '*,worktop_types(*)';
 export const frontsWithType = '*,front_types(*)';
 export const worktopOptionsWithWorktops = '*,worktops(*,worktop_types(*))';
 export const frontOptionsWithFronts = '*,fronts(*,front_types(*))';
+export const projectsAllData = '*,kitchen_types(*,apartments(*,users(*)))';

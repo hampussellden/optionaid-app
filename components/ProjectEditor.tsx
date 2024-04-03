@@ -1,12 +1,14 @@
 'use client';
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { createClient } from '@/utilities/supabase/client';
-import { Project } from '../app/types';
+import { Apartment, KitchenType, Project } from '../app/types';
 import Button from './Button';
 import { SaveRounded } from '@mui/icons-material';
 import ReactCSV from './ReactCSV';
 import Box from './Box';
 import { MessagesContext, MessagesContextType } from '../app/admin/context/MessagesContext';
+import { TotalCostOnProject } from '@/utilities/helpers/counting';
+import { ProjectsContext, ProjectsContextType } from '@/app/admin/context/ProjectsContext';
 
 export type ProjectEditorProps = {
   project: Project;
@@ -14,55 +16,23 @@ export type ProjectEditorProps = {
 };
 
 const ProjectEditor = (props: ProjectEditorProps) => {
-  const supabase = createClient();
   const [inputValue, setInputValue] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
-  const [exportableProject, setExportableProject] = useState<Project | null>(null);
+  const { updateProject } = useContext(ProjectsContext) as ProjectsContextType;
   const { addMessage } = useContext(MessagesContext) as MessagesContextType;
-  const handleInputChange = (e: React.ChangeEvent<any>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
-
   const handleProjectUpdate = async () => {
     if (inputValue.length < 5) {
       addMessage({ message: 'A project name must be at least 5 characters long', type: 'error' });
       return;
     }
-    const updateProject = async () => {
-      const { data, error } = await supabase
-        .from('projects')
-        .update({ name: inputValue })
-        .eq('id', props.project.id)
-        .select();
-      if (error) {
-        addMessage({ message: 'Error updating project', type: 'error' });
-        setLoading(false);
-      }
-      if (data) {
-        addMessage({ message: 'Project updated successfully', type: 'success' });
-        setLoading(false);
-        // props.update();
-      }
-    };
     setLoading(true);
-    updateProject();
+    props.project.name = inputValue;
+    addMessage(await updateProject(props.project));
+    setLoading(false);
   };
-  useEffect(() => {
-    const fetchExportableProject = async () => {
-      const { data: exportableProject, error } = await supabase
-        .from('projects')
-        .select('*, kitchen_types(*,apartments(*,users(*)))')
-        .eq('id', props.project.id)
-        .single();
-      if (error) {
-        addMessage({ message: 'Error fetching project CSV', type: 'error' });
-      }
-      if (exportableProject) {
-        setExportableProject(exportableProject as Project);
-      }
-    };
-    fetchExportableProject();
-  }, [props.project]);
 
   return (
     <Box grow primary>
@@ -76,13 +46,14 @@ const ProjectEditor = (props: ProjectEditorProps) => {
         <input
           className="bg-background text-text p-2 rounded"
           type="text"
-          title="Project name"
+          name="Project name"
           value={inputValue}
           onChange={handleInputChange}
         />
       </div>
+      <p className="text-xl font-semibold">Total Cost: {TotalCostOnProject(props.project)} SEK</p>
       <div className="mt-auto flex flex-row justify-between">
-        {exportableProject && <ReactCSV project={exportableProject} />}
+        <ReactCSV project={props.project} />
         <Button text="Save Changes" onClick={handleProjectUpdate} loading={loading} icon={SaveRounded} />
       </div>
     </Box>
