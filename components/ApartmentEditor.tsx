@@ -6,7 +6,6 @@ import Button from './Button';
 import { DeleteOutline, LockRounded, SaveRounded } from '@mui/icons-material';
 import Box from './Box';
 import { MessagesContext, MessagesContextType } from '../app/admin/context/MessagesContext';
-import Text from './Text';
 
 export type ApartmentEditorProps = {
   apartment: Apartment;
@@ -120,34 +119,31 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
   return (
     <Box primary grow>
       <div className="flex flex-row justify-between">
-        <Text as="h4" size="small" text="Assign a client to this apartment" />
-        <Text
-          as="p"
-          size="large"
-          text={`${props.project.name} - type ${props.kitchenType.name} - ${props.apartment.name}`}
-        />
+        <p className="text-xl font-bold text-text">Assign a client to this apartment</p>
+        <p className="text-xl font-semibold ml-auto">
+          {props.project.name} - type {props.kitchenType.name} - {props.apartment.name}
+        </p>
       </div>
       {props.apartment.ready_for_order && (
         <Box>
           <Box horizontal>
             <LockRounded />
-            <Text as="p" size="large" text="This apartment is ready for order" />
+            <p className="text-text text-lg font-bold">This apartment is ready for order</p>
           </Box>
-          <Text as="p" size="medium" italic text="This customer chose:" />
-          <Text
-            as="p"
-            text={`${props.apartment.front_options?.fronts?.front_types?.name} ${props.apartment.front_options?.fronts?.name}`}
-          />
-          <Text
-            as="p"
-            text={`${props.apartment.worktop_options?.worktops?.worktop_types?.make} ${props.apartment.worktop_options?.worktops?.name}`}
-          />
-          <Text as="p" text={`for a total of: ${props.apartment.total_cost} SEK`} />
+          <p className="text-xl italic ">This customer chose:</p>
+          <p>
+            {props.apartment.front_options?.fronts?.front_types?.name} {props.apartment.front_options?.fronts?.name}
+          </p>
+          <p>
+            {props.apartment.worktop_options?.worktops?.worktop_types?.make}{' '}
+            {props.apartment.worktop_options?.worktops?.name}
+          </p>
+          <p>for a total of: {props.apartment.total_cost} SEK</p>
           {/* @TODO Add region specifik currecy */}
         </Box>
       )}
       <div className="flex flex-row gap-2 items-center">
-        <Text as="p" text="Apartment name" />
+        <p className="text-lg font-semibold">Apartment name: </p>
         <input
           type="text"
           title="Apartment name"
@@ -158,9 +154,11 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
       </div>
       {currentClient && (
         <div className="flex flex-row items-center gap-2">
-          <Text as="p" text="Current client:" />
+          <p className="text-text font-semibold text-lg">Current client:</p>
           <div className="rounded bg-secondary py-2 px-4 w-fit">
-            <Text as="p" text={`${currentClient?.full_name} - ${currentClient.email}`} />
+            <p className="text-text font-semibold text-lg">
+              {currentClient?.full_name} - {currentClient.email}
+            </p>
           </div>
           <Button
             onClick={() => {
@@ -175,7 +173,7 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
         </div>
       )}
       <div className="flex flex-row gap-2 items-center">
-        <Text as="p" text="Set Client:" />
+        <p className="text-text font-semibold text-lg">Set Client:</p>
         {clients && (
           <select
             className="text-text font-semibold text-lg bg-background p-2 rounded"
