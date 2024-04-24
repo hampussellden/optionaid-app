@@ -16,13 +16,13 @@ const ItemList = (props: ItemListProps) => {
     {
       'flex-row': props.horizontal,
       'flex-col': !props.horizontal,
-      'ml-4': props.indent,
+      'ml-2': props.indent,
       'justify-center items-center': props.center,
       'justify-between': props.between,
       'justify-around': props.around,
       'mt-2': props.marginTop,
     },
-    'flex gap-2',
+    'flex gap-2'
   );
   return <ul className={classes}>{props.children}</ul>;
 };

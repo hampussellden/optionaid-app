@@ -1,6 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./app/**/*.{js,ts,jsx,tsx,mdx}', './components/**/*.{js,ts,jsx,tsx,mdx}'],
+  content: [
+    './app/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
+    './containers/**/*.{js,ts,jsx,tsx,mdx}',
+    './views/**/*.{js,ts,jsx,tsx,mdx}',
+    './animations/**/*.{js,ts,jsx,tsx,mdx}',
+  ],
   theme: {
     extend: {
       colors: {
@@ -23,6 +29,12 @@ module.exports = {
         128: '32rem',
         144: '36rem',
         160: '40rem',
+      },
+      gridTemplateColumns: {
+        adminGrid: 'auto 1fr',
+      },
+      gridTemplateRows: {
+        adminGrid: 'auto 1fr',
       },
     },
   },

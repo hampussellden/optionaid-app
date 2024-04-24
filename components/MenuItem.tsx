@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import { ChevronRight } from '@mui/icons-material';
+import Text from './Text';
 
 type MenuItemProps = {
   onClick?: any;
@@ -18,7 +19,7 @@ const MenuItem = (props: MenuItemProps) => {
     <button
       className={classNames(
         { 'bg-secondary': props.active, 'hover:bg-secondaryHover': !props.noHover },
-        'p-2 rounded text-mg flex flex-row items-center gap-2 focus:outline-none',
+        'text-mg flex flex-row items-center gap-1 focus:outline-none'
       )}
       onClick={props.onClick}
     >
@@ -29,7 +30,9 @@ const MenuItem = (props: MenuItemProps) => {
           <ChevronRight />
         </>
       )}
-      <li className="list-none">{props.text}</li>
+      <li className="list-none">
+        <Text>{props.text}</Text>
+      </li>
     </button>
   );
 };

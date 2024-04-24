@@ -1,6 +1,6 @@
 {
   "singleQuote": true,
-  "trailingComma": "all",
+  "trailingComma": "es5",
   "proseWrap": "always",
   "printWidth": 120,
   "importOrder": ["^node:(.*)$", "<THIRD_PARTY_MODULES>", "^[./]"],

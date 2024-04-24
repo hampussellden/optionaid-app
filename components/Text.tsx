@@ -5,7 +5,7 @@ type TextProps = {
   size?: 'small' | 'medium' | 'large';
   italic?: boolean;
   color?: string;
-  text: string;
+  children?: React.ReactNode;
 };
 
 /**
@@ -18,62 +18,54 @@ type TextProps = {
  * @param {string} props.color - The color of the text component.
  * @returns {JSX.Element} The rendered text component.
  */
-const Text = ({ as = 'span', size = 'medium', text, color, italic }: TextProps) => {
+const Text = ({ as = 'span', size = 'medium', children, color, italic }: TextProps) => {
   const Tag = as;
   const classes = `
     ${
       Tag === 'h1' &&
       (size === 'large'
-        ? 'text-8xl lg:text-7xl md:text-6xl sm:text-5xl font-bold'
+        ? 'md:text-6xl text-5xl font-bold'
         : size === 'medium'
-        ? 'text-7xl lg:text-6xl md:text-5xl sm:text-4xl font-bold'
-        : 'text-6xl lg:text-5xl md:text-4xl sm:text-3xl font-bold')
+        ? 'md:text-5xl text-4xl font-bold'
+        : 'md:text-4xl text-3xl font-bold')
     }
     ${
       Tag === 'h2' &&
       (size === 'large'
-        ? 'text-7xl lg:text-6xl md:text-5xl sm:text-4xl font-semibold'
+        ? 'md:text-6xl text-5xl font-semibold'
         : size === 'medium'
-        ? 'text-6xl lg:text-5xl md:text-4xl sm:text-3xl font-semibold'
-        : 'text-5xl lg:text-4xl md:text-3xl sm:text-2xl font-semibold')
+        ? 'md:text-5xl text-4xl font-semibold'
+        : 'md:text-4xl text-3xl font-semibold')
     }
     ${
       Tag === 'h3' &&
       (size === 'large'
-        ? 'text-6xl lg:text-5xl md:text-4xl sm:text-3xl font-semibold'
+        ? 'md:text-5xl text-4xl font-semibold'
         : size === 'medium'
-        ? 'text-5xl lg:text-4xl md:text-3xl sm:text-2xl font-semibold'
-        : 'text-4xl lg:text-3xl md:text-2xl sm:text-xl font-semibold')
+        ? 'md:text-4xl text-3xl font-semibold'
+        : 'md:text-3xl text-2xl font-semibold')
     }
     ${
       Tag === 'h4' &&
       (size === 'large'
-        ? 'text-5xl lg:text-4xl md:text-3xl sm:text-2xl font-semibold'
+        ? 'md:text-3xl text-2xl font-semibold'
         : size === 'medium'
-        ? 'text-4xl lg:text-3xl md:text-2xl sm:text-xl font-semibold'
-        : 'text-3xl lg:text-2xl md:text-xl sm:text-lg font-semibold')
+        ? 'md:text-2xl text-xl font-semibold'
+        : 'md:text-xl text-lg font-semibold')
     }
     ${
       Tag === 'p' &&
-      (size === 'large'
-        ? 'text-xl lg:text-lg md:text-base sm:text-sm'
-        : size === 'medium'
-        ? 'text-lg lg:text-base md:text-sm sm:text-xs'
-        : 'text-base lg:text-sm md:text-xs sm:text-xs')
+      (size === 'large' ? 'md:text-lg text-base ' : size === 'medium' ? 'md:text-base text-sm ' : ' md:text-sm text-xs')
     }
     ${
       Tag === 'span' &&
-      (size === 'large'
-        ? 'text-xl lg:text-lg md:text-base sm:text-sm'
-        : size === 'medium'
-        ? 'text-lg lg:text-base md:text-sm sm:text-xs'
-        : 'text-base lg:text-sm md:text-xs sm:text-xxs')
+      (size === 'large' ? 'md:text-lg text-base' : size === 'medium' ? ' md:text-base  text-sm' : 'md:text-sm text-xs')
     }
     ${italic && 'italic'}
     ${color ? `text-${color}` : 'text-text'}
     `;
 
-  return <Tag className={classes}>{text}</Tag>;
+  return <Tag className={classes}>{children}</Tag>;
 };
 
 export default Text;
