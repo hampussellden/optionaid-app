@@ -5,7 +5,7 @@ type AdminGridProps = {
 };
 
 const AdminGrid = ({ children }: AdminGridProps) => {
-  const classes = `grid grid-cols-adminGrid grid-rows-adminGrid overflow-hidden max-h-screen
+  const classes = `grid grid-cols-adminGrid overflow-y-hidden min-h-screen max-h-full
   `;
   return <main className={classes}>{children}</main>;
 };

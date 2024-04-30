@@ -196,7 +196,7 @@ const ProjectsProvider = ({ children }: { children: any }) => {
       }
     };
     fetchApartments();
-  });
+  }, []);
 
   return (
     <ProjectsContext.Provider

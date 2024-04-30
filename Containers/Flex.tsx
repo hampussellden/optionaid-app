@@ -11,6 +11,7 @@ type FlexProps = {
   columnGap?: number;
   grow?: boolean;
   as?: 'div' | 'ul' | 'ol' | 'li' | 'nav' | 'main' | 'section' | 'article' | 'aside' | 'header' | 'footer';
+  classNames?: string;
 };
 /**
  * A flexible container component that allows you to control the layout and alignment of its children.
@@ -28,12 +29,26 @@ type FlexProps = {
  * @param {string} props.as - The HTML element to render the Flex component as. Defaults to 'div'.
  * @returns {JSX.Element} The rendered Flex component.
  */
-const Flex = ({ direction, justify, align, wrap, grow, children, gap, rowGap, columnGap, as }: FlexProps) => {
+const Flex = ({
+  direction,
+  justify,
+  align,
+  wrap,
+  grow,
+  children,
+  gap,
+  rowGap,
+  columnGap,
+  as,
+  classNames,
+}: FlexProps) => {
   const Tag = as || 'div';
   const classes = `flex flex-${direction === 'column' ? 'col' : 'row'} justify-${justify || 'start'} items-${
     align || 'start'
   } flex-wrap-${wrap || 'nowrap'} ${grow ? 'flex-grow' : ''}
-  ${gap ? `gap-${gap}` : ''} ${rowGap ? `gap-y-${rowGap}` : ''} ${columnGap ? `gap-x-${columnGap}` : ''}`;
+  ${gap ? `gap-${gap}` : ''} ${rowGap ? `gap-y-${rowGap}` : ''} ${columnGap ? `gap-x-${columnGap}` : ''} ${
+    classNames ? classNames : ''
+  }`;
   return <Tag className={classes}>{children}</Tag>;
 };
 export default Flex;

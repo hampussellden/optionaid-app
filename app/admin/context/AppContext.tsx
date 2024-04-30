@@ -1,37 +1,94 @@
 'use client';
 
+import { Apartment, FrontType, KitchenType, Project, User, WorktopType } from '@/app/types';
+import { createClient } from '@/utilities/supabase/client';
 import { createContext, useEffect, useState } from 'react';
 
 export type AppState =
   | 'EditProject'
   | 'CreateProject'
-  | 'EditKitchenType'
-  | 'CreateKitchenType'
-  | 'EditApartment'
-  | 'CreateApartment'
   | 'EditWorktopType'
   | 'CreateWorktopType'
-  | 'EditWorktop'
-  | 'CreateWorktop'
   | 'EditFrontType'
-  | 'CreateFrontType'
-  | 'EditFront'
-  | 'CreateFront';
+  | 'CreateFrontType';
 export type AppContextType = {
   state: AppState;
-  id: number;
-  changeAppState: (state: AppState, id: number) => void;
+  user: User | null;
+  selectedProject: Project | null;
+  selectedKitchenType: KitchenType | null;
+  selectedApartment: Apartment | null;
+  selectedFrontType: FrontType | null;
+  selectedWorktopType: WorktopType | null;
+  changeAppState: (state: AppState) => void;
+  changeSelectedProject: (project: Project | null) => void;
+  changeSelectedKitchenType: (kitchenType: KitchenType | null) => void;
+  changeSelectedApartment: (apartment: Apartment | null) => void;
+  changeSelectedFrontType: (frontType: FrontType | null) => void;
+  changeSelectedWorktopType: (worktopType: WorktopType | null) => void;
 };
 export const AppContext = createContext<AppContextType | undefined>(undefined);
 
 const AppProvider = ({ children }: { children: any }) => {
+  const supabase = createClient();
   const [state, setState] = useState<AppContextType['state']>('EditProject');
-  const [id, setId] = useState<number>(0);
-  const changeAppState = (state: AppContextType['state'], id: number) => {
+  const [user, setUser] = useState<User | null>(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [selectedKitchenType, setSelectedKitchenType] = useState<KitchenType | null>(null);
+  const [selectedApartment, setSelectedApartment] = useState<Apartment | null>(null);
+  const [selectedFrontType, setSelectedFrontType] = useState<FrontType | null>(null);
+  const [selectedWorktopType, setSelectedWorktopType] = useState<WorktopType | null>(null);
+  const changeAppState = (state: AppState) => {
     setState(state);
-    setId(id);
   };
+  const changeSelectedProject = (project: Project | null) => {
+    setSelectedProject(project);
+  };
+  const changeSelectedKitchenType = (kitchenType: KitchenType | null) => {
+    setSelectedKitchenType(kitchenType);
+  };
+  const changeSelectedApartment = (apartment: Apartment | null) => {
+    setSelectedApartment(apartment);
+  };
+  const changeSelectedFrontType = (frontType: FrontType | null) => {
+    setSelectedFrontType(frontType);
+  };
+  const changeSelectedWorktopType = (worktopType: WorktopType | null) => {
+    setSelectedWorktopType(worktopType);
+  };
+  useEffect(() => {
+    const getLoggedInUser = async () => {
+      const { data, error } = await supabase.auth.getUser();
+      if (!data?.user) return;
+      if (data.user.id) {
+        const {data:user, error} = await supabase.from('users').select('*').eq('id', data?.user?.id);
+        if (user && user[0]) {
+          setUser(user[0] as User);
+        }
+      }
+    };
+    getLoggedInUser();
+  }, []);
 
-  return <AppContext.Provider value={{ state, id, changeAppState }}>{children}</AppContext.Provider>;
+  return (
+    <AppContext.Provider
+      value={{
+        state,
+        user,
+        selectedProject,
+        selectedKitchenType,
+        selectedApartment,
+        selectedFrontType,
+        selectedWorktopType,
+        changeAppState,
+        changeSelectedProject,
+        changeSelectedKitchenType,
+        changeSelectedApartment,
+        changeSelectedFrontType,
+        changeSelectedWorktopType,
+      }}
+    >
+      {children}
+    </AppContext.Provider>
+  );
 };
 export default AppProvider;

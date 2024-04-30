@@ -8,7 +8,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <head>
         <title>Optionaid</title>
       </head>
-      <body className="bg-background text-foreground flex flex-col items-stretch min-h-screen">{children}</body>
+      <body className="bg-background text-foreground flex flex-col items-stretch min-h-screen h-full overflow-hidden">{children}</body>
     </html>
   );
 }

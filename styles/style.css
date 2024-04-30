@@ -2,7 +2,3 @@
 .grid-cols-adminGrid {
   @apply grid-cols-[auto,1fr];
 }
-
-.grid-rows-adminGrid {
-  @apply grid-rows-[auto,minmax(auto,1fr)];
-}

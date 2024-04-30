@@ -19,9 +19,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           <WorktopsProvider>
             <AppProvider>
               <AdminGrid>
-                <Header />
                 <Sidebar />
-                <Flex>{children}</Flex>
+                <Flex direction="column" justify="start" classNames="overflow-auto relative">
+                  {children}
+                </Flex>
               </AdminGrid>
             </AppProvider>
           </WorktopsProvider>

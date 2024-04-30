@@ -6,6 +6,7 @@ module.exports = {
     './containers/**/*.{js,ts,jsx,tsx,mdx}',
     './views/**/*.{js,ts,jsx,tsx,mdx}',
     './animations/**/*.{js,ts,jsx,tsx,mdx}',
+    './blocks/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
@@ -33,8 +34,10 @@ module.exports = {
       gridTemplateColumns: {
         adminGrid: 'auto 1fr',
       },
-      gridTemplateRows: {
-        adminGrid: 'auto 1fr',
+      scrollbar: {
+        background: {
+          trackColor: '#000000', // Your desired track color
+        },
       },
     },
   },

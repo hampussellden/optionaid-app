@@ -9,21 +9,16 @@ type ItemListProps = {
   between?: boolean;
   around?: boolean;
   marginTop?: boolean;
+  classNames?: string;
 };
 
 const ItemList = (props: ItemListProps) => {
-  const classes = classNames(
-    {
-      'flex-row': props.horizontal,
-      'flex-col': !props.horizontal,
-      'ml-2': props.indent,
-      'justify-center items-center': props.center,
-      'justify-between': props.between,
-      'justify-around': props.around,
-      'mt-2': props.marginTop,
-    },
-    'flex gap-2'
-  );
+  const classes = `${props.horizontal ? 'flex-row' : 'flex-col'} ${props.indent ? ' ml-2' : ''} ${
+    props.center ? ' justify-center items-center' : ''
+  }${props.between ? ' justify-between' : ''} ${props.around ? ' justify-around' : ''}${
+    props.marginTop ? ' mt-2' : ''
+  }${props.classNames ? props.classNames : ''} flex gap-2 overflow-auto
+  scroll-smooth scrollbar-thin`;
   return <ul className={classes}>{props.children}</ul>;
 };
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import LoadingSpinner from './LoadingSpinner';
+import Text from './Text';
 
 type ButtonProps = {
   text?: string;
@@ -29,7 +30,7 @@ const Button = (props: ButtonProps) => {
           'mt-0': props.marginZero,
           'mt-auto self-end': !props.marginZero,
           'py-2.5': props.icon && !props.text,
-        },
+        }
       )}
       formAction={props.formAction}
       onClick={props.onClick}
@@ -39,7 +40,7 @@ const Button = (props: ButtonProps) => {
       {!props.loading && (
         <>
           {props.icon && <Icon />}
-          {props.text && <p className="text-lg font-semibold">{props.text}</p>}
+          {props.text && <Text as="p">{props.text}</Text>}
         </>
       )}
     </button>

@@ -14,15 +14,12 @@ type MenuItemProps = {
 
 const MenuItem = (props: MenuItemProps) => {
   const Icon = props.icon;
-
+  const classes = `text-mg flex flex-row items-center gap-1 focus:outline-none whitespace-nowrap
+  ${props.active ? 'font-bold' : ''}
+  ${props.noHover ? '' : 'hover:text-secondary'}
+`;
   return (
-    <button
-      className={classNames(
-        { 'bg-secondary': props.active, 'hover:bg-secondaryHover': !props.noHover },
-        'text-mg flex flex-row items-center gap-1 focus:outline-none'
-      )}
-      onClick={props.onClick}
-    >
+    <button className={classes} onClick={props.onClick}>
       {props.icon ? (
         <Icon />
       ) : (
