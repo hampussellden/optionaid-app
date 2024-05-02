@@ -4,18 +4,12 @@ import SideBarListItemWithChildren from '@/containers/SideBarListItemWithChildre
 import { ProjectsContext, ProjectsContextType } from '@/app/admin/context/ProjectsContext';
 import { FrontsContext, FrontsContextType } from '@/app/admin/context/FrontsContext';
 import { WorktopContextType, WorktopsContext } from '@/app/admin/context/WorktopsContext';
-import {
-  AddRounded,
-  BusinessTwoTone,
-  CountertopsTwoTone,
-  DoorBackTwoTone,
-} from '@mui/icons-material';
+import { AddRounded, BusinessTwoTone, CountertopsTwoTone, DoorBackTwoTone } from '@mui/icons-material';
 import Flex from './Flex';
 import MenuItem from '@/components/MenuItem';
 import { AppContext, AppContextType } from '@/app/admin/context/AppContext';
 import Button from '@/components/Button';
 import Text from '@/components/Text';
-
 
 const Sidebar = () => {
   const [activeItem, setActiveItem] = useState('' as string);
@@ -77,14 +71,13 @@ const Sidebar = () => {
         </Flex>
       </nav>
       {user && (
-
-        <Flex direction='column' align='stretch' gap={2}>
-          <Text as='p'>{user.full_name}</Text>
+        <Flex direction="column" align="stretch" gap={2}>
+          <Text as="p">{user.full_name}</Text>
           <form action="/auth/sign-out" method="post">
-            <Button text='Logout' fullWidth />
+            <Button text="Logout" fullWidth accent />
           </form>
-    </Flex>
-    )}
+        </Flex>
+      )}
     </aside>
   );
 };

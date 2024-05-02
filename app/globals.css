@@ -8,7 +8,8 @@
     --btn-background-hover: 200 10% 89%;
     --foreground: 200 50% 3%;
     --text: 218 35% 6%;
-    --background: 216 33% 97%;
+    /* --background: 216 33% 97%; */
+    --background: 245 245 244;
     --primary: 36 35% 72%;
     --primary-hover: 36 35% 72% / 0.45;
     --secondary: 87 23% 64%;
@@ -20,7 +21,8 @@
   @media (prefers-color-scheme: dark) {
     :root {
       --text: 218 35% 94%;
-      --background: 216 33% 3%;
+      --background: 87 83 78;
+      /* --background: 216 33% 3%; */
       --primary: 36 35% 28% / 0.8;
       --secondary: 70 35% 14%;
       --accent: 8 35% 54%;

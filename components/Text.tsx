@@ -4,7 +4,8 @@ type TextProps = {
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'p' | 'span';
   size?: 'small' | 'medium' | 'large';
   italic?: boolean;
-  color?: string;
+  color?: string; 
+  classNames?: string;
   children?: React.ReactNode;
 };
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { CSVLink, CSVDownload } from 'react-csv';
 import { Project } from '../app/types';
 import { FileDownloadRounded } from '@mui/icons-material';
+import Button from './Button';
 
 export type ReactCSVProps = {
   project: Project;
@@ -36,12 +37,9 @@ const transformProject = (project: Project) => {
 const ReactCSV = (props: ReactCSVProps) => {
   const csvData = transformProject(props.project);
   return (
-    <div className="rounded py-2 px-4 text-xl font-semibold self-end bg-secondary hover:bg-secondaryHover flex flex-row gap-2 items-center justify-center">
-      <CSVLink data={csvData} target="_blank" className="flex flex-row gap-2 items-center justify-center">
-        <FileDownloadRounded />
-        <p className="text-lg font-semibold">Export to CSV</p>
-      </CSVLink>
-    </div>
+    <CSVLink data={csvData} target="_blank" className="flex flex-row gap-2 items-center justify-center">
+      <Button text="Export to CSV" icon={FileDownloadRounded} />
+    </CSVLink>
   );
 };
 

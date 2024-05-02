@@ -20,7 +20,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             <AppProvider>
               <AdminGrid>
                 <Sidebar />
-                <Flex direction="column" justify="start" classNames="overflow-auto relative">
+                <Flex
+                  direction="column"
+                  justify="start"
+                  align="center"
+                  classNames="overflow-y-auto h-full max-h-screen relative "
+                >
                   {children}
                 </Flex>
               </AdminGrid>
