@@ -5,6 +5,8 @@ import WorktopOptionItem from './WorktopOptionItem';
 import Button from './Button';
 import { AddRounded } from '@mui/icons-material';
 import { MessagesContext, MessagesContextType } from '../app/admin/context/MessagesContext';
+import Flex from '@/containers/Flex';
+import Text from './Text';
 
 type WorktopOptionsEditor = {
   kitchenType: KitchenType;
@@ -114,7 +116,7 @@ const WorktopOptionsEditor = (props: WorktopOptionsEditor) => {
             worktops: {
               ...addWorktop,
               worktop_types: worktopTypes.filter(
-                (worktopType: WorktopType) => worktopType.id === addWorktopType?.id,
+                (worktopType: WorktopType) => worktopType.id === addWorktopType?.id
               )[0],
             },
           },
@@ -127,15 +129,19 @@ const WorktopOptionsEditor = (props: WorktopOptionsEditor) => {
   };
 
   return (
-    <div>
-      <div className="flex flex-row justify-between">
-        <p className="text-xl font-bold my-2">Current Front options on this type</p>
-        <p className="text-lg text-text font-semibold">
-          Standard: {props.kitchenType.worktops?.worktop_types?.make} {props.kitchenType.worktops?.name}
-        </p>
-      </div>
+    <Flex direction="column" gap={2}>
+      <Flex direction="column" gap={1} classNames="w-full">
+        <Flex justify="between" align="center" classNames="w-full">
+          <Text as="h4" size="small">
+            Current Worktop options on this type
+          </Text>
+          <Text as="p" size="medium">
+            Standard: {props.kitchenType.worktops?.worktop_types?.make} {props.kitchenType.worktops?.name}
+          </Text>
+        </Flex>
+      </Flex>
       {worktopOptions && (
-        <div className="flex flex-col gap-2 items-start mb-8">
+        <Flex gap={1} direction="column" justify="between" classNames="w-full">
           {worktopOptions.map((worktopOption: WorktopOption) => (
             <WorktopOptionItem
               worktopOption={worktopOption}
@@ -143,76 +149,86 @@ const WorktopOptionsEditor = (props: WorktopOptionsEditor) => {
               key={worktopOption.id}
             />
           ))}
-        </div>
+        </Flex>
       )}
-      <p className="text-xl font-bold my-2">Create new worktop option</p>
-      <div className="flex flex-row gap-2 items-end">
-        <div className="flex flex-col gap-2">
-          <p className="text-lg font-semibold">Worktop Make</p>
-          {worktopTypes && (
-            <select
-              className="rounded py-2 px-4 text-text font-semibold text-lg bg-background"
-              name="newWorktopOptionType"
-              id="newWorktopOptionType"
-              aria-label="Select a worktop type"
-              title="Select a worktop type"
-              onChange={handleAddWorktopTypeChange}
-            >
-              <option value={undefined}>Select a worktop type</option>
-              {worktopTypes.map((worktopType: WorktopType) => (
-                <option value={worktopType.id} key={worktopType.id}>
-                  {worktopType.make}
-                </option>
-              ))}
-            </select>
-          )}
-        </div>
-        {worktops && addWorktopType && (
-          <div className="flex flex-col gap-2">
-            <p className="text-lg font-semibold">Worktop</p>
-            <select
-              className="rounded py-2 px-4 text-text font-semibold text-lg bg-background"
-              name="newFrontOptionFront"
-              id="newFrontOptionFront"
-              aria-label="Select a worktop"
-              title="Select a worktop"
-              onChange={handleAddWorktopChange}
-            >
-              <option value={undefined}>Select a worktop</option>
-              {worktops
-                .filter((worktop: Worktop) => worktop.worktop_type_id === addWorktopType?.id)
-                .map((worktop: Worktop, index: number) => (
-                  <option value={worktop.id} key={worktop.id}>
-                    {worktop.name}
+      <Flex direction="column" gap={1} classNames="w-full bg-primary p-1 rounded">
+        <Text as="h4" size="small">
+          Create new worktop option
+        </Text>
+        <Flex gap={2} align="end">
+          <Flex direction="column" gap={1}>
+            <Text as="p" size="small">
+              Worktop Make
+            </Text>
+            {worktopTypes && (
+              <select
+                className="rounded py-1 px-2 text-text bg-static"
+                name="newWorktopOptionType"
+                id="newWorktopOptionType"
+                aria-label="Select a worktop type"
+                title="Select a worktop type"
+                onChange={handleAddWorktopTypeChange}
+              >
+                <option value={undefined}>Select a worktop type</option>
+                {worktopTypes.map((worktopType: WorktopType) => (
+                  <option value={worktopType.id} key={worktopType.id}>
+                    {worktopType.make}
                   </option>
                 ))}
-            </select>
-          </div>
-        )}
-        {addWorktop && (
-          <>
-            <div className="flex flex-col gap-2">
-              <p className="text-lg font-semibold">Price</p>
-              <input
-                className="py-2 px-4 rounded text-text font-semibold text-lg bg-background"
-                type="number"
-                title="Worktop option price"
-                value={priceInputValue}
-                onChange={handlePriceInputChange}
+              </select>
+            )}
+          </Flex>
+          {worktops && addWorktopType && (
+            <Flex direction="column" gap={1}>
+              <Text as="p" size="small">
+                worktop
+              </Text>
+              <select
+                className="rounded py-1 px-2 text-text bg-static"
+                name="newFrontOptionFront"
+                id="newFrontOptionFront"
+                aria-label="Select a worktop"
+                title="Select a worktop"
+                onChange={handleAddWorktopChange}
+              >
+                <option value={undefined}>Select a worktop</option>
+                {worktops
+                  .filter((worktop: Worktop) => worktop.worktop_type_id === addWorktopType?.id)
+                  .map((worktop: Worktop, index: number) => (
+                    <option value={worktop.id} key={worktop.id}>
+                      {worktop.name}
+                    </option>
+                  ))}
+              </select>
+            </Flex>
+          )}
+          {addWorktop && (
+            <>
+              <Flex direction="column" gap={1}>
+                <Text as="p" size="small">
+                  Price
+                </Text>
+                <input
+                  className="py-1 px-2 rounded text-text bg-static"
+                  type="number"
+                  title="Worktop option price"
+                  value={priceInputValue}
+                  onChange={handlePriceInputChange}
+                />
+              </Flex>
+              <Button
+                icon={AddRounded}
+                marginZero
+                ariaLabel="Add new worktop option"
+                text="Add"
+                onClick={handleNewWorktopOption}
+                loading={loading}
               />
-            </div>
-            <Button
-              icon={AddRounded}
-              marginZero
-              ariaLabel="Add new worktop option"
-              text="Add"
-              onClick={handleNewWorktopOption}
-              loading={loading}
-            />
-          </>
-        )}
-      </div>
-    </div>
+            </>
+          )}
+        </Flex>
+      </Flex>
+    </Flex>
   );
 };
 

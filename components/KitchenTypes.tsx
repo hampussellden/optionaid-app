@@ -13,8 +13,8 @@ import { sortByName } from '@/utilities/helpers/sorting';
 
 export type KitchenTypesProps = {
   project: Project;
-  handleProjectEditorClose: () => void;
-  key: number;
+  handleProjectEditorClose?: () => void;
+  key?: number;
 };
 const KitchenTypes = (props: KitchenTypesProps) => {
   const { kitchenTypes } = useContext(ProjectsContext) as ProjectsContextType;

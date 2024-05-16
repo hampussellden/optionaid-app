@@ -3,6 +3,8 @@ import Button from './Button';
 import { WorktopOption } from '@/app/types';
 import { DeleteOutline } from '@mui/icons-material';
 import { CountertopsOutlined } from '@mui/icons-material';
+import Flex from '@/containers/Flex';
+import Text from './Text';
 type WorktopOptionItemProps = {
   worktopOption: WorktopOption;
   loading?: boolean;
@@ -14,16 +16,20 @@ const WorktopOptionItem = (props: WorktopOptionItemProps) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   return (
-    <div className="flex flex-row items-center gap-4 w-full max-w-sm">
-      <div className="flex flex-row justify-between rounded bg-secondary py-2 px-4 w-full">
-        <div className="flex flex-row items-center gap-1 mr-4">
-          <CountertopsOutlined />
-          <p className="text-lg font-semibold">
-            {worktopOption.worktops?.worktop_types?.make} {worktopOption.worktops?.name}
-          </p>
-        </div>
-        <p className="text-lg font-semibold">{worktopOption.price}:-</p>
-      </div>
+    <Flex classNames="bg-static w-full rounded pl-1" align="center" justify="between">
+      <Flex align="center" gap={2}>
+        <CountertopsOutlined />
+        <Text as="p" size="medium">
+          {worktopOption.worktops?.worktop_types?.make}
+        </Text>
+        <Text as="p" size="medium">
+          {worktopOption.worktops?.name}
+        </Text>
+        <Text as="p" size="medium">
+          {worktopOption.price}:-
+        </Text>
+      </Flex>
+
       <Button
         icon={DeleteOutline}
         loading={loading}
@@ -34,7 +40,7 @@ const WorktopOptionItem = (props: WorktopOptionItemProps) => {
         }}
         accent
       />
-    </div>
+    </Flex>
   );
 };
 

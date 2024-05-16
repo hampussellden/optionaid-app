@@ -5,6 +5,8 @@ import Button from './Button';
 import FrontOptionItem from './FrontOptionItem';
 import { AddRounded } from '@mui/icons-material';
 import { MessagesContext, MessagesContextType } from '@/app/admin/context/MessagesContext';
+import Flex from '@/containers/Flex';
+import Text from './Text';
 
 type FrontOptionsEditorProps = {
   kitchenType: KitchenType;
@@ -134,15 +136,17 @@ const FrontOptionsEditor = (props: FrontOptionsEditorProps) => {
   };
 
   return (
-    <div className="">
-      <div className="flex flex-row justify-between">
-        <p className="text-xl text-text font-bold my-2">Current front options on this type</p>
-        <p className="text-lg text-text font-semibold">
+    <Flex direction="column" gap={2}>
+      <Flex justify="between" classNames="w-full">
+        <Text as="h4" size="small">
+          Curent front options on this type
+        </Text>
+        <Text as="p" size="medium">
           Standard: {props.kitchenType.fronts?.front_types?.name} {props.kitchenType.fronts?.name}
-        </p>
-      </div>
+        </Text>
+      </Flex>
       {frontOptions && (
-        <div className="flex flex-col gap-2 items-start mb-4 flex-wrap max-h-96">
+        <Flex direction="column" align="start" gap={1} classNames="w-full">
           {frontOptions.map((frontOption: FrontOption) => (
             <FrontOptionItem
               frontOption={frontOption}
@@ -151,76 +155,86 @@ const FrontOptionsEditor = (props: FrontOptionsEditorProps) => {
               loading={loading}
             />
           ))}
-        </div>
+        </Flex>
       )}
-      <p className="text-xl font-bold my-2">Create new front option</p>
-      <div className="flex flex-row gap-2 items-end">
-        <div className="flex flex-col gap-2">
-          <p className="text-lg font-semibold">Front Type</p>
-          {frontTypes && (
-            <select
-              className="rounded py-2 px-4 text-text font-semibold text-lg bg-background"
-              name="newFrontOptionType"
-              id="newFrontOptionType"
-              aria-label="Select a front type"
-              title="Select a front type"
-              onChange={handleAddFrontTypeChange}
-            >
-              <option value={undefined}>Select a front type</option>
-              {frontTypes.map((frontType: FrontType) => (
-                <option value={frontType.id} key={frontType.id}>
-                  {frontType.name}
-                </option>
-              ))}
-            </select>
-          )}
-        </div>
-        {fronts && addFrontType?.id && (
-          <div className="flex flex-col gap-2">
-            <p className="text-lg font-semibold">Front</p>
-            <select
-              className="rounded py-2 px-4 text-text font-semibold text-lg bg-background"
-              name="newFrontOptionFront"
-              id="newFrontOptionFront"
-              aria-label="Select a front"
-              title="Select a front"
-              onChange={handleAddFrontChange}
-            >
-              <option value={undefined}>select a front</option>
-              {fronts
-                .filter((front: Front) => front.front_type_id === addFrontType.id)
-                .map((front: Front) => (
-                  <option value={front.id} key={front.id}>
-                    {front.name}
+      <Flex direction="column" gap={1} classNames="w-full bg-primary p-1 rounded">
+        <Text as="h4" size="small">
+          Create new front option
+        </Text>
+        <Flex gap={2} align="end">
+          <Flex direction="column" gap={1}>
+            <Text as="p" size="small">
+              Front Type
+            </Text>
+            {frontTypes && (
+              <select
+                className="rounded py-1 px-2 text-text bg-static"
+                name="newFrontOptionType"
+                id="newFrontOptionType"
+                aria-label="Select a front type"
+                title="Select a front type"
+                onChange={handleAddFrontTypeChange}
+              >
+                <option value={undefined}>Select a front type</option>
+                {frontTypes.map((frontType: FrontType) => (
+                  <option value={frontType.id} key={frontType.id}>
+                    {frontType.name}
                   </option>
                 ))}
-            </select>
-          </div>
-        )}
-        {addFront && (
-          <>
-            <div className="flex flex-col gap-2">
-              <p className="text-lg font-semibold">Price</p>
-              <input
-                className="py-2 px-4 rounded text-text font-semibold text-lg bg-background"
-                type="number"
-                title="Front option price"
-                value={priceInputValue}
-                onChange={handlePriceInputChange}
+              </select>
+            )}
+          </Flex>
+          {fronts && addFrontType?.id && (
+            <Flex direction="column" gap={1}>
+              <Text as="p" size="small">
+                Front
+              </Text>
+              <select
+                className="rounded py-1 px-2 text-text bg-static"
+                name="newFrontOptionFront"
+                id="newFrontOptionFront"
+                aria-label="Select a front"
+                title="Select a front"
+                onChange={handleAddFrontChange}
+              >
+                <option value={undefined}>select a front</option>
+                {fronts
+                  .filter((front: Front) => front.front_type_id === addFrontType.id)
+                  .map((front: Front) => (
+                    <option value={front.id} key={front.id}>
+                      {front.name}
+                    </option>
+                  ))}
+              </select>
+            </Flex>
+          )}
+          {addFront && (
+            <>
+              <Flex direction="column" gap={1}>
+                <Text as="p" size="small">
+                  Price
+                </Text>
+                <input
+                  className="py-1 px-2 rounded text-text bg-static"
+                  type="number"
+                  title="Front option price"
+                  value={priceInputValue}
+                  onChange={handlePriceInputChange}
+                />
+              </Flex>
+              <Button
+                icon={AddRounded}
+                marginZero
+                ariaLabel="Add new front option"
+                text="Add"
+                onClick={handleAddNewFrontOption}
+                loading={loading}
               />
-            </div>
-            <Button
-              icon={AddRounded}
-              marginZero
-              ariaLabel="Add new front option"
-              text="Add"
-              onClick={handleAddNewFrontOption}
-              loading={loading}
-            />
-          </>
-        )}
-      </div>
-    </div>
+            </>
+          )}
+        </Flex>
+      </Flex>
+    </Flex>
   );
 };
 

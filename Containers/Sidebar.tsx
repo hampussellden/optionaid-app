@@ -34,11 +34,26 @@ const Sidebar = () => {
         break;
     }
   };
+
+  const AdjustingAside = (props: any) => {
+    const [hovered, setHovered] = useState(false);
+    const handleMouseEnter = () => setHovered(true);
+    const handleMouseLeave = () => setHovered(false);
+    const classes = `
+    bg-static p-4 h-full overflow-y-auto overflow-x-hidden border border-text flex flex-col justify-between max-h-screen scrollbar-thin border-b-0 w-full `;
+    return (
+      <aside
+        id="sidebar-navigation"
+        className={classes}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        {props.children}
+      </aside>
+    );
+  };
   return (
-    <aside
-      className="bg-static p-4 h-full overflow-auto border border-text flex flex-col justify-between max-h-screen scrollbar-thin"
-      id="sidebar-navigation"
-    >
+    <AdjustingAside>
       <nav>
         <Flex as="ul" direction="column" gap={4}>
           <SideBarListItemWithChildren
@@ -58,7 +73,11 @@ const Sidebar = () => {
             icon={DoorBackTwoTone}
             state="EditFrontType"
           />
-          <MenuItem icon={AddRounded} text="New Front Type" onClick={() => changeAppState('CreateFrontType')} />
+          <MenuItem
+            icon={AddRounded}
+            text="New Front Type"
+            onClick={() => changeAppState('CreateFrontType')}
+          />
           <SideBarListItemWithChildren
             name="Worktop Types"
             items={worktopTypes}
@@ -67,7 +86,11 @@ const Sidebar = () => {
             icon={CountertopsTwoTone}
             state="EditWorktopType"
           />
-          <MenuItem icon={AddRounded} text="New Worktop Type" onClick={() => changeAppState('CreateWorktopType')} />
+          <MenuItem
+            icon={AddRounded}
+            text="New Worktop Type"
+            onClick={() => changeAppState('CreateWorktopType')}
+          />
         </Flex>
       </nav>
       {user && (
@@ -78,7 +101,7 @@ const Sidebar = () => {
           </form>
         </Flex>
       )}
-    </aside>
+    </AdjustingAside>
   );
 };
 export default Sidebar;

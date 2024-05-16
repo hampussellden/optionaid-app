@@ -38,6 +38,11 @@ const AppProvider = ({ children }: { children: any }) => {
   const [selectedFrontType, setSelectedFrontType] = useState<FrontType | null>(null);
   const [selectedWorktopType, setSelectedWorktopType] = useState<WorktopType | null>(null);
   const changeAppState = (state: AppState) => {
+    setSelectedApartment(null);
+    setSelectedFrontType(null);
+    setSelectedKitchenType(null);
+    setSelectedProject(null);
+    setSelectedWorktopType(null);
     setState(state);
   };
   const changeSelectedProject = (project: Project | null) => {
@@ -60,7 +65,7 @@ const AppProvider = ({ children }: { children: any }) => {
       const { data, error } = await supabase.auth.getUser();
       if (!data?.user) return;
       if (data.user.id) {
-        const {data:user, error} = await supabase.from('users').select('*').eq('id', data?.user?.id);
+        const { data: user, error } = await supabase.from('users').select('*').eq('id', data?.user?.id);
         if (user && user[0]) {
           setUser(user[0] as User);
         }

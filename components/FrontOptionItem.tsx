@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Button from './Button';
 import { FrontOption } from '@/app/types';
 import { DeleteOutline, SensorDoorOutlined } from '@mui/icons-material';
+import Flex from '@/containers/Flex';
+import Text from './Text';
 type FrontOptionItemProps = {
   frontOption: FrontOption;
   loading?: boolean;
@@ -13,20 +15,19 @@ const FrontOptionItem = (props: FrontOptionItemProps) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   return (
-    <div className="flex flex-row justify-between items-center gap-4 w-full max-w-sm">
-      <div className="flex flex-row justify-between rounded bg-secondary py-2 px-4 w-full">
-        <div className="flex flex-row items-center gap-1 mr-4">
-          <SensorDoorOutlined />
-          <p className="text-lg font-semibold">
-            {frontOption.fronts?.front_types?.name} {frontOption.fronts?.name}
-          </p>
-        </div>
-        <p className="text-lg font-semibold">{frontOption.price}:-</p>
-      </div>
+    <Flex classNames="bg-static w-full rounded pl-1" align="center" justify="between">
+      <Flex gap={2} align="center">
+        <SensorDoorOutlined />
+        <Text as="p" size="medium">
+          {frontOption.fronts?.front_types?.name} {frontOption.fronts?.name}
+        </Text>
+        <Text as="p" size="medium">
+          {frontOption.price}:-
+        </Text>
+      </Flex>
       <Button
         icon={DeleteOutline}
         loading={loading}
-        marginZero
         ariaLabel="Delete front option"
         onClick={() => {
           props.handleRemoveExistingOption(frontOption.id);
@@ -34,7 +35,7 @@ const FrontOptionItem = (props: FrontOptionItemProps) => {
         }}
         accent
       />
-    </div>
+    </Flex>
   );
 };
 

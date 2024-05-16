@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import classNames from 'classnames';
+import React from 'react';
 import { ChevronRight } from '@mui/icons-material';
 import Text from './Text';
 
@@ -10,13 +9,14 @@ type MenuItemProps = {
   active?: boolean;
   icon?: any;
   noHover?: boolean;
+  inSideBar?: boolean;
 };
 
 const MenuItem = (props: MenuItemProps) => {
   const Icon = props.icon;
-  const classes = `text-mg flex flex-row items-center gap-1 focus:outline-none whitespace-nowrap
-  ${props.active ? 'font-bold' : ''}
-  ${props.noHover ? '' : 'hover:text-secondary'}
+  const classes = `text-mg flex flex-row items-center gap-1 focus:outline-none whitespace-nowrap 
+  ${props.active ? 'font-bold ' : ''}
+  ${props.noHover ? '' : 'hover:text-secondary '}
 `;
   return (
     <button className={classes} onClick={props.onClick}>
@@ -27,7 +27,7 @@ const MenuItem = (props: MenuItemProps) => {
           <ChevronRight />
         </>
       )}
-      <li className="list-none">
+      <li>
         <Text>{props.text}</Text>
       </li>
     </button>

@@ -41,5 +41,10 @@ module.exports = {
       },
     },
   },
+  variants: {
+    extend: {
+      width: ['hover'],
+    },
+  },
   plugins: [require('tailwind-scrollbar')({ nocompatible: true })],
 };
