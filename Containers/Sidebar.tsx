@@ -16,7 +16,7 @@ const Sidebar = () => {
   const { projects } = useContext(ProjectsContext) as ProjectsContextType;
   const { frontTypes } = useContext(FrontsContext) as FrontsContextType;
   const { worktopTypes } = useContext(WorktopsContext) as WorktopContextType;
-  const { user, changeAppState } = useContext(AppContext) as AppContextType;
+  const { user, changeAppState, state } = useContext(AppContext) as AppContextType;
 
   const handleClickItem = (name: 'projects' | 'frontTypes' | 'worktopTypes') => {
     setActiveItem(name);
@@ -40,7 +40,7 @@ const Sidebar = () => {
     const handleMouseEnter = () => setHovered(true);
     const handleMouseLeave = () => setHovered(false);
     const classes = `
-    bg-static p-4 h-full overflow-y-auto overflow-x-hidden border border-text flex flex-col justify-between max-h-screen scrollbar-thin border-b-0 w-full `;
+    bg-static p-2 h-full overflow-y-auto overflow-x-hidden border border-text flex flex-col justify-between max-h-screen scrollbar-thin border-b-0 w-full `;
     return (
       <aside
         id="sidebar-navigation"
@@ -60,11 +60,11 @@ const Sidebar = () => {
             name="Projects"
             items={projects}
             onClick={() => handleClickItem('projects')}
-            isActive={activeItem === 'projects'}
+            isActive={activeItem === 'projects' && state === 'EditProject'}
             icon={BusinessTwoTone}
             state="EditProject"
           />
-          <MenuItem icon={AddRounded} text="New Project" onClick={() => changeAppState('CreateProject')} />
+          <MenuItem icon={AddRounded} text="New Project" active={state === 'CreateProject'} onClick={() => changeAppState('CreateProject')} />
           <SideBarListItemWithChildren
             name="Front Types"
             items={frontTypes}
@@ -76,19 +76,21 @@ const Sidebar = () => {
           <MenuItem
             icon={AddRounded}
             text="New Front Type"
+            active={state === 'CreateFrontType'}
             onClick={() => changeAppState('CreateFrontType')}
           />
           <SideBarListItemWithChildren
             name="Worktop Types"
             items={worktopTypes}
             onClick={() => handleClickItem('worktopTypes')}
-            isActive={activeItem === 'worktopTypes'}
+            isActive={activeItem === 'worktopTypes' && state === 'EditWorktopType'}
             icon={CountertopsTwoTone}
             state="EditWorktopType"
           />
           <MenuItem
             icon={AddRounded}
             text="New Worktop Type"
+            active={state === 'CreateWorktopType'}
             onClick={() => changeAppState('CreateWorktopType')}
           />
         </Flex>

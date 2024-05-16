@@ -5,22 +5,28 @@ type TextProps = {
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'p' | 'span';
   size?: 'small' | 'medium' | 'large';
   italic?: boolean;
+  bold?: boolean;
+  semiBold?: boolean;
   color?: string;
   classNames?: string;
   children?: React.ReactNode;
 };
 
 /**
- * Renders a text component with customizable styling options.
+ * Renders a text component with customizable styles.
  *
  * @param {Object} props - The component props.
- * @param {string} [props.as='p'] - The HTML tag to be used for the text component.
+ * @param {string} [props.as='span'] - The HTML tag to be used for the text component.
  * @param {string} [props.size='medium'] - The size of the text component.
- * @param {string} props.text - The text content to be rendered.
- * @param {string} props.color - The color of the text component.
- * @returns {JSX.Element} The rendered text component.
+ * @param {ReactNode} props.children - The content to be rendered inside the text component.
+ * @param {string} [props.color] - The color of the text component.
+ * @param {boolean} [props.italic] - Whether the text should be italicized.
+ * @param {boolean} [props.bold] - Whether the text should be bold.
+ * @param {boolean} [props.semiBold] - Whether the text should be semi-bold.
+ * @param {string} [props.classNames] - Additional CSS classes to be applied to the text component.
+ * @returns {ReactNode} The rendered text component.
  */
-const Text = ({ as = 'span', size = 'medium', children, color, italic, classNames }: TextProps) => {
+const Text = ({ as = 'span', size = 'medium', children, color, italic, bold, semiBold, classNames }: TextProps) => {
   const Tag = as;
   const classes = `
     ${
@@ -78,7 +84,10 @@ const Text = ({ as = 'span', size = 'medium', children, color, italic, className
       : ''
   }${italic ? 'italic' : ''}
     ${color ? `text-${color}` : 'text-text'}
-    ${classNames ? classNames : ''}`;
+    ${classNames ? classNames : ''}
+    ${bold ? 'font-bold' : ''}
+    ${semiBold ? 'font-semibold' : ''}
+    `;
 
   return <Tag className={classes.trim()}>{children}</Tag>;
 };

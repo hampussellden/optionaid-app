@@ -3,7 +3,7 @@ import FrontsCreator from './FrontsCreator';
 import { Front, FrontType } from '../app/types';
 import { AddRounded, SensorDoorOutlined, SensorDoorTwoTone } from '@mui/icons-material';
 import MenuItem from './MenuItem';
-import FrontsEditor from './FrontsEditor';
+import FrontsEditor from '../blocks/FrontsEditor';
 import FrontTypesCreator from './FrontTypesCreator';
 import ItemList from './ItemList';
 import Box from './Box';

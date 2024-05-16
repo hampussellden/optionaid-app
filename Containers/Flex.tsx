@@ -12,6 +12,7 @@ type FlexProps = {
   grow?: boolean;
   as?: 'div' | 'ul' | 'ol' | 'li' | 'nav' | 'main' | 'section' | 'article' | 'aside' | 'header' | 'footer';
   classNames?: string;
+  id?: string;
 };
 /**
  * A flexible container component that allows you to control the layout and alignment of its children.
@@ -41,14 +42,19 @@ const Flex = ({
   columnGap,
   as,
   classNames,
+  id,
 }: FlexProps) => {
   const Tag = as || 'div';
-  const classes = `flex flex-${direction === 'column' ? 'col' : 'row'} justify-${justify || 'start'} items-${
+  const classes = `w-full flex flex-${direction === 'column' ? 'col' : 'row'} justify-${justify || 'start'} items-${
     align || 'start'
   } flex-wrap-${wrap || 'nowrap'} ${grow ? 'flex-grow' : ''}
   ${gap ? `gap-${gap}` : ''} ${rowGap ? `gap-y-${rowGap}` : ''} ${columnGap ? `gap-x-${columnGap}` : ''} ${
     classNames ? classNames : ''
   }`;
-  return <Tag className={classes}>{children}</Tag>;
+  return (
+    <Tag className={classes} id={id}>
+      {children}
+    </Tag>
+  );
 };
 export default Flex;

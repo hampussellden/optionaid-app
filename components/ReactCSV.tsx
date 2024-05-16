@@ -37,8 +37,8 @@ const transformProject = (project: Project) => {
 const ReactCSV = (props: ReactCSVProps) => {
   const csvData = transformProject(props.project);
   return (
-    <CSVLink data={csvData} target="_blank" className="flex flex-row gap-2 items-center justify-center">
-      <Button text="Export to CSV" icon={FileDownloadRounded} />
+    <CSVLink data={csvData} target="_blank" className="flex flex-row gap-2 items-center justify-center w-full">
+      <Button fullWidth text="Export to CSV" icon={FileDownloadRounded} />
     </CSVLink>
   );
 };

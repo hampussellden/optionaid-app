@@ -1,6 +1,6 @@
 'use client';
 
-import { Apartment, FrontType, KitchenType, Project, User, WorktopType } from '@/app/types';
+import { Apartment, Front, FrontType, KitchenType, Project, User, Worktop, WorktopType } from '@/app/types';
 import { createClient } from '@/utilities/supabase/client';
 import { createContext, useEffect, useState } from 'react';
 
@@ -18,13 +18,17 @@ export type AppContextType = {
   selectedKitchenType: KitchenType | null;
   selectedApartment: Apartment | null;
   selectedFrontType: FrontType | null;
+  selectedFront: Front | null;
   selectedWorktopType: WorktopType | null;
+  selectedWorktop: Worktop | null;
   changeAppState: (state: AppState) => void;
   changeSelectedProject: (project: Project | null) => void;
   changeSelectedKitchenType: (kitchenType: KitchenType | null) => void;
   changeSelectedApartment: (apartment: Apartment | null) => void;
   changeSelectedFrontType: (frontType: FrontType | null) => void;
+  changeSelectedFront: (front: Front | null) => void;
   changeSelectedWorktopType: (worktopType: WorktopType | null) => void;
+  changeSelectedWorktop: (worktop: Worktop | null) => void;
 };
 export const AppContext = createContext<AppContextType | undefined>(undefined);
 
@@ -36,14 +40,11 @@ const AppProvider = ({ children }: { children: any }) => {
   const [selectedKitchenType, setSelectedKitchenType] = useState<KitchenType | null>(null);
   const [selectedApartment, setSelectedApartment] = useState<Apartment | null>(null);
   const [selectedFrontType, setSelectedFrontType] = useState<FrontType | null>(null);
+  const [selectedFront, setSelectedFront] = useState<Front | null>(null);
   const [selectedWorktopType, setSelectedWorktopType] = useState<WorktopType | null>(null);
-  const changeAppState = (state: AppState) => {
-    setSelectedApartment(null);
-    setSelectedFrontType(null);
-    setSelectedKitchenType(null);
-    setSelectedProject(null);
-    setSelectedWorktopType(null);
-    setState(state);
+  const [selectedWorktop, setSelectedWorktop] = useState<Worktop | null>(null);
+  const changeAppState = (newState: AppState) => {
+    setState(newState);
   };
   const changeSelectedProject = (project: Project | null) => {
     setSelectedProject(project);
@@ -57,8 +58,14 @@ const AppProvider = ({ children }: { children: any }) => {
   const changeSelectedFrontType = (frontType: FrontType | null) => {
     setSelectedFrontType(frontType);
   };
+  const changeSelectedFront = (front: Front | null) => {
+    setSelectedFront(front);
+  };
   const changeSelectedWorktopType = (worktopType: WorktopType | null) => {
     setSelectedWorktopType(worktopType);
+  };
+  const changeSelectedWorktop = (worktop: Worktop | null) => {
+    setSelectedWorktop(worktop);
   };
   useEffect(() => {
     const getLoggedInUser = async () => {
@@ -83,13 +90,17 @@ const AppProvider = ({ children }: { children: any }) => {
         selectedKitchenType,
         selectedApartment,
         selectedFrontType,
+        selectedFront,
         selectedWorktopType,
+        selectedWorktop,
         changeAppState,
         changeSelectedProject,
         changeSelectedKitchenType,
         changeSelectedApartment,
         changeSelectedFrontType,
+        changeSelectedFront,
         changeSelectedWorktopType,
+        changeSelectedWorktop,
       }}
     >
       {children}

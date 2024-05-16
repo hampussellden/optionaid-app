@@ -12,7 +12,7 @@ type SideBarListItemWithChildrenProps = {
   onClick: any;
   isActive?: boolean;
   icon?: any;
-  state?: AppState;
+  state: AppState;
 };
 const SideBarListItemWithChildren = (props: SideBarListItemWithChildrenProps) => {
   const { items, name, onClick, isActive, icon, state } = props;
@@ -25,9 +25,22 @@ const SideBarListItemWithChildren = (props: SideBarListItemWithChildrenProps) =>
     changeSelectedKitchenType,
     changeSelectedApartment,
     changeSelectedFrontType,
+    changeSelectedFront,
     changeSelectedWorktopType,
+    changeSelectedWorktop,
   } = useContext(AppContext) as AppContextType;
-  const possibleIds = [selectedProject?.id, selectedFrontType?.id, selectedWorktopType?.id];
+  const idToMatch = (state: AppState) => {
+    switch (state) {
+      case 'EditProject':
+        return selectedProject?.id;
+      case 'EditFrontType':
+        return selectedFrontType?.id;
+      case 'EditWorktopType':
+        return selectedWorktopType?.id;
+      default:
+        return null;
+    }
+  };
   const classes = `cursor-pointer flex items-center gap-2 ${isActive ? 'font-bold' : ''} hover:text-secondary`;
   const handleClickChildItem = (item: Project | FrontType | WorktopType) => {
     switch (state) {
@@ -38,9 +51,11 @@ const SideBarListItemWithChildren = (props: SideBarListItemWithChildrenProps) =>
         break;
       case 'EditFrontType':
         changeSelectedFrontType(item as FrontType);
+        changeSelectedFront(null);
         break;
       case 'EditWorktopType':
         changeSelectedWorktopType(item as WorktopType);
+        changeSelectedWorktop(null);
         break;
       default:
         break;
@@ -59,7 +74,7 @@ const SideBarListItemWithChildren = (props: SideBarListItemWithChildrenProps) =>
           <ItemList indent marginTop>
             {items.map((item: any, index: number) => (
               <MenuItem
-                active={possibleIds.includes(item.id)}
+                active={idToMatch(state) === item.id}
                 key={index}
                 text={item.name || item.make}
                 onClick={() => {

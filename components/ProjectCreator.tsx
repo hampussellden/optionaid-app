@@ -5,6 +5,8 @@ import Button from './Button';
 import { SaveRounded } from '@mui/icons-material';
 import Box from './Box';
 import { MessagesContext, MessagesContextType } from '../app/admin/context/MessagesContext';
+import Flex from '@/containers/Flex';
+import Text from './Text';
 
 type ProjectCreatorProps = {
   // update: () => void;
@@ -44,21 +46,24 @@ const ProjectCreator = (props: ProjectCreatorProps) => {
     createNewProject();
   };
   return (
-    <Box grow primary>
-      <h2 className="text-2xl font-bold">Creating new project</h2>
-
-      <div className="flex flex-row  items-center gap-2">
-        <p className="text-lg font-semibold text-text">Project Name</p>
+    <Flex as="section" direction="column" classNames='w-full p-2' justify='between' align='stretch' gap={4}>
+    <Flex direction="column" classNames='bg-primary w-full rounded p-2' gap={1}>
+      <Text as="h4" size='medium'>
+        Creating new project
+      </Text>
+      <Flex align='center' gap={2}>
+        <Text as="p" size="small">Project Name</Text>
         <input
           type="text"
           title="Project name"
           value={inputValue}
-          className="px-4 py-2 text-xl font-semibold rounded text-text bg-background"
+          className="bg-static text-text p-0.5 rounded"
           onChange={handleInputChange}
-        />
-      </div>
-      <Button text="Save new project" onClick={handleCreateNewProject} icon={SaveRounded} loading={loading} />
-    </Box>
+          />
+          </Flex>
+    </Flex>
+      <Button fullWidth text="Save new project" onClick={handleCreateNewProject} icon={SaveRounded} loading={loading} />
+    </Flex>
   );
 };
 

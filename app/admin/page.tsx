@@ -6,6 +6,7 @@ import { AppContext, AppContextType } from './context/AppContext';
 import EditProject from '@/views/EditProject';
 import { AppState } from './context/AppContext';
 import ProjectCreator from '@/components/ProjectCreator';
+import EditFronts from '@/views/EditFronts';
 const Admin = () => {
   const { messages } = useContext(MessagesContext) as MessagesContextType;
   const { state } = useContext(AppContext) as AppContextType;
@@ -15,8 +16,8 @@ const Admin = () => {
         return <EditProject />;
       case 'CreateProject':
         return <ProjectCreator />;
-      // case 'EditFrontType':
-      //   return <EditFrontType id={id} />;
+      case 'EditFrontType':
+        return <EditFronts />;
       // case 'CreateFrontType':
       //   return <CreateFrontType />;
       // case 'EditFront':

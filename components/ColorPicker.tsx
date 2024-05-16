@@ -11,7 +11,6 @@ const ColorPicker = (props: ColorPickerProps) => {
   return (
     <div className="flex flex-row gap-4">
       <Sketch
-        style={{ marginLeft: 20 }}
         color={hex}
         onChange={(color) => {
           setHex(color.hex);

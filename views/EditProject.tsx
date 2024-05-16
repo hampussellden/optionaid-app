@@ -98,7 +98,7 @@ const EditProject = () => {
       <nav id="secondary-navigation" className="w-full">
         {/* Kitchen Types */}
         {selectedProject && (
-          <ItemList horizontal classNames={'py-4 px-2 bg-static sticky border border-text border-l-0 sticky w-full'}>
+          <ItemList horizontal classNames={'py-4 px-2 bg-static border border-text border-l-0 sticky w-full'}>
             {kitchenTypes &&
               kitchenTypes
                 .filter((kitchenType: KitchenType) => kitchenType.project_id === selectedProject.id)
@@ -138,12 +138,12 @@ const EditProject = () => {
         )}
       </nav>
 
-      <section id="project-editor" className="w-full h-full max-h-full overflow-auto p-2">
+      <Flex id="project-editor" as="section" direction="column" classNames="w-full h-full max-h-full overflow-auto p-2">
         {creatingKitchenType && selectedProject && <KitchenTypesCreator project={selectedProject} />}
         {selectedProject && !selectedKitchenType && (
           <>
-            <Flex direction="column" gap={4} align="stretch" justify="between" classNames="h-full">
-              <Flex direction="column" gap={1} classNames="w-full py-1 px-2 rounded bg-primary">
+            <Flex direction="column" gap={2} align="stretch">
+              <Flex direction="column" gap={1} classNames="w-full p-2 rounded bg-primary">
                 <Flex direction="row" gap={1} align="center" justify="between">
                   <Text as="h4" size="small">
                     Editing Project
@@ -165,9 +165,15 @@ const EditProject = () => {
                   />
                 </Flex>
               </Flex>
-              <Flex gap={4} align="center" justify="center" classNames="w-full">
+              <Flex gap={4} align="center" justify="center">
                 {exportableProject && <ReactCSV project={exportableProject} />}
-                <Button text="Save Changes" onClick={handleProjectUpdate} loading={loading} icon={SaveRounded} />
+                <Button
+                  fullWidth
+                  text="Save Changes"
+                  onClick={handleProjectUpdate}
+                  loading={loading}
+                  icon={SaveRounded}
+                />
               </Flex>
             </Flex>
           </>
@@ -186,7 +192,7 @@ const EditProject = () => {
             </Text>
           </Flex>
         )}
-      </section>
+      </Flex>
     </>
   );
 };
