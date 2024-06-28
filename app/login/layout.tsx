@@ -1,4 +1,4 @@
-import MainContent from '@/containers/MainContent';
+import MainContent from '@/Containers/MainContent';
 import '../globals.css';
 import Header from '@/views/Header';
 

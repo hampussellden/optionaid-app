@@ -5,8 +5,7 @@ import { CancelOutlined, CheckCircleOutline, SaveRounded } from '@mui/icons-mate
 import ColorPicker from '../components/ColorPicker';
 import { MessagesContext, MessagesContextType } from '../app/admin/context/MessagesContext';
 import { FrontsContext, FrontsContextType } from '../app/admin/context/FrontsContext';
-import Box from '../components/Box';
-import Flex from '@/containers/Flex';
+import Flex from '@/Containers/Flex';
 import Text from '@/components/Text';
 
 type FrontsEditorProps = {

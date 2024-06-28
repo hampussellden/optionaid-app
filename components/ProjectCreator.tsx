@@ -3,16 +3,11 @@ import React, { useState, useContext } from 'react';
 import { createClient } from '@/utilities/supabase/client';
 import Button from './Button';
 import { SaveRounded } from '@mui/icons-material';
-import Box from './Box';
 import { MessagesContext, MessagesContextType } from '../app/admin/context/MessagesContext';
-import Flex from '@/containers/Flex';
+import Flex from '@/Containers/Flex';
 import Text from './Text';
 
-type ProjectCreatorProps = {
-  // update: () => void;
-};
-
-const ProjectCreator = (props: ProjectCreatorProps) => {
+const ProjectCreator = () => {
   const supabase = createClient();
   const [loading, setLoading] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>('');

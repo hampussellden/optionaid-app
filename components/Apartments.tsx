@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { KitchenType } from '@/app/types';
 import { Apartment, Project } from '@/app/types';
 import ApartmentsCreator from './ApartmentsCreator';
-import ApartmentEditor from './ApartmentEditor';
+import ApartmentEditor from '@/blocks/ApartmentsEditor';
 import MenuItem from './MenuItem';
 import { AddRounded } from '@mui/icons-material';
 import ItemList from './ItemList';

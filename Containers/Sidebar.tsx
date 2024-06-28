@@ -1,11 +1,11 @@
 'use client';
 import { useState, useContext, useEffect } from 'react';
-import SideBarListItemWithChildren from '@/containers/SideBarListItemWithChildren';
+import SideBarListItemWithChildren from '@/Containers/SideBarListItemWithChildren';
 import { ProjectsContext, ProjectsContextType } from '@/app/admin/context/ProjectsContext';
 import { FrontsContext, FrontsContextType } from '@/app/admin/context/FrontsContext';
 import { WorktopContextType, WorktopsContext } from '@/app/admin/context/WorktopsContext';
 import { AddRounded, BusinessTwoTone, CountertopsTwoTone, DoorBackTwoTone } from '@mui/icons-material';
-import Flex from './Flex';
+import Flex from '@/Containers/Flex';
 import MenuItem from '@/components/MenuItem';
 import { AppContext, AppContextType } from '@/app/admin/context/AppContext';
 import Button from '@/components/Button';

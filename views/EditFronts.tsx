@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { AppContext, AppContextType } from '@/app/admin/context/AppContext';
-import Fronts from '@/components/Fronts';
-import Flex from '@/containers/Flex';
+import Flex from '@/Containers/Flex';
 import { FrontsContext, FrontsContextType } from '@/app/admin/context/FrontsContext';
 import { sortByName } from '@/utilities/helpers/sorting';
 import ItemList from '@/components/ItemList';

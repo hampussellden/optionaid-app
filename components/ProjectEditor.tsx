@@ -1,7 +1,6 @@
 'use client';
 import React, { useState, useContext } from 'react';
-import { createClient } from '@/utilities/supabase/client';
-import { Apartment, KitchenType, Project } from '../app/types';
+import { Project } from '../app/types';
 import Button from './Button';
 import { SaveRounded } from '@mui/icons-material';
 import ReactCSV from './ReactCSV';
@@ -12,7 +11,6 @@ import { ProjectsContext, ProjectsContextType } from '@/app/admin/context/Projec
 
 export type ProjectEditorProps = {
   project: Project;
-  // update: () => void;
 };
 
 const ProjectEditor = (props: ProjectEditorProps) => {

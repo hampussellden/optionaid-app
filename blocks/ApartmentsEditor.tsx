@@ -4,9 +4,8 @@ import { createClient } from '@/utilities/supabase/client';
 import { ClientUser, Apartment, Project, KitchenType } from '@/app/types';
 import Button from '@/components/Button';
 import { DeleteOutline, LockRounded, SaveRounded } from '@mui/icons-material';
-import Box from '@/components/Box';
 import { MessagesContext, MessagesContextType } from '../app/admin/context/MessagesContext';
-import Flex from '@/containers/Flex';
+import Flex from '@/Containers/Flex';
 import Text from '@/components/Text';
 
 export type ApartmentEditorProps = {

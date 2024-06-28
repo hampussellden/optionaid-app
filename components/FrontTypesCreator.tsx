@@ -1,14 +1,11 @@
 import React, { useState, useContext } from 'react';
 import Button from './Button';
 import { AddRounded } from '@mui/icons-material';
-import { createClient } from '@/utilities/supabase/client';
 import { MessagesContext, MessagesContextType } from '../app/admin/context/MessagesContext';
 import { FrontsContext, FrontsContextType } from '../app/admin/context/FrontsContext';
-import { FrontType } from '../app/types';
-type FrontTypesCreatorProps = {};
 
-const FrontTypesCreator = (props: FrontTypesCreatorProps) => {
-  const supabase = createClient();
+
+const FrontTypesCreator = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const { addMessage } = useContext(MessagesContext) as MessagesContextType;

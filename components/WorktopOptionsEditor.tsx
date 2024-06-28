@@ -5,7 +5,7 @@ import WorktopOptionItem from './WorktopOptionItem';
 import Button from './Button';
 import { AddRounded } from '@mui/icons-material';
 import { MessagesContext, MessagesContextType } from '../app/admin/context/MessagesContext';
-import Flex from '@/containers/Flex';
+import Flex from '@/Containers/Flex';
 import Text from './Text';
 
 type WorktopOptionsEditor = {

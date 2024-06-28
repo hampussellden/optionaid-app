@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Button from './Button';
 import { FrontOption } from '@/app/types';
 import { DeleteOutline, SensorDoorOutlined } from '@mui/icons-material';
-import Flex from '@/containers/Flex';
+import Flex from '@/Containers/Flex';
 import Text from './Text';
 type FrontOptionItemProps = {
   frontOption: FrontOption;

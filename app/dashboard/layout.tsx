@@ -1,5 +1,5 @@
 import React from 'react';
-import MainContent from '@/containers/MainContent';
+import MainContent from '@/Containers/MainContent';
 import Header from '@/views/Header';
 
 export default function dashboardLayout({ children }: { children: React.ReactNode }) {

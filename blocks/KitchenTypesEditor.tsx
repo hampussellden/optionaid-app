@@ -8,7 +8,7 @@ import Button from '@/components/Button';
 import { SaveRounded } from '@mui/icons-material';
 import { MessagesContext, MessagesContextType } from '../app/admin/context/MessagesContext';
 import Text from '@/components/Text';
-import Flex from '@/containers/Flex';
+import Flex from '@/Containers/Flex';
 
 export type KitchenTypesEditorProps = {
   kitchenType: KitchenType;

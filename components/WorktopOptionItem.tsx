@@ -3,7 +3,7 @@ import Button from './Button';
 import { WorktopOption } from '@/app/types';
 import { DeleteOutline } from '@mui/icons-material';
 import { CountertopsOutlined } from '@mui/icons-material';
-import Flex from '@/containers/Flex';
+import Flex from '@/Containers/Flex';
 import Text from './Text';
 type WorktopOptionItemProps = {
   worktopOption: WorktopOption;

@@ -1,10 +1,9 @@
 import React, { useState, useContext } from 'react';
 import Button from './Button';
 import { AddRounded } from '@mui/icons-material';
-import { createClient } from '@/utilities/supabase/client';
 import { MessagesContext, MessagesContextType } from '../app/admin/context/MessagesContext';
 import { WorktopsContext, WorktopContextType } from '../app/admin/context/WorktopsContext';
-import { WorktopType, WorktopTypeWithoutId } from '../app/types';
+import {  WorktopTypeWithoutId } from '../app/types';
 type WorktopTypesCreatorProps = {};
 
 const WorktopTypesCreator = (props: WorktopTypesCreatorProps) => {

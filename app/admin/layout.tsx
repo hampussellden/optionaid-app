@@ -4,10 +4,10 @@ import FrontsProvider from './context/FrontsContext';
 import WorktopsProvider from './context/WorktopsContext';
 import ProjectsContext from './context/ProjectsContext';
 import Header from '@/views/Header';
-import AdminGrid from '@/containers/AdminGrid';
-import Sidebar from '@/containers/Sidebar';
+import AdminGrid from '@/Containers/AdminGrid';
+import Sidebar from '@/Containers/Sidebar';
+import Flex from '@/Containers/Flex';
 import AppProvider from './context/AppContext';
-import Flex from '@/containers/Flex';
 
 export const dynamic = 'force-dynamic';
 

@@ -10,7 +10,6 @@ import { MessagesContext, MessagesContextType } from '../app/admin/context/Messa
 
 export type KitchenTypesCreatorProps = {
   project: Project;
-  // update: () => void;
 };
 
 const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {

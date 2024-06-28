@@ -8,7 +8,7 @@ import { KitchenType, Project } from '@/app/types';
 import { AddRounded, HouseOutlined, KitchenRounded, KitchenTwoTone, SaveRounded } from '@mui/icons-material';
 import ReactCSV from '@/components/ReactCSV';
 import Button from '@/components/Button';
-import Flex from '@/containers/Flex';
+import Flex from '@/Containers/Flex';
 import ItemList from '@/components/ItemList';
 import { sortByName } from '@/utilities/helpers/sorting';
 import MenuItem from '@/components/MenuItem';
