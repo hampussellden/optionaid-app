@@ -11,7 +11,7 @@ import {
   New_Apartment,
 } from '@/app/types';
 import { createClient } from '@/utilities/supabase/client';
-import { apartmentsInteriorDeep, kitchenTypesAllData } from '@/utilities/helpers/supabaseSelect';
+import { projectsAllData, apartmentsInteriorDeep, kitchenTypesAllData } from '@/utilities/helpers/supabaseSelect';
 
 export type ProjectsContextType = {
   projects: Project[];
@@ -21,7 +21,7 @@ export type ProjectsContextType = {
   addKitchenType: (kitchenType: KitchenTypeWithoutId) => Promise<CreationMessage>;
   updateKitchenType: (kitcenType: KitchenType) => Promise<CreationMessage>;
   apartments: Apartment[];
-  addApartment: (apartment: ApartmentWithoutId) => Promise<CreationMessage>;
+  addApartment: (apartment: New_Apartment) => Promise<CreationMessage>;
   updateApartment: (apartment: Apartment) => Promise<CreationMessage>;
 };
 
@@ -151,50 +151,47 @@ const ProjectsProvider = ({ children }: { children: any }) => {
   };
 
   // Fetch projects
-  useEffect(() => {
-    const fetchProjects = async () => {
-      const { data: projects, error } = await supabase.from('projects').select('*');
+  const fetchProjects = async () => {
+    const { data: projects, error } = await supabase.from('projects').select(projectsAllData);
 
-      if (error) {
-        return;
-      }
+    if (error) {
+      return;
+    }
 
-      if (projects) {
-        setProjects(projects as Project[]);
-      }
-    };
-    fetchProjects();
-  }, []);
-
+    if (projects) {
+      console.log(projects);
+      setProjects(projects as Project[]);
+    }
+  };
   // Fetch kitchen types
-  useEffect(() => {
-    const fetchKitchenTypes = async () => {
-      const { data: kitchenTypes, error } = await supabase.from('kitchen_types').select(kitchenTypesAllData);
+  const fetchKitchenTypes = async () => {
+    const { data: kitchenTypes, error } = await supabase.from('kitchen_types').select(kitchenTypesAllData);
 
-      if (error) {
-        return;
-      }
+    if (error) {
+      return;
+    }
 
-      if (kitchenTypes) {
-        setKitchenTypes(kitchenTypes as KitchenType[]);
-      }
-    };
-    fetchKitchenTypes();
-  }, []);
+    if (kitchenTypes) {
+      setKitchenTypes(kitchenTypes as KitchenType[]);
+    }
+  };
 
   // Fetch apartments
+  const fetchApartments = async () => {
+    const { data: apartments, error } = await supabase.from('apartments').select(apartmentsInteriorDeep);
+
+    if (error) {
+      return;
+    }
+
+    if (apartments) {
+      setApartments(apartments as Apartment[]);
+    }
+  };
+  // Run fetches
   useEffect(() => {
-    const fetchApartments = async () => {
-      const { data: apartments, error } = await supabase.from('apartments').select(apartmentsInteriorDeep);
-
-      if (error) {
-        return;
-      }
-
-      if (apartments) {
-        setApartments(apartments as Apartment[]);
-      }
-    };
+    fetchProjects();
+    fetchKitchenTypes();
     fetchApartments();
   }, []);
 
