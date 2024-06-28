@@ -36,13 +36,17 @@ const KitchenTypes = (props: KitchenTypesProps) => {
     setEditing(true);
     setCreating(false);
     setSelectedType(kitchenType);
-    props.handleProjectEditorClose();
+    if (props && props.handleProjectEditorClose) {
+      props.handleProjectEditorClose();
+    }
   };
   const handleOpenKitchenTypeCreator = () => {
     setEditing(false);
     setCreating(true);
     setSelectedType(null);
-    props.handleProjectEditorClose();
+    if (props && props.handleProjectEditorClose) {
+      props.handleProjectEditorClose();
+    }
   };
 
   useEffect(() => {
