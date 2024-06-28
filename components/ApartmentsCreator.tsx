@@ -1,6 +1,5 @@
 'use client';
 import React, { useState, useContext } from 'react';
-import { createClient } from '@/utilities/supabase/client';
 import { KitchenType } from '@/app/types';
 import Box from './Box';
 import Button from './Button';
@@ -14,7 +13,6 @@ export type ApartmentCreatorProps = {
 };
 
 const ApartmentsCreator = (props: ApartmentCreatorProps) => {
-  const supabase = createClient();
   const [inputValue, setInputValue] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const { addMessage } = useContext(MessagesContext) as MessagesContextType;
@@ -40,9 +38,13 @@ const ApartmentsCreator = (props: ApartmentCreatorProps) => {
 
   return (
     <Box grow primary>
-      <Text as="h4" size="small" text="Creating new apartment" />
+      <Text as="h4" size="small">
+      Creating new apartment
+      </Text>
       <div className="flex flex-row  items-center gap-2 max-w-lg">
-        <Text as="p" text="Apartment Name" />
+        <Text as="p">
+        Apartment Name
+        </Text>
         <input
           type="text"
           title="Apartment name"
