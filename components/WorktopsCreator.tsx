@@ -7,6 +7,8 @@ import { Worktop, WorktopType, WorktopWithoutId } from '../app/types';
 import Box from './Box';
 import { MessagesContext, MessagesContextType } from '../app/admin/context/MessagesContext';
 import { WorktopsContext, WorktopContextType } from '../app/admin/context/WorktopsContext';
+import Flex from '@/Containers/Flex';
+import Text from './Text';
 type WorktopsCreatorProps = {
   worktopType: WorktopType | null;
 };
@@ -56,43 +58,53 @@ const WorktopsCreator = (props: WorktopsCreatorProps) => {
   };
 
   return (
-    <Box grow primary>
-      <div className="flex justify-between">
-        <p className="text-2xl font-bold text-text">Creating worktop on type</p>
-        <p className="text-xl font-semibold text-text">{props.worktopType?.make}</p>
-      </div>
-      <div className="flex flex-col gap-2">
-        <p className="text-xl font-semibold text-text">Worktop Name</p>
+    <Flex as='section' direction='column' gap={2}>
+      <Flex direction='column' gap={2} classNames='bg-primary rounded p-2'>
+        <Flex justify='between' align='center' width='full'>
+          <Text as='h4' size='medium'>
+            Creating worktop on type
+          </Text>
+          <Text as='p' size='medium'>
+            {props.worktopType?.make}
+          </Text>
+      </Flex>
+      <Flex direction='column' gap={2}>
+        <Text as='p' size='medium'>
+          Worktop Name
+        </Text>
         <input
-          className="text-text bg-background rounded py-2 px-4 font-semibold"
-          type="text"
-          title="Worktop name"
+          type='text'
+          title='Worktop name'
           value={worktopNameInput}
+          className='bg-background text-text p-0.5 rounded max-w-[30ch]'
           onChange={handleWorktopNameInput}
         />
-      </div>
+        </Flex>
+          <Flex direction='column' gap={2}>
+            <Text as='p' size='medium'>Change font color code</Text>
+        
+         
+         <ColorPicker onClick={handleWorktopColor} />
+         <Flex justify='between'>
 
-      <div className="flex flex-col gap-2">
-        <p className="text-lg text-text font-semibold">Change font color code</p>
-        <ColorPicker onClick={handleWorktopColor} />
-        <div className="flex justify-between">
-          {worktopColorInput ? (
-            <p className="ml-5 text-lg font-semibold text-text flex flex-row gap-2 items-center">
-              Color set
-              <CheckCircleOutline />
-              <span className="bg-background p-1 rounded">{worktopColorInput}</span>
-            </p>
-          ) : (
-            <p className="ml-5 text-lg font-semibold text-text flex flex-row gap-2 items-center">
-              No color selected
-              <CancelOutlined />
-            </p>
-          )}
-          <Button text="Create new worktop" icon={AddRounded} onClick={handleCreateNewWorktop} loading={loading} />
-        </div>
-      </div>
-    </Box>
-  );
+           {worktopColorInput ? (
+             <p className="ml-5 text-lg font-semibold text-text flex flex-row gap-2 items-center">
+               Color set
+               <CheckCircleOutline />
+               <span className="bg-background p-1 rounded">{worktopColorInput}</span>
+             </p>
+           ) : (
+             <p className="ml-5 text-lg font-semibold text-text flex flex-row gap-2 items-center">
+               No color selected
+               <CancelOutlined />
+             </p>
+           )}
+         </Flex>
+         </Flex>
+         </Flex>
+         <Button fullWidth text="Create new worktop" icon={AddRounded} onClick={handleCreateNewWorktop} loading={loading} />
+    </Flex>
+  )
 };
 
 export default WorktopsCreator;

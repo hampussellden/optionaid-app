@@ -90,7 +90,7 @@ const FrontsEditor = (props: FrontsEditorProps) => {
               title="Front type name"
               value={frontTypeInputValue}
               onChange={handleFrontTypeInputValue}
-              className="text-text bg-static rounded py-1 px-2 max-w-[20ch]"
+              className="text-text bg-background rounded py-1 px-2 max-w-[20ch]"
             />
           </Flex>
         </Flex>
@@ -125,7 +125,7 @@ const FrontsEditor = (props: FrontsEditorProps) => {
                   title="Front name"
                   value={frontInputValue}
                   onChange={handleFrontInputValue}
-                  className="text-text bg-static rounded py-1 px-2 max-w-[20ch]"
+                  className="text-text bg-background rounded py-1 px-2 max-w-[20ch]"
                 />
               </Flex>
               <Flex direction="column" gap={2}>

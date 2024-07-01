@@ -72,7 +72,7 @@ const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {
       }
     });
   };
-  const handleStandardWorktop = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleStandardWorktop = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     worktops?.filter((worktop: Worktop) => {
       if (worktop.id === parseInt(event.target.value)) {
         setStandardWorktop(worktop);
@@ -82,23 +82,28 @@ const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {
   return (
     <Flex direction='column' gap={2}>
       <Flex direction='column' classNames='bg-primary rounded p-2' gap={2} width='full'>
+        <Flex width='full' align='center' justify='between'>
         <Text as="h4" size="small">
           Creating New Kitchen Type
         </Text>
+        <Text as="p" size="small">
+          {props.project.name}
+        </Text>
+        </Flex>
         <Flex align='center' gap={2} >
           <Text as="p" size="medium">Kitchen Type Name</Text>
           <input
             type="text"
             title="Kitchen type name"
             value={inputValue}
-            className="bg-static text-text p-0.5 rounded"
+            className="bg-background text-text p-0.5 rounded"
             onChange={handleInputChange}
           />
         </Flex>
         <Flex align='center' gap={2}>
           <Text as='p' size='medium'>Standard Front</Text>
           <select
-            className="bg-static text-text p-0.5 rounded"
+            className="bg-background text-text p-0.5 rounded"
             name="standard-front-picker"
             id="standard-front-picker"
             aria-label="Choose Standard Front"
@@ -117,7 +122,7 @@ const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {
         <Flex align='center' gap={2}>
           <Text as='p' size='medium'>Standard Worktop</Text>
           <select
-            className="bg-static text-text p-0.5 rounded"
+            className="bg-background text-text p-0.5 rounded"
             name="standard-worktop-picker"
             id="standard-worktop-picker"
             aria-label="Choose Standard Worktop"

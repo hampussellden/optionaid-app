@@ -50,7 +50,7 @@ const ApartmentsCreator = (props: ApartmentCreatorProps) => {
             type="text"
             title="Apartment name"
             value={inputValue}
-            className="bg-static text-text p-0.5 rounded"
+            className="bg-background text-text p-0.5 rounded"
             onChange={handleInputChange}
             />
         </Flex>

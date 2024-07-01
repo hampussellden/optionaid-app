@@ -7,6 +7,7 @@ import Box from './Box';
 import { MessagesContext, MessagesContextType } from '../app/admin/context/MessagesContext';
 import { FrontsContext, FrontsContextType } from '../app/admin/context/FrontsContext';
 import Flex from '@/Containers/Flex';
+import Text from './Text';
 type FrontsCreatorProps = {
   frontType: FrontType;
 };
@@ -55,26 +56,26 @@ const FrontsCreator = (props: FrontsCreatorProps) => {
   };
 
   return (
- <Flex as="section" direction="column" classNames='p-2' justify='between' align='stretch' gap={4} width='full'>
-  
-      <div>
-        <p className="text-2xl font-bold text-text">Creating front on type</p>
-      </div>
-      <div className="flex flex-col gap-2">
-        <p className="text-xl font-semibold text-text">Front Name</p>
-        <input
-          className="text-text bg-background rounded py-2 px-4 font-semibold"
-          type="text"
-          aria-label="Front name"
-          value={frontNameInput}
-          onChange={handleFrontNameInput}
-        />
-      </div>
+    <Flex as="section" direction="column" justify='between' align='stretch' gap={2} width='full'>
+      <Flex direction='column' gap={2} width='full' classNames='bg-primary rounded p-2'>
+        <Text as='h4' size='small'>
+          Creating front on type
+        </Text>
+        <Flex direction='column' gap={2} width='full'>
+          <Text as='p' size='small'>Front Name</Text>
+          <input
+            className="text-text bg-background rounded py-2 px-4 font-semibold max-w-[30ch]"
+            type="text"
+            aria-label="Front name"
+            value={frontNameInput}
+            onChange={handleFrontNameInput}
+            />
+        </Flex>
 
-      <div className="flex flex-col gap-2">
+      <Flex direction='column' gap={2}>
         <p className="text-lg text-text font-semibold">Change font color code</p>
         <ColorPicker onClick={handleFrontColor} />
-        <div className="flex justify-between">
+        <Flex justify='between'>
           {frontColorInput ? (
             <p className="ml-5 text-lg font-semibold text-text flex flex-row gap-2 items-center">
               Color set
@@ -87,10 +88,11 @@ const FrontsCreator = (props: FrontsCreatorProps) => {
               <CancelOutlined />
             </p>
           )}
-          <Button text="Create new front" icon={AddRounded} onClick={handleCreateNewFront} loading={loading} />
-        </div>
-      </div>
+          </Flex>
+        </Flex>
       </Flex>
+      <Button fullWidth text="Create new front" icon={AddRounded} onClick={handleCreateNewFront} loading={loading} />
+    </Flex>
   
   );
 };

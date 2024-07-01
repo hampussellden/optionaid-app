@@ -17,6 +17,7 @@ import ApartmentEditor from '@/blocks/ApartmentsEditor';
 import KitchenTypesCreator from '@/components/KitchenTypesCreator';
 import Text from '@/components/Text';
 import ApartmentsCreator from '@/components/ApartmentsCreator';
+import ProjectEditor from '@/components/ProjectEditor';
 
 const EditProject = () => {
   const supabase = createClient();
@@ -64,23 +65,7 @@ const EditProject = () => {
     setLoading(true);
     updateProject();
   };
-  useEffect(() => {
-    if (!selectedProject) return;
-    const fetchExportableProject = async () => {
-      const { data: exportableProject, error } = await supabase
-        .from('projects')
-        .select('*, kitchen_types(*,apartments(*,users(*)))')
-        .eq('id', selectedProject.id)
-        .single();
-      if (error) {
-        addMessage({ message: 'Error fetching project CSV', type: 'error' });
-      }
-      if (exportableProject) {
-        setExportableProject(exportableProject as Project);
-      }
-    };
-    fetchExportableProject();
-  }, [selectedProject]);
+
   const handleSelectKitchenType = (kitchenType: KitchenType) => {
     changeSelectedKitchenType(kitchenType);
     changeSelectedApartment(null);
@@ -100,7 +85,7 @@ const EditProject = () => {
     <>
       <nav id="secondary-navigation" className="w-full">
         {selectedProject && (
-          <ItemList horizontal classNames={'py-4 px-2 bg-static border border-text border-l-0 sticky w-full'}>
+          <ItemList horizontal classNames={'py-4 px-2 bg-static border-b border-text  sticky w-full'}>
             {kitchenTypes &&
               kitchenTypes
                 .filter((kitchenType: KitchenType) => kitchenType.project_id === selectedProject.id)
@@ -143,40 +128,7 @@ const EditProject = () => {
       <Flex id="project-editor" as="section" direction="column" classNames="h-full max-h-full overflow-auto p-2" width='full'>
         {creatingKitchenType && selectedProject && <KitchenTypesCreator project={selectedProject} />}
         {selectedProject && !selectedKitchenType && !creatingKitchenType && (
-            <Flex direction="column" gap={2} align="stretch">
-              <Flex direction="column" gap={1} classNames="w-full p-2 rounded bg-primary">
-                <Flex direction="row" gap={1} align="center" justify="between">
-                  <Text as="h4" size="small">
-                    Editing Project
-                  </Text>
-                  <Text as="p" size="medium">
-                    {selectedProject.name}
-                  </Text>
-                </Flex>
-                <Flex gap={1} direction="column" align="start">
-                  <Text as="p" size="medium">
-                    Project Name
-                  </Text>
-                  <input
-                    className="bg-static text-text rounded p-1 max-w-[30ch]"
-                    type="text"
-                    title="Project name"
-                    value={inputValue}
-                    onChange={handleInputChange}
-                  />
-                </Flex>
-              </Flex>
-              <Flex gap={4} align="center" justify="center">
-                {exportableProject && <ReactCSV project={exportableProject} />}
-                <Button
-                  fullWidth
-                  text="Save Changes"
-                  onClick={handleProjectUpdate}
-                  loading={loading}
-                  icon={SaveRounded}
-                />
-              </Flex>
-            </Flex>
+            <ProjectEditor />
         )}
         {selectedProject && selectedKitchenType && !selectedApartment && !creatingApartment && (
           <KitchenTypesEditor kitchenType={selectedKitchenType} project={selectedProject} />

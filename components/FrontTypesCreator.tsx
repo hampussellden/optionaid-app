@@ -30,7 +30,7 @@ const FrontTypesCreator = () => {
   };
 
   return (
-    <Flex as="section" direction="column" classNames='p-2' justify='between' align='stretch' gap={4} width='full'>
+    <Flex as="section" direction="column" classNames='p-2' justify='between' align='stretch' gap={2} width='full'>
       <Flex direction="column" classNames='bg-primary w-full rounded p-2' gap={1}>
         <Text as="h4" size='medium'>
           Creating new front type
@@ -41,12 +41,12 @@ const FrontTypesCreator = () => {
             type="text"
             title="Front type name"
             value={inputValue}
-            className="bg-static text-text p-0.5 rounded"
+            className="bg-background text-text p-0.5 rounded"
             onChange={handleInputValue}
           />
           </Flex>
         </Flex>
-        <Button fullWidth text="Save new project" onClick={handleCreateNewFrontTYpe} icon={SaveRounded} loading={loading} />
+        <Button fullWidth text="Save new front type" onClick={handleCreateNewFrontTYpe} icon={SaveRounded} loading={loading} />
     </Flex>
   );
 };

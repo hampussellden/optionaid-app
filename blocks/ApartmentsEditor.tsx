@@ -104,7 +104,7 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
             <input
               type="text"
               title="Apartment name"
-              className="text-text font-semibold text-lg py-1 px-2 rounded bg-static max-w-[20ch]"
+              className="text-text font-semibold text-lg py-1 px-2 rounded bg-background max-w-[20ch]"
               value={inputValue}
               onChange={handleInputChange}
             />
@@ -139,7 +139,7 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
             </Text>
             {clients && (
               <select
-                className="text-text py-1 px-2 rounded bg-static max-w-[30ch]"
+                className="text-text py-1 px-2 rounded bg-background max-w-[30ch]"
                 name="clients"
                 title="Select a client"
                 onChange={handleClientChange}

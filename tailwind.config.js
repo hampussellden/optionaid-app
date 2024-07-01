@@ -13,7 +13,7 @@ module.exports = {
       colors: {
         foreground: 'hsl(var(--foreground))',
         text: 'hsl(var(--text))',
-        background: 'rgb(var(--background))',
+        background: 'hsl(var(--background))',
         primary: 'hsl(var(--primary))',
         secondary: 'hsl(var(--secondary))',
         accent: 'hsl(var(--accent))',

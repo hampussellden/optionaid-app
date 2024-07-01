@@ -91,7 +91,7 @@ const WorktopsEditor = (props: WorktopsEditorProps) => {
               title="Worktop type name"
               value={worktopTypeInputValue}
               onChange={handleWorktopTypeInputValue}
-              className="text-text bg-static rounded py-1 px-2 max-w-[20ch]"
+              className="text-text bg-background rounded py-1 px-2 max-w-[20ch]"
               />
           </Flex>
         </Flex>
@@ -125,7 +125,7 @@ const WorktopsEditor = (props: WorktopsEditorProps) => {
                 Change worktop name
               </Text>
               <input type="test" title="Worktop name" value={worktopInputValue} onChange={handleWorktopInputValue}
-              className='text-text bg-static rounded py-1 px-2 max-w-[20ch]'/>
+              className='text-text bg-background rounded py-1 px-2 max-w-[20ch]'/>
             </Flex>
             <Flex direction='column' gap={2}>
               <Text as="p">

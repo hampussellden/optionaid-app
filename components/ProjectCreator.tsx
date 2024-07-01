@@ -28,7 +28,7 @@ const ProjectCreator = () => {
   };
   
   return (
-    <Flex as="section" direction="column" classNames='p-2' justify='between' align='stretch' gap={4} width='full'>
+    <Flex as="section" direction="column" classNames='p-2' justify='between' align='stretch' gap={2} width='full'>
       <Flex direction="column" classNames='bg-primary w-full rounded p-2' gap={1}>
         <Text as="h4" size='medium'>
           Creating new project
@@ -39,7 +39,7 @@ const ProjectCreator = () => {
             type="text"
             title="Project name"
             value={inputValue}
-            className="bg-static text-text p-0.5 rounded"
+            className="bg-background text-text p-0.5 rounded"
             onChange={handleInputChange}
           />
         </Flex>

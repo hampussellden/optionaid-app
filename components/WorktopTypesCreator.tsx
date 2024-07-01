@@ -1,9 +1,11 @@
 import React, { useState, useContext } from 'react';
 import Button from './Button';
-import { AddRounded } from '@mui/icons-material';
+import { AddRounded, SaveRounded } from '@mui/icons-material';
 import { MessagesContext, MessagesContextType } from '../app/admin/context/MessagesContext';
 import { WorktopsContext, WorktopContextType } from '../app/admin/context/WorktopsContext';
 import {  WorktopTypeWithoutId } from '../app/types';
+import Flex from '@/Containers/Flex';
+import Text from './Text';
 type WorktopTypesCreatorProps = {};
 
 const WorktopTypesCreator = (props: WorktopTypesCreatorProps) => {
@@ -31,27 +33,27 @@ const WorktopTypesCreator = (props: WorktopTypesCreatorProps) => {
   const handleInputValue = (e: React.ChangeEvent<any>) => {
     setInputValue(e.target.value);
   };
+
   return (
-    <div className="grow bg-primary rounded p-4 flex flex-col gap-4">
-      <p className="text-2xl font-bold text-text">Creating worktop type</p>
-      <p className="text-lg font-semibold text-text">Worktop make</p>
-      <input
-        type="text"
-        aria-aria-label="Worktop make"
-        className="text-text bg-background rounded py-2 px-4 font-semibold"
-        onChange={handleInputValue}
-        value={inputValue}
-      />
-      <div className="flex flex-row gap-4 ml-auto">
-        <Button
-          text="Create new worktop type"
-          icon={AddRounded}
-          loading={loading}
-          onClick={handleCreateNewWorktopType}
-        />
-      </div>
-    </div>
-  );
+    <Flex as="section" direction="column" classNames='p-2' justify='between' align='stretch' gap={2} width='full'>
+      <Flex direction="column" classNames='bg-primary w-full rounded p-2' gap={1}>
+        <Text as="h4" size='medium'>
+        Creating new worktop type
+        </Text>
+        <Flex align='center' gap={2}>
+          <Text as="p" size="small">Worktop type name</Text>
+          <input
+            type="text"
+            title="Worktop type name"
+            value={inputValue}
+            className="bg-statbackgroundic text-text p-0.5 rounded"
+            onChange={handleInputValue}
+          />
+          </Flex>
+        </Flex>
+        <Button fullWidth text="Save new front type" onClick={handleCreateNewWorktopType} icon={SaveRounded} loading={loading} />
+    </Flex>
+  )
 };
 
 export default WorktopTypesCreator;

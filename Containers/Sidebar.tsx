@@ -40,7 +40,7 @@ const Sidebar = () => {
     const handleMouseEnter = () => setHovered(true);
     const handleMouseLeave = () => setHovered(false);
     const classes = `
-    bg-static p-2 h-full overflow-y-auto overflow-x-hidden border border-text flex flex-col justify-between max-h-screen scrollbar-thin border-b-0 w-full `;
+    bg-static p-2 h-full overflow-y-auto overflow-x-hidden border-r border-r-1 border-text flex flex-col justify-between max-h-screen scrollbar-thin w-full `;
     return (
       <aside
         id="sidebar-navigation"

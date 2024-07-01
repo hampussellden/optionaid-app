@@ -162,7 +162,7 @@ const WorktopOptionsEditor = (props: WorktopOptionsEditor) => {
             </Text>
             {worktopTypes && (
               <select
-                className="rounded py-1 px-2 text-text bg-static"
+                className="rounded py-1 px-2 text-text bg-background"
                 name="newWorktopOptionType"
                 id="newWorktopOptionType"
                 aria-label="Select a worktop type"
@@ -184,7 +184,7 @@ const WorktopOptionsEditor = (props: WorktopOptionsEditor) => {
                 worktop
               </Text>
               <select
-                className="rounded py-1 px-2 text-text bg-static"
+                className="rounded py-1 px-2 text-text bg-background"
                 name="newFrontOptionFront"
                 id="newFrontOptionFront"
                 aria-label="Select a worktop"
@@ -209,7 +209,7 @@ const WorktopOptionsEditor = (props: WorktopOptionsEditor) => {
                   Price
                 </Text>
                 <input
-                  className="py-1 px-2 rounded text-text bg-static"
+                  className="py-1 px-2 rounded text-text bg-background"
                   type="number"
                   title="Worktop option price"
                   value={priceInputValue}

@@ -55,7 +55,7 @@ const KitchenTypesEditor = (props: KitchenTypesEditorProps) => {
             Type Name
           </Text>
           <input
-            className="bg-static text-text p-0.5 rounded max-w-[20ch]"
+            className="bg-background text-text p-0.5 rounded max-w-[20ch]"
             type="text"
             title="Kitchen type name"
             value={typeNameInputValue}

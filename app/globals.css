@@ -9,7 +9,7 @@
     --foreground: 200 50% 3%;
     --text: 218 35% 6%;
     /* --background: 216 33% 97%; */
-    --background: 245 245 244;
+    --background: 60 5% 96%;
     --primary: 36 35% 72%;
     --primary-hover: 36 35% 72% / 0.45;
     --secondary: 87 23% 64%;
@@ -20,16 +20,39 @@
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --text: 218 35% 94%;
-      --background: 87 83 78;
+      /* --text: 218 35% 94%;
+      --background: 87 83 78; */
       /* --background: 216 33% 3%; */
-      --primary: 36 35% 28% / 0.8;
+      /* --primary: 36 35% 28% / 0.8;
       --secondary: 70 35% 14%;
       --accent: 8 35% 54%;
       --btn-background: 200 10% 50%;
       --btn-background-hover: 200 10% 12%;
       --static: 360 100% 100% / 0.03;
-      --foreground: 200 20% 96%;
+      --foreground: 200 20% 96%; */
+      /* new dark theme */
+      --text: 197 47% 97%;
+      --background: 60 5% 4%;
+      --primary: 36 35% 28%;
+      --secondary: 87 23% 36%;
+      --accent: 8 35% 54%;
+      --accent: 8 35% 54%;
+      --btn-background: 200 10% 50%;
+      --btn-background-hover: 200 10% 12%;
+      --static: 360 100% 100% / 0.05;
+      --foreground: 200 20% 96%; 
     }
   }
+}
+
+
+input,select {
+  &:focus {
+    outline: none;
+  }
+  &:focus-visible {
+    outline: none;
+    border: 1px solid var(--accent);
+  }
+
 }

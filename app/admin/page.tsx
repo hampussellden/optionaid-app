@@ -9,6 +9,7 @@ import ProjectCreator from '@/components/ProjectCreator';
 import EditFronts from '@/views/EditFronts';
 import FrontTypesCreator from '@/components/FrontTypesCreator';
 import EditWorktops from '@/views/EditWorktops';
+import WorktopTypesCreator from '@/components/WorktopTypesCreator';
 
 const Admin = () => {
   const { messages } = useContext(MessagesContext) as MessagesContextType;
@@ -29,8 +30,8 @@ const Admin = () => {
       //   return <CreateFront id={id} />;
       case 'EditWorktopType':
         return <EditWorktops />;
-      // case 'CreateWorktopType':
-      //   return <CreateWorktopType id={id} />;
+      case 'CreateWorktopType':
+        return <WorktopTypesCreator />;
       // case 'EditWorktop':
       //   return <EditWorktop id={id} />;
       // case 'CreateWorktop':

@@ -168,7 +168,7 @@ const FrontOptionsEditor = (props: FrontOptionsEditorProps) => {
             </Text>
             {frontTypes && (
               <select
-                className="rounded py-1 px-2 text-text bg-static"
+                className="rounded py-1 px-2 text-text bg-background"
                 name="newFrontOptionType"
                 id="newFrontOptionType"
                 aria-label="Select a front type"
@@ -190,7 +190,7 @@ const FrontOptionsEditor = (props: FrontOptionsEditorProps) => {
                 Front
               </Text>
               <select
-                className="rounded py-1 px-2 text-text bg-static"
+                className="rounded py-1 px-2 text-text bg-background"
                 name="newFrontOptionFront"
                 id="newFrontOptionFront"
                 aria-label="Select a front"
@@ -215,7 +215,7 @@ const FrontOptionsEditor = (props: FrontOptionsEditorProps) => {
                   Price
                 </Text>
                 <input
-                  className="py-1 px-2 rounded text-text bg-static"
+                  className="py-1 px-2 rounded text-text bg-background"
                   type="number"
                   title="Front option price"
                   value={priceInputValue}
