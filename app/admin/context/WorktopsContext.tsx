@@ -2,6 +2,7 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { Worktop, WorktopType, CreationMessage, WorktopWithoutId, WorktopTypeWithoutId } from '@/app/types';
 import { createClient } from '@/utilities/supabase/client';
+import { worktopsWithType } from '@/utilities/helpers/supabaseSelect';
 
 export type WorktopContextType = {
   worktopTypes: WorktopType[];
@@ -107,7 +108,7 @@ const WorktopsProvider = ({ children }: { children: any }) => {
   }, []);
   useEffect(() => {
     const fetchWorktops = async () => {
-      const { data: worktops, error } = await supabase.from('worktops').select('*');
+      const { data: worktops, error } = await supabase.from('worktops').select(worktopsWithType);
       if (error) {
         console.error(error);
         return;

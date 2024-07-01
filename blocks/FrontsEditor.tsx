@@ -73,9 +73,9 @@ const FrontsEditor = (props: FrontsEditorProps) => {
 
   return (
     <Flex direction="column" align="center" gap={4}>
-      <Flex direction="column" gap={2}>
-        <Flex direction="column" align="center" gap={2} classNames="bg-primary rounded p-2">
-          <Flex justify="between">
+      <Flex direction="column" gap={2} width='full'>
+        <Flex direction="column"  align="center" gap={2} classNames="bg-primary rounded p-2">
+          <Flex justify="between" width='full'>
             <Text as="h4" size="small">
               Editing Front Group
             </Text>
@@ -83,7 +83,7 @@ const FrontsEditor = (props: FrontsEditorProps) => {
               {props.frontType.name}
             </Text>
           </Flex>
-          <Flex direction="column" align="start" classNames="w-full">
+          <Flex direction="column" align="start" width='full'>
             <Text as="p">Change front type name</Text>
             <input
               type="text"
@@ -98,7 +98,7 @@ const FrontsEditor = (props: FrontsEditorProps) => {
       </Flex>
       {props.front && (
         <>
-          <Flex direction="column" gap={2}>
+          <Flex direction="column" gap={2} width='full'>
             <Flex direction="column" gap={2} classNames="bg-primary rounded p-2">
               <Flex justify="between">
                 <Flex>

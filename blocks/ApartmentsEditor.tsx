@@ -7,6 +7,10 @@ import { DeleteOutline, LockRounded, SaveRounded } from '@mui/icons-material';
 import { MessagesContext, MessagesContextType } from '../app/admin/context/MessagesContext';
 import Flex from '@/Containers/Flex';
 import Text from '@/components/Text';
+<<<<<<< Updated upstream
+=======
+import { ProjectsContext, ProjectsContextType } from '@/app/admin/context/ProjectsContext';
+>>>>>>> Stashed changes
 
 export type ApartmentEditorProps = {
   apartment: Apartment;
@@ -21,7 +25,12 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
   const [selectedClient, setSelectedClient] = useState<ClientUser | null>(null);
   const [currentClient, setCurrentClient] = useState<ClientUser | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+<<<<<<< Updated upstream
   const { addMessage } = useContext(MessagesContext) as MessagesContextType;
+=======
+  const { addMessage} = useContext(MessagesContext) as MessagesContextType;
+  const {updateApartment} = useContext(ProjectsContext) as ProjectsContextType;
+>>>>>>> Stashed changes
 
   useEffect(() => {
     const fetchClientUsers = async () => {
@@ -47,6 +56,10 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
     if (props.apartment.user_id) getUserInfoWithApartmentUserId();
   }, [props.apartment]);
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
   const handleClientChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     clients?.filter((client: ClientUser) => {
       if (client.id === event.target.value) {
@@ -57,11 +70,16 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
   };
 
   const handleSaveChanges = async () => {
+<<<<<<< Updated upstream
+=======
+    setLoading(true);
+>>>>>>> Stashed changes
     if (inputValue.length < 1 && !selectedClient) {
       addMessage({ message: 'You must either assign a client or change the apartment name', type: 'error' });
       setLoading(false);
       return;
     }
+<<<<<<< Updated upstream
     if (selectedClient) {
       const { data, error } = await supabase
         .from('apartments')
@@ -91,10 +109,18 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
         addMessage({ message: 'Apartment name updated successfully', type: 'success' });
       }
     }
+=======
+    addMessage(await updateApartment({
+      ...props.apartment,
+      user_id: selectedClient?.id || props.apartment.user_id,
+      name: inputValue || props.apartment.name,
+    }));
+>>>>>>> Stashed changes
     setLoading(false);
   };
 
   const handleRemoveCurrentClient = async () => {
+<<<<<<< Updated upstream
     if (currentClient) {
       const { data, error } = await supabase
         .from('apartments')
@@ -111,6 +137,12 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
         setLoading(false);
       }
     }
+=======
+    addMessage(await updateApartment({
+      ...props.apartment,
+      user_id: null,
+    }))
+>>>>>>> Stashed changes
   };
 
   const handleInputChange = (e: React.ChangeEvent<any>) => {
@@ -142,7 +174,11 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
             />
           </Flex>
         </Flex>
+<<<<<<< Updated upstream
         <Flex direction="column" align="stretch" gap={1} classNames="bg-primary px-1 py-2 rounded">
+=======
+        <Flex direction="column" gap={1} classNames="bg-primary px-1 py-2 rounded">
+>>>>>>> Stashed changes
           <Text as="h4" size="small">
             Manage Client
           </Text>
@@ -151,14 +187,22 @@ const ApartmentEditor = (props: ApartmentEditorProps) => {
               <Text as="p" size="medium">
                 Current client:
               </Text>
+<<<<<<< Updated upstream
               <Flex gap={2} align="center" classNames="rounded bg-static w-fit pl-1">
+=======
+              <Flex gap={2} align="center" classNames="rounded bg-static pl-1" justify='between'>
+>>>>>>> Stashed changes
                 <Text as="p" size="medium">
                   {currentClient?.full_name} - {currentClient.email}
                 </Text>
                 <Button
+<<<<<<< Updated upstream
                   onClick={() => {
                     setLoading(true), handleRemoveCurrentClient();
                   }}
+=======
+                  onClick={handleRemoveCurrentClient}
+>>>>>>> Stashed changes
                   icon={DeleteOutline}
                   ariaLabel="Remove client from apartment"
                   loading={loading}

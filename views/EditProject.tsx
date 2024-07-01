@@ -16,11 +16,13 @@ import KitchenTypesEditor from '@/blocks/KitchenTypesEditor';
 import ApartmentEditor from '@/blocks/ApartmentsEditor';
 import KitchenTypesCreator from '@/components/KitchenTypesCreator';
 import Text from '@/components/Text';
+import ApartmentsCreator from '@/components/ApartmentsCreator';
 
 const EditProject = () => {
   const supabase = createClient();
   const { kitchenTypes, apartments } = useContext(ProjectsContext) as ProjectsContextType;
   const {
+    state,
     selectedProject,
     selectedKitchenType,
     selectedApartment,
@@ -91,12 +93,12 @@ const EditProject = () => {
   };
   const handleCreateNewApartment = () => {
     changeSelectedApartment(null);
+    setCreatingKitchenType(false);
     setCreatingApartment(true);
   };
   return (
     <>
       <nav id="secondary-navigation" className="w-full">
-        {/* Kitchen Types */}
         {selectedProject && (
           <ItemList horizontal classNames={'py-4 px-2 bg-static border border-text border-l-0 sticky w-full'}>
             {kitchenTypes &&
@@ -123,7 +125,7 @@ const EditProject = () => {
           >
             {apartments &&
               apartments
-                .filter((apartment) => apartment.kitchen_type_id === selectedKitchenType.id)
+                .filter((apartment) => apartment.kitchen_type_id === selectedKitchenType.id).sort(sortByName)
                 .map((apartment, key) => (
                   <MenuItem
                     key={key}
@@ -138,10 +140,9 @@ const EditProject = () => {
         )}
       </nav>
 
-      <Flex id="project-editor" as="section" direction="column" classNames="w-full h-full max-h-full overflow-auto p-2">
+      <Flex id="project-editor" as="section" direction="column" classNames="h-full max-h-full overflow-auto p-2" width='full'>
         {creatingKitchenType && selectedProject && <KitchenTypesCreator project={selectedProject} />}
-        {selectedProject && !selectedKitchenType && (
-          <>
+        {selectedProject && !selectedKitchenType && !creatingKitchenType && (
             <Flex direction="column" gap={2} align="stretch">
               <Flex direction="column" gap={1} classNames="w-full p-2 rounded bg-primary">
                 <Flex direction="row" gap={1} align="center" justify="between">
@@ -176,14 +177,14 @@ const EditProject = () => {
                 />
               </Flex>
             </Flex>
-          </>
         )}
-        {selectedProject && selectedKitchenType && !selectedApartment && (
+        {selectedProject && selectedKitchenType && !selectedApartment && !creatingApartment && (
           <KitchenTypesEditor kitchenType={selectedKitchenType} project={selectedProject} />
         )}
         {selectedProject && selectedKitchenType && selectedApartment && (
           <ApartmentEditor project={selectedProject} kitchenType={selectedKitchenType} apartment={selectedApartment} />
         )}
+        {creatingApartment && selectedKitchenType && <ApartmentsCreator kitchenType={selectedKitchenType} />}
         {/* Placeholder */}
         {!selectedProject && (
           <Flex align="center" justify="center" classNames="h-full">

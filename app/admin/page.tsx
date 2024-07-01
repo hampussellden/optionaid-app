@@ -7,6 +7,9 @@ import EditProject from '@/views/EditProject';
 import { AppState } from './context/AppContext';
 import ProjectCreator from '@/components/ProjectCreator';
 import EditFronts from '@/views/EditFronts';
+import FrontTypesCreator from '@/components/FrontTypesCreator';
+import EditWorktops from '@/views/EditWorktops';
+
 const Admin = () => {
   const { messages } = useContext(MessagesContext) as MessagesContextType;
   const { state } = useContext(AppContext) as AppContextType;
@@ -18,22 +21,14 @@ const Admin = () => {
         return <ProjectCreator />;
       case 'EditFrontType':
         return <EditFronts />;
-      // case 'CreateFrontType':
-      //   return <CreateFrontType />;
+      case 'CreateFrontType':
+        return <FrontTypesCreator />;
       // case 'EditFront':
       //   return <EditFront id={id} />;
       // case 'CreateFront':
       //   return <CreateFront id={id} />;
-      // case 'EditKitchenType':
-      //   return <EditKitchenType id={id} />;
-      // case 'CreateKitchenType':
-      //   return <CreateKitchenType id={id} />;
-      // case 'EditApartment':
-      //   return <EditApartment id={id} />;
-      // case 'CreateApartment':
-      //   return <CreateApartment id={id} />;
-      // case 'EditWorktopType':
-      //   return <EditWorktopType id={id} />;
+      case 'EditWorktopType':
+        return <EditWorktops />;
       // case 'CreateWorktopType':
       //   return <CreateWorktopType id={id} />;
       // case 'EditWorktop':
@@ -48,7 +43,7 @@ const Admin = () => {
     <>
       {state && getComponentFromState(state)}
       {messages.length > 0 && (
-        <section className="flex flex-col-reverse justify-start gap-2 self-start fixed bottom-2 right-2 items-end transition">
+        <section className="flex flex-col-reverse justify-start gap-2 self-start fixed bottom-2 right-2 items-end transition ">
           {messages.map((message, i) => (
             <Message message={message} key={i} />
           ))}

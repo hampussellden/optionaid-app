@@ -7,7 +7,6 @@ import {
   CreationMessage,
   ProjectWithoutId,
   KitchenTypeWithoutId,
-  ApartmentWithoutId,
   New_Apartment,
 } from '@/app/types';
 import { createClient } from '@/utilities/supabase/client';
@@ -19,7 +18,7 @@ export type ProjectsContextType = {
   updateProject: (project: Project) => Promise<CreationMessage>;
   kitchenTypes: KitchenType[];
   addKitchenType: (kitchenType: KitchenTypeWithoutId) => Promise<CreationMessage>;
-  updateKitchenType: (kitcenType: KitchenType) => Promise<CreationMessage>;
+  updateKitchenType: (kitchenType: KitchenType) => Promise<CreationMessage>;
   apartments: Apartment[];
   addApartment: (apartment: New_Apartment) => Promise<CreationMessage>;
   updateApartment: (apartment: Apartment) => Promise<CreationMessage>;
@@ -72,8 +71,8 @@ const ProjectsProvider = ({ children }: { children: any }) => {
     }
     return { message: 'Something went wrong', type: 'error' };
   };
-
   const addKitchenType = async (kitchenType: KitchenTypeWithoutId): Promise<CreationMessage> => {
+    
     const { data, error } = await supabase.from('kitchen_types').insert(kitchenType).select();
 
     if (error) {
@@ -93,14 +92,11 @@ const ProjectsProvider = ({ children }: { children: any }) => {
     }
     return { message: 'Something went wrong', type: 'error' };
   };
-
   const updateKitchenType = async (kitchenType: KitchenType): Promise<CreationMessage> => {
     const { data, error } = await supabase
       .from('kitchen_types')
       .update({
         name: kitchenType.name,
-        standard_front_id: kitchenType.standard_front_id,
-        standard_worktop_id: kitchenType.standard_worktop_id,
       })
       .eq('id', kitchenType.id)
       .select();
@@ -109,14 +105,11 @@ const ProjectsProvider = ({ children }: { children: any }) => {
       let newState = [...kitchenTypes];
       let index = newState.findIndex((item) => item.id === kitchenType.id);
       newState[index].name = kitchenType.name;
-      newState[index].standard_front_id = kitchenType.standard_front_id;
-      newState[index].standard_worktop_id = kitchenType.standard_worktop_id;
       setKitchenTypes(newState);
       return { message: 'Kitchen type updated successfully', type: 'success' };
     }
     return { message: 'Something went wrong', type: 'error' };
   };
-
   const addApartment = async (apartment: New_Apartment): Promise<CreationMessage> => {
     const { data, error } = await supabase.from('apartments').insert(apartment).select();
 
@@ -138,7 +131,7 @@ const ProjectsProvider = ({ children }: { children: any }) => {
     return { message: 'Something went wrong', type: 'error' };
   };
   const updateApartment = async (apartment: Apartment): Promise<CreationMessage> => {
-    const { data, error } = await supabase.from('apartments').update(apartment).eq('id', apartment.id).select();
+    const { data, error } = await supabase.from('apartments').update({user_id: apartment.user_id, name: apartment.name}).eq('id', apartment.id).select();
     if (error) return { message: 'Error updating apartment', type: 'error' };
     if (data) {
       let newState = [...apartments];
@@ -166,6 +159,17 @@ const ProjectsProvider = ({ children }: { children: any }) => {
   // Fetch kitchen types
   const fetchKitchenTypes = async () => {
     const { data: kitchenTypes, error } = await supabase.from('kitchen_types').select(kitchenTypesAllData);
+  const fetchProjects = async () => {
+    const { data: projects, error } = await supabase.from('projects').select(projectsAllData);
+    if (error) {
+      return;
+    }
+    if (projects) {
+      setProjects(projects as Project[]);
+    }
+  };
+  const fetchKitchenTypes = async () => {
+    const { data: kitchenTypes, error } = await supabase.from('kitchen_types').select(kitchenTypesAllData);
 
     if (error) {
       return;
@@ -175,8 +179,6 @@ const ProjectsProvider = ({ children }: { children: any }) => {
       setKitchenTypes(kitchenTypes as KitchenType[]);
     }
   };
-
-  // Fetch apartments
   const fetchApartments = async () => {
     const { data: apartments, error } = await supabase.from('apartments').select(apartmentsInteriorDeep);
 

@@ -5,7 +5,8 @@ import { CancelOutlined, CheckCircleOutline, SaveRounded } from '@mui/icons-mate
 import Button from './Button';
 import { MessagesContext, MessagesContextType } from '../app/admin/context/MessagesContext';
 import { WorktopsContext, WorktopContextType } from '../app/admin/context/WorktopsContext';
-import Box from './Box';
+import Text from './Text';
+import Flex from '@/Containers/Flex';
 
 type WorktopsEditorProps = {
   worktopType: WorktopType;
@@ -72,74 +73,88 @@ const WorktopsEditor = (props: WorktopsEditorProps) => {
   };
 
   return (
-    <Box grow primary>
-      <div className="flex flex-row justify-between">
-        <p className="text-2xl text-text font-bold">Editing Worktop Group</p>
-        <p className="text-xl font-semibold text-text">{props.worktopType.make}</p>
-      </div>
-      <div>
-        <p className="text-lg text-text font-semibold">Change Front type name</p>
-        <input
-          type="text"
-          title="Worktop type name"
-          value={worktopTypeInputValue}
-          onChange={handleWorktopTypeInputValue}
-          className="text-text bg-background rounded py-2 px-4 font-semibold"
-        />
-      </div>
-      <div className="ml-auto mt-auto flex flex-row gap-2">
-        <Button text="Save Changes" icon={SaveRounded} onClick={handleSaveWorktopTypeChanges} loading={loading} />
-      </div>
+    <Flex direction='column' align='center' gap={4}>
+      <Flex direction="column" gap={2} width='full'>
+        <Flex direction="column"  align="center" gap={2} classNames="bg-primary rounded p-2">
+          <Flex justify="between" width='full'>
+            <Text as="h4" size="small">
+              Editing Worktop Group
+            </Text>
+            <Text as="p" size="small">
+            {props.worktopType.make}
+            </Text>
+          </Flex>
+          <Flex direction='column' align='start' width='full'>
+            <Text as='p'>Change Worktop type name</Text>
+            <input
+              type="text"
+              title="Worktop type name"
+              value={worktopTypeInputValue}
+              onChange={handleWorktopTypeInputValue}
+              className="text-text bg-static rounded py-1 px-2 max-w-[20ch]"
+              />
+          </Flex>
+        </Flex>
+      <Button fullWidth text="Save Changes" icon={SaveRounded} onClick={handleSaveWorktopTypeChanges} />
+      </Flex>
 
       {props.worktop && (
         <>
-          <hr className="border-background"></hr>
-          <div className="flex flex-row justify-between">
-            <p className="text-xl font-bold text-text"> Editing Worktop</p>
-            {props.worktop && (
-              <p className="text-lg text-text font-semibold flex gap-2 items-center">
-                {' '}
-                {props.worktop.name + ' - '}
-                <span className="bg-background p-1 rounded">{props.worktop.color}</span>
-                <div style={{ backgroundColor: color }} className="h-9 w-20 rounded"></div>
-              </p>
-            )}
-          </div>
-          <div className="flex flex-col gap-4">
-            <div>
-              <p className="text-lg text-text font-semibold">Change Worktop name</p>
-              <input
-                type="text"
-                title="Worktop name"
-                value={worktopInputValue}
-                onChange={handleWorktopInputValue}
-                className="text-text bg-background rounded py-2 px-4 font-semibold"
-              />
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <p className="text-lg text-text font-semibold">Change font color code</p>
+        <Flex direction='column' gap={2} width='full'>
+          <Flex direction="column" gap={2} classNames='bg-primary rounded p-2'>
+            <Flex justify='between'>
+              <Flex>
+                <Text as="h4" size='small'>
+                  Editing Worktop
+                </Text>
+              </Flex>
+              <Flex direction='column' gap={1} align='end'>
+                <Text as="p" size='small'>
+                  {props.worktop.name}
+                </Text>
+                <Flex gap={1} align='end' justify='end'>
+                  <span className="bg-background p-1 h-9 rounded">
+                    {color}
+                  </span>
+                  <div style={{ backgroundColor: color }} className="h-9 w-20 rounded"></div>
+                </Flex>
+              </Flex>
+            </Flex>
+            <Flex direction='column' gap={4}>
+              <Text as="p" size='small'>
+                Change worktop name
+              </Text>
+              <input type="test" title="Worktop name" value={worktopInputValue} onChange={handleWorktopInputValue}
+              className='text-text bg-static rounded py-1 px-2 max-w-[20ch]'/>
+            </Flex>
+            <Flex direction='column' gap={2}>
+              <Text as="p">
+                Change worktop's color code
+              </Text>
               <ColorPicker onClick={handleWorktopColor} />
               <div className="flex justify-between">
                 {worktopColorInput ? (
-                  <p className="ml-5 text-lg font-semibold text-text flex flex-row gap-2 items-center">
-                    Color set
+                  <Text as="p" classNames='flex gap-2'>
+                    Color set 
                     <CheckCircleOutline />
-                    <span className="bg-background p-1 rounded">{worktopColorInput}</span>
-                  </p>
+                    <span className='bg-background px-1 rounded'>
+                      {worktopColorInput}
+                    </span>
+                  </Text>
                 ) : (
-                  <p className="ml-5 text-lg font-semibold text-text flex flex-row gap-2 items-center">
+                  <Text as="p" classNames='flex gap-2'>
                     No color selected
                     <CancelOutlined />
-                  </p>
+                  </Text>
                 )}
-                <Button text="Save Changes" icon={SaveRounded} onClick={handleSaveWorktopChanges} loading={loading} />
               </div>
-            </div>
-          </div>
+            </Flex>
+          </Flex>
+          <Button text="Save Changes" fullWidth icon={SaveRounded} onClick={handleSaveWorktopChanges} loading={loading} />
+        </Flex>
         </>
       )}
-    </Box>
+    </Flex>
   );
 };
 

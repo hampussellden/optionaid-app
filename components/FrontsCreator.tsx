@@ -6,6 +6,7 @@ import { Front, FrontType, FrontWithoutId } from '../app/types';
 import Box from './Box';
 import { MessagesContext, MessagesContextType } from '../app/admin/context/MessagesContext';
 import { FrontsContext, FrontsContextType } from '../app/admin/context/FrontsContext';
+import Flex from '@/Containers/Flex';
 type FrontsCreatorProps = {
   frontType: FrontType;
 };
@@ -54,7 +55,8 @@ const FrontsCreator = (props: FrontsCreatorProps) => {
   };
 
   return (
-    <Box grow primary>
+ <Flex as="section" direction="column" classNames='p-2' justify='between' align='stretch' gap={4} width='full'>
+  
       <div>
         <p className="text-2xl font-bold text-text">Creating front on type</p>
       </div>
@@ -88,7 +90,8 @@ const FrontsCreator = (props: FrontsCreatorProps) => {
           <Button text="Create new front" icon={AddRounded} onClick={handleCreateNewFront} loading={loading} />
         </div>
       </div>
-    </Box>
+      </Flex>
+  
   );
 };
 

@@ -13,6 +13,7 @@ type FlexProps = {
   as?: 'div' | 'ul' | 'ol' | 'li' | 'nav' | 'main' | 'section' | 'article' | 'aside' | 'header' | 'footer';
   classNames?: string;
   id?: string;
+  width?: 'full' | 'auto';
 };
 /**
  * A flexible container component that allows you to control the layout and alignment of its children.
@@ -43,14 +44,17 @@ const Flex = ({
   as,
   classNames,
   id,
+  width,
 }: FlexProps) => {
   const Tag = as || 'div';
-  const classes = `w-full flex flex-${direction === 'column' ? 'col' : 'row'} justify-${justify || 'start'} items-${
+  const classes = `flex flex-${direction === 'column' ? 'col' : 'row'} justify-${justify || 'start'} items-${
     align || 'start'
   } flex-wrap-${wrap || 'nowrap'} ${grow ? 'flex-grow' : ''}
   ${gap ? `gap-${gap}` : ''} ${rowGap ? `gap-y-${rowGap}` : ''} ${columnGap ? `gap-x-${columnGap}` : ''} ${
     classNames ? classNames : ''
-  }`;
+  }
+  ${width ? 'w-full' : 'w-auto'}
+  `
   return (
     <Tag className={classes} id={id}>
       {children}

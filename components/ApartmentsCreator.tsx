@@ -1,12 +1,12 @@
 'use client';
 import React, { useState, useContext } from 'react';
 import { KitchenType } from '@/app/types';
-import Box from './Box';
 import Button from './Button';
 import { AddRounded } from '@mui/icons-material';
 import { MessagesContext, MessagesContextType } from '../app/admin/context/MessagesContext';
 import Text from './Text';
 import { ProjectsContext, ProjectsContextType } from '@/app/admin/context/ProjectsContext';
+import Flex from '@/Containers/Flex';
 
 export type ApartmentCreatorProps = {
   kitchenType: KitchenType;
@@ -37,24 +37,26 @@ const ApartmentsCreator = (props: ApartmentCreatorProps) => {
   };
 
   return (
-    <Box grow primary>
-      <Text as="h4" size="small">
-      Creating new apartment
-      </Text>
-      <div className="flex flex-row  items-center gap-2 max-w-lg">
-        <Text as="p">
-        Apartment Name
+    <Flex direction='column' gap={2}>
+      <Flex direction="column" gap={2} classNames='bg-primary rounded p-2'>
+        <Text as="h4" size="small">
+        Creating new apartment
         </Text>
-        <input
-          type="text"
-          title="Apartment name"
-          value={inputValue}
-          className="w-1/3 px-4 py-2 text-lg font-semibold rounded text-text bg-background"
-          onChange={handleInputChange}
-        />
-      </div>
-      <Button text="Save new apartment" onClick={handleCreateNewApartment} icon={AddRounded} loading={loading} />
-    </Box>
+        <Flex align='center' gap={2}>
+          <Text as="p" size='medium'>
+          Apartment Name
+          </Text>
+          <input
+            type="text"
+            title="Apartment name"
+            value={inputValue}
+            className="bg-static text-text p-0.5 rounded"
+            onChange={handleInputChange}
+            />
+        </Flex>
+      </Flex>
+      <Button fullWidth text="Save new apartment" onClick={handleCreateNewApartment} icon={AddRounded} loading={loading} />
+    </Flex>
   );
 };
 

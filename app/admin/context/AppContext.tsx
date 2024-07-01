@@ -7,6 +7,10 @@ import { createContext, useEffect, useState } from 'react';
 export type AppState =
   | 'EditProject'
   | 'CreateProject'
+  | 'EditKitchenType'
+  | 'CreateKitchenType'
+  | 'EditApartment'
+  | 'CreateApartment'
   | 'EditWorktopType'
   | 'CreateWorktopType'
   | 'EditFrontType'

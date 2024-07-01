@@ -7,6 +7,11 @@ import Button from './Button';
 import { AddRounded } from '@mui/icons-material';
 import Box from './Box';
 import { MessagesContext, MessagesContextType } from '../app/admin/context/MessagesContext';
+import Text from './Text';
+import Flex from '@/Containers/Flex';
+import { ProjectsContext, ProjectsContextType } from '@/app/admin/context/ProjectsContext';
+import { FrontsContext, FrontsContextType } from '@/app/admin/context/FrontsContext';
+import { WorktopContextType, WorktopsContext } from '@/app/admin/context/WorktopsContext';
 
 export type KitchenTypesCreatorProps = {
   project: Project;
@@ -15,63 +20,49 @@ export type KitchenTypesCreatorProps = {
 const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {
   const supabase = createClient();
   const [loading, setLoading] = useState<boolean>(false);
-  const [fronts, setFronts] = useState<Front[] | null>(null);
-  const [worktops, setWorktops] = useState<Worktop[] | null>(null);
   const [inputValue, setInputValue] = useState<string>('');
   const [standardFront, setStandardFront] = useState<Front | null>(null);
   const [standardWorktop, setStandardWorktop] = useState<Worktop | null>(null);
   const { addMessage } = useContext(MessagesContext) as MessagesContextType;
-
-  useEffect(() => {
-    const fetchFrontsAndWorktops = async () => {
-      const { data: fronts } = await supabase
-        .from('fronts')
-        .select('*,front_types(*)')
-        .order('front_type_id', { ascending: true });
-      const { data: worktops } = await supabase
-        .from('worktops')
-        .select('*,worktop_types(*)')
-        .order('worktop_type_id', { ascending: true });
-      if (fronts && worktops) {
-        setFronts(fronts as Front[]);
-        setWorktops(worktops as Worktop[]);
-      }
-    };
-    fetchFrontsAndWorktops();
-  }, []);
+  const {addKitchenType} = useContext(ProjectsContext) as ProjectsContextType;
+  const {frontTypes,fronts} = useContext(FrontsContext) as FrontsContextType;
+  const {worktopTypes,worktops} = useContext(WorktopsContext) as WorktopContextType;
+  // useEffect(() => {
+  //   const fetchFrontsAndWorktops = async () => {
+  //     const { data: fronts } = await supabase
+  //       .from('fronts')
+  //       .select('*,front_types(*)')
+  //       .order('front_type_id', { ascending: true });
+  //     const { data: worktops } = await supabase
+  //       .from('worktops')
+  //       .select('*,worktop_types(*)')
+  //       .order('worktop_type_id', { ascending: true });
+  //     if (fronts && worktops) {
+  //       setFronts(fronts as Front[]);
+  //       setWorktops(worktops as Worktop[]);
+  //     }
+  //   };
+  //   fetchFrontsAndWorktops();
+  // }, []);
 
   const handleInputChange = (e: React.ChangeEvent<any>) => {
     setInputValue(e.target.value);
   };
 
   const handleCreateNewKitchenType = async () => {
+    setLoading(true);
     if (inputValue.length < 1) {
       addMessage({ message: 'A kitchen type must have a name', type: 'error' });
+      setLoading(false);
       return;
     }
-    const createNewKitchenType = async () => {
-      const { data, error } = await supabase
-        .from('kitchen_types')
-        .insert([
-          {
-            project_id: props.project.id,
-            name: inputValue,
-            standard_front_id: standardFront?.id || 1,
-            standard_worktop_id: standardWorktop?.id || 1,
-          },
-        ])
-        .select();
-      if (error) {
-        addMessage({ message: 'Error creating kitchen type', type: 'error' });
-        setLoading(false);
-      }
-      if (data) {
-        addMessage({ message: 'Kitchen type created successfully', type: 'success' });
-        setLoading(false);
-      }
-    };
-    setLoading(true);
-    createNewKitchenType();
+    addKitchenType({
+      project_id: props.project.id,
+      name: inputValue,
+      standard_front_id: standardFront?.id || 1,
+      standard_worktop_id: standardWorktop?.id || 1,
+    });
+    setLoading(false);
   };
 
   const handleStandardFront = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -89,61 +80,62 @@ const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {
     });
   };
   return (
-    <Box grow primary>
-      <h2 className="text-2xl font-bold">Creating New Kitchen Type</h2>
-
-      <div className="flex flex-row items-center gap-2 max-w-lg">
-        <p className="text-lg font-semibold text-text">Type Name</p>
-        <input
-          type="text"
-          title="Kitchen type name"
-          value={inputValue}
-          className="w-1/2 px-4 py-2 text-xl font-semibold rounded bg-background text-text"
-          onChange={handleInputChange}
-        />
-      </div>
-
-      <div className="flex flex-row items-center gap-2 max-w-lg">
-        <p className="text-lg font-semibold text-text">Standard Front</p>
-        <select
-          className="rounded w-1/2 px-4 py-2 text-text font-semibold bg-background"
-          name="standard-front-picker"
-          id="standard-front-picker"
-          aria-label="Choose Standard Front"
-          title="Choose Standard Front"
-          value={standardFront?.id}
-          onChange={handleStandardFront}
-        >
-          {fronts &&
-            fronts.map((front: Front, index: number) => (
-              <option value={front.id} selected={index == 0 ? true : false} key={front.id}>
-                {front.front_types?.name + ' ' + front.name}
-              </option>
-            ))}
-        </select>
-      </div>
-
-      <div className="flex flex-row items-center gap-2 ">
-        <p className="text-lg font-semibold text-text">Standard Worktop</p>
-        <select
-          className="rounded px-4 py-2 text-text font-semibold bg-background"
-          name="standard-worktop-picker"
-          id="standard-worktop-picker"
-          aria-label="Choose Standard Worktop"
-          title="Choose Standard Worktop"
-          value={standardWorktop?.id}
-          onChange={handleStandardWorktop}
-        >
-          {worktops &&
-            worktops.map((worktop: Worktop, index: number) => (
-              <option value={worktop.id} selected={index == 0 ? true : false} key={worktop.id}>
-                {worktop.worktop_types?.make + ' ' + worktop.name}
-              </option>
-            ))}
-        </select>
-      </div>
-      <Button icon={AddRounded} text="Save new Type" onClick={handleCreateNewKitchenType} loading={loading} />
-    </Box>
+    <Flex direction='column' gap={2}>
+      <Flex direction='column' classNames='bg-primary rounded p-2' gap={2} width='full'>
+        <Text as="h4" size="small">
+          Creating New Kitchen Type
+        </Text>
+        <Flex align='center' gap={2} >
+          <Text as="p" size="medium">Kitchen Type Name</Text>
+          <input
+            type="text"
+            title="Kitchen type name"
+            value={inputValue}
+            className="bg-static text-text p-0.5 rounded"
+            onChange={handleInputChange}
+          />
+        </Flex>
+        <Flex align='center' gap={2}>
+          <Text as='p' size='medium'>Standard Front</Text>
+          <select
+            className="bg-static text-text p-0.5 rounded"
+            name="standard-front-picker"
+            id="standard-front-picker"
+            aria-label="Choose Standard Front"
+            title="Choose Standard Front"
+            value={standardFront?.id}
+            onChange={handleStandardFront}
+            >
+            {fronts &&
+              fronts.map((front: Front, index: number) => (
+                <option value={front.id} selected={index == 0 ? true : false} key={front.id}>
+                  {front.front_types?.name + ' ' + front.name}
+                </option>
+              ))}
+          </select>
+        </Flex>
+        <Flex align='center' gap={2}>
+          <Text as='p' size='medium'>Standard Worktop</Text>
+          <select
+            className="bg-static text-text p-0.5 rounded"
+            name="standard-worktop-picker"
+            id="standard-worktop-picker"
+            aria-label="Choose Standard Worktop"
+            title="Choose Standard Worktop"
+            value={standardWorktop?.id}
+            onChange={handleStandardWorktop}
+          >
+            {worktops &&
+              worktops.map((worktop: Worktop, index: number) => (
+                <option value={worktop.id} selected={index == 0 ? true : false} key={worktop.id}>
+                  {worktop.worktop_types?.make + ' ' + worktop.name}
+                </option>
+              ))}
+          </select>
+        </Flex>
+      </Flex>
+      <Button fullWidth icon={AddRounded} text="Save new Type" onClick={handleCreateNewKitchenType} loading={loading} />
+    </Flex>
   );
 };
 

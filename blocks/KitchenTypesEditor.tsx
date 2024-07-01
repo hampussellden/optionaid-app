@@ -1,6 +1,5 @@
 'use client';
 import React, { useState, useContext } from 'react';
-import { createClient } from '@/utilities/supabase/client';
 import { KitchenType, Project } from '@/app/types';
 import FrontOptionsEditor from '@/components/FrontOptionsEditor';
 import WorktopOptionsEditor from '@/components/WorktopOptionsEditor';
@@ -9,6 +8,7 @@ import { SaveRounded } from '@mui/icons-material';
 import { MessagesContext, MessagesContextType } from '../app/admin/context/MessagesContext';
 import Text from '@/components/Text';
 import Flex from '@/Containers/Flex';
+import { ProjectsContext, ProjectsContextType } from '@/app/admin/context/ProjectsContext';
 
 export type KitchenTypesEditorProps = {
   kitchenType: KitchenType;
@@ -16,9 +16,9 @@ export type KitchenTypesEditorProps = {
 };
 
 const KitchenTypesEditor = (props: KitchenTypesEditorProps) => {
-  const supabase = createClient();
   const [loading, setLoading] = useState<boolean>(false);
   const { addMessage } = useContext(MessagesContext) as MessagesContextType;
+  const {updateKitchenType} = useContext(ProjectsContext) as ProjectsContextType;
   // state to hold input value for kitchen type name and price change
   const [typeNameInputValue, setTypeNameInputValue] = useState<string>('');
 
@@ -32,22 +32,11 @@ const KitchenTypesEditor = (props: KitchenTypesEditorProps) => {
       setLoading(false);
       return;
     }
-    const updateKitchenType = async () => {
-      const { data, error } = await supabase
-        .from('kitchen_types')
-        .update({ name: typeNameInputValue })
-        .eq('id', props.kitchenType.id)
-        .select();
-      if (error) {
-        addMessage({ message: 'Error updating kitchen type', type: 'error' });
-        setLoading(false);
-      }
-      if (data) {
-        addMessage({ message: 'Kitchen type updated successfully', type: 'success' });
-        setLoading(false);
-      }
-    };
-    updateKitchenType();
+    updateKitchenType({
+      ...props.kitchenType,
+      id: props.kitchenType.id,
+      name: typeNameInputValue,
+    });
   };
 
   return (
@@ -78,9 +67,7 @@ const KitchenTypesEditor = (props: KitchenTypesEditorProps) => {
       <WorktopOptionsEditor kitchenType={props.kitchenType} />
       <Button
         text="Save Changes"
-        onClick={() => {
-          setLoading(true), handleTypeUpdate();
-        }}
+        onClick={handleTypeUpdate}
         loading={loading}
         icon={SaveRounded}
         marginZero

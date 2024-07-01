@@ -2,6 +2,7 @@
 import { createContext, useEffect, useState } from 'react';
 import { CreationMessage, Front, FrontType, FrontTypeWithoutId, FrontWithoutId } from '@/app/types';
 import { createClient } from '@/utilities/supabase/client';
+import { frontsWithType } from '@/utilities/helpers/supabaseSelect';
 
 export type FrontsContextType = {
   frontTypes: FrontType[];
@@ -116,7 +117,7 @@ const FrontsProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
   useEffect(() => {
     const fetchFronts = async () => {
-      const { data: fronts, error } = await supabase.from('fronts').select('*');
+      const { data: fronts, error } = await supabase.from('fronts').select(frontsWithType);
       if (error) {
         console.error(error);
         return;

@@ -69,7 +69,7 @@ const Sidebar = () => {
             name="Front Types"
             items={frontTypes}
             onClick={() => handleClickItem('frontTypes')}
-            isActive={activeItem === 'frontTypes'}
+            isActive={activeItem === 'frontTypes' && state === 'EditFrontType'}
             icon={DoorBackTwoTone}
             state="EditFrontType"
           />

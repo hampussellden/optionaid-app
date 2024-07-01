@@ -5,9 +5,10 @@ import { FrontsContext, FrontsContextType } from '@/app/admin/context/FrontsCont
 import { sortByName } from '@/utilities/helpers/sorting';
 import ItemList from '@/components/ItemList';
 import MenuItem from '@/components/MenuItem';
-import { AddRounded, DoorBack, DoorBackOutlined, DoorBackTwoTone } from '@mui/icons-material';
+import { AddRounded, DoorBackOutlined, DoorBackTwoTone } from '@mui/icons-material';
 import FrontsEditor from '@/blocks/FrontsEditor';
 import { Front } from '@/app/types';
+import Text from '@/components/Text';
 
 const EditFronts = () => {
   const { selectedFront, selectedFrontType, changeSelectedFront, changeSelectedFrontType, changeAppState } = useContext(
@@ -16,7 +17,11 @@ const EditFronts = () => {
   const { fronts } = useContext(FrontsContext) as FrontsContextType;
 
   const handleSelectFront = () => {};
-  const handleCreateNewFront = () => {};
+  const handleCreateNewFront = () => {
+    changeSelectedFrontType(null);
+    changeSelectedFront(null);
+
+  };
 
   return (
     <>
@@ -40,9 +45,15 @@ const EditFronts = () => {
           </ItemList>
         )}
       </nav>
-      <Flex as="section" id="fronts-editor" direction="column" classNames="w-full h-full max-h-full overflow-auto p-2">
+      <Flex as="section" id="fronts-editor" direction="column" classNames="w-full h-full max-h-full overflow-auto p-2" width='full'>
         {selectedFrontType && <FrontsEditor frontType={selectedFrontType} front={selectedFront ?? null} />}
-        {!selectedFrontType && <p>Select a front to edit</p>}
+        {!selectedFrontType && (
+          <Flex align="center" justify="center" classNames="h-full">
+            <Text as="h2" size="small">
+            Select a front to edit
+            </Text>
+          </Flex>
+        )}
       </Flex>
     </>
   );
