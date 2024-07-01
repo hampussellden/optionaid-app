@@ -159,17 +159,6 @@ const ProjectsProvider = ({ children }: { children: any }) => {
   // Fetch kitchen types
   const fetchKitchenTypes = async () => {
     const { data: kitchenTypes, error } = await supabase.from('kitchen_types').select(kitchenTypesAllData);
-  const fetchProjects = async () => {
-    const { data: projects, error } = await supabase.from('projects').select(projectsAllData);
-    if (error) {
-      return;
-    }
-    if (projects) {
-      setProjects(projects as Project[]);
-    }
-  };
-  const fetchKitchenTypes = async () => {
-    const { data: kitchenTypes, error } = await supabase.from('kitchen_types').select(kitchenTypesAllData);
 
     if (error) {
       return;
