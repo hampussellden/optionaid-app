@@ -76,20 +76,22 @@ const Dashboard = () => {
   //   </section>
   // );
   return(
-    <Flex as='section' direction='column' gap={4} width='full' id='dashboard'>
-      <Text as='h2' size='medium'>Assigned apartments</Text>
-      <ItemList horizontal>
-        {apartmentsOnUser && 
-        apartmentsOnUser.map((apartment) => (
-          <MenuItem
+    <Flex as='section' direction='column' gap={4} width='full' id='dashboard' classNames=''>
+      <Flex width='full' direction='column' classNames='rounded bg-static p-2 px-4' gap={2}>
+        <Text as='h2' size='medium'>Assigned apartments</Text>
+        <ItemList horizontal>
+          {apartmentsOnUser && 
+          apartmentsOnUser.map((apartment) => (
+            <MenuItem
             text={apartment?.kitchen_types?.projects?.name + ' - ' + apartment.name ?? ''}
             icon={apartment.ready_for_order ? LockRounded : LockOpenOutlined}
             onClick={() => handleSelectApartmentToEdit(apartment)}
             active={selectedApartment?.id == apartment.id ? true : false}
             key={apartment.id}
             />
-        ))}
-      </ItemList>
+          ))}
+        </ItemList>
+      </Flex>
       {editing && selectedApartment?.kitchen_types && (
         <ClientApartmentEditor
           apartment={selectedApartment}
