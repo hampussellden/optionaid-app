@@ -8,6 +8,8 @@ import ClientApartmentEditor from '../../components/ClientApartmentEditor';
 import ItemList from '../../components/ItemList';
 import Box from '../../components/Box';
 import { dashboardApartmentsAllData } from '@/utilities/helpers/supabaseSelect';
+import Flex from '@/Containers/Flex';
+import Text from '@/components/Text';
 
 const Dashboard = () => {
   const supabase = createClient();
@@ -47,32 +49,56 @@ const Dashboard = () => {
     setEditing(false);
   };
 
-  return (
-    <section className="flex flex-col w-full gap-4 min-h-screen">
-      <Box>
-        <p className="font-bold text-2xl">Assigned apartments</p>
-        <ItemList horizontal>
-          {apartmentsOnUser &&
-            apartmentsOnUser.map((apartment) => (
-              <MenuItem
-                text={apartment?.kitchen_types?.projects?.name + ' - ' + apartment.name ?? ''}
-                icon={apartment.ready_for_order ? LockRounded : LockOpenOutlined}
-                onClick={() => handleSelectApartmentToEdit(apartment)}
-                active={selectedApartment?.id == apartment.id ? true : false}
-                key={apartment.id}
-              />
-            ))}
-        </ItemList>
-      </Box>
+  // return (
+  //   <section className="flex flex-col w-full gap-4 min-h-screen">
+  //     <Box>
+  //       <p className="font-bold text-2xl">Assigned apartments</p>
+  //       <ItemList horizontal>
+  //         {apartmentsOnUser &&
+  //           apartmentsOnUser.map((apartment) => (
+  //             <MenuItem
+  //               text={apartment?.kitchen_types?.projects?.name + ' - ' + apartment.name ?? ''}
+  //               icon={apartment.ready_for_order ? LockRounded : LockOpenOutlined}
+  //               onClick={() => handleSelectApartmentToEdit(apartment)}
+  //               active={selectedApartment?.id == apartment.id ? true : false}
+  //               key={apartment.id}
+  //             />
+  //           ))}
+  //       </ItemList>
+  //     </Box>
+  //     {editing && selectedApartment?.kitchen_types && (
+  //       <ClientApartmentEditor
+  //         apartment={selectedApartment}
+  //         kitchenType={selectedApartment.kitchen_types}
+  //         update={handleApartmentsLoading}
+  //       />
+  //     )}
+  //   </section>
+  // );
+  return(
+    <Flex as='section' direction='column' gap={4} width='full' id='dashboard'>
+      <Text as='h2' size='medium'>Assigned apartments</Text>
+      <ItemList horizontal>
+        {apartmentsOnUser && 
+        apartmentsOnUser.map((apartment) => (
+          <MenuItem
+            text={apartment?.kitchen_types?.projects?.name + ' - ' + apartment.name ?? ''}
+            icon={apartment.ready_for_order ? LockRounded : LockOpenOutlined}
+            onClick={() => handleSelectApartmentToEdit(apartment)}
+            active={selectedApartment?.id == apartment.id ? true : false}
+            key={apartment.id}
+            />
+        ))}
+      </ItemList>
       {editing && selectedApartment?.kitchen_types && (
         <ClientApartmentEditor
           apartment={selectedApartment}
           kitchenType={selectedApartment.kitchen_types}
           update={handleApartmentsLoading}
-        />
+          />
       )}
-    </section>
-  );
+    </Flex>
+  )
 };
 
 export default Dashboard;

@@ -67,6 +67,7 @@ const KitchenScene = (props: KitchenSceneProps) => {
           {cupboard && <Cupboard color={frontColor} {...cupboard} />}
           {false && <Cupboard color={frontColor} x={18.2} />}
         </PresentationControls>
+
         <Environment preset="sunset" background blur={0.8} />
       </Canvas>
     </div>
