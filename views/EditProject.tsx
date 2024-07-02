@@ -136,7 +136,7 @@ const EditProject = () => {
         {selectedProject && selectedKitchenType && selectedApartment && (
           <ApartmentEditor project={selectedProject} kitchenType={selectedKitchenType} apartment={selectedApartment} />
         )}
-        {creatingApartment && selectedKitchenType && <ApartmentsCreator kitchenType={selectedKitchenType} />}
+        {creatingApartment && selectedKitchenType && !selectedApartment && <ApartmentsCreator kitchenType={selectedKitchenType} />}
         {/* Placeholder */}
         {!selectedProject && (
           <Flex align="center" justify="center" classNames="h-full">
