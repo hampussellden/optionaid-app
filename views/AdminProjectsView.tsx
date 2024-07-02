@@ -67,7 +67,7 @@ const AdminProjectsView = () => {
           key={kitchenTypesKey}
         />
       )}
-      {editing && selectedProject && <ProjectEditor project={selectedProject} />}
+      {editing && selectedProject && <ProjectEditor />}
       {creating && <ProjectCreator />}
       {!creating && !editing && !selectedProject && (
         <Box grow center>
