@@ -129,8 +129,7 @@ const WorktopOptionsEditor = (props: WorktopOptionsEditor) => {
   };
 
   return (
-    <Flex direction="column" gap={2}>
-      <Flex direction="column" gap={1} classNames="w-full">
+    <Flex direction="column" gap={1}>
         <Flex justify="between" align="center" classNames="w-full">
           <Text as="h4" size="small">
             Current Worktop options on this type
@@ -139,7 +138,6 @@ const WorktopOptionsEditor = (props: WorktopOptionsEditor) => {
             Standard: {props.kitchenType.worktops?.worktop_types?.make} {props.kitchenType.worktops?.name}
           </Text>
         </Flex>
-      </Flex>
       {worktopOptions && (
         <Flex gap={1} direction="column" justify="between" classNames="w-full">
           {worktopOptions.map((worktopOption: WorktopOption) => (

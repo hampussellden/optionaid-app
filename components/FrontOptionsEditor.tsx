@@ -136,7 +136,7 @@ const FrontOptionsEditor = (props: FrontOptionsEditorProps) => {
   };
 
   return (
-    <Flex direction="column" gap={2}>
+    <Flex direction="column" gap={1}>
       <Flex justify="between" classNames="w-full">
         <Text as="h4" size="small">
           Curent front options on this type

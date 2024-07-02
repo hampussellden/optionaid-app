@@ -41,35 +41,11 @@ const EditProject = () => {
     setInputValue(e.target.value);
   };
 
-  const handleProjectUpdate = async () => {
-    if (!selectedProject) return;
-    if (inputValue.length < 5) {
-      addMessage({ message: 'A project name must be at least 5 characters long', type: 'error' });
-      return;
-    }
-    const updateProject = async () => {
-      const { data, error } = await supabase
-        .from('projects')
-        .update({ name: inputValue })
-        .eq('id', selectedProject.id)
-        .select();
-      if (error) {
-        addMessage({ message: 'Error updating project', type: 'error' });
-        setLoading(false);
-      }
-      if (data) {
-        addMessage({ message: 'Project updated successfully', type: 'success' });
-        setLoading(false);
-      }
-    };
-    setLoading(true);
-    updateProject();
-  };
-
   const handleSelectKitchenType = (kitchenType: KitchenType) => {
     changeSelectedKitchenType(kitchenType);
     changeSelectedApartment(null);
     setCreatingKitchenType(false);
+    setCreatingApartment(false);
   };
   const handleCreateNewKitchenType = () => {
     changeSelectedKitchenType(null);
@@ -102,11 +78,10 @@ const EditProject = () => {
             <MenuItem onClick={handleCreateNewKitchenType} icon={AddRounded} text="Kitchen Type" />
           </ItemList>
         )}
-        {/* Apartments */}
         {selectedProject && selectedKitchenType && (
           <ItemList
             horizontal
-            classNames="py-4 px-2 bg-static border border-text border-t-0 border-l-0 sticky w-full overflow-auto"
+            classNames="py-4 px-2 bg-static border-b border-text sticky w-full overflow-auto"
           >
             {apartments &&
               apartments
@@ -137,7 +112,6 @@ const EditProject = () => {
           <ApartmentEditor project={selectedProject} kitchenType={selectedKitchenType} apartment={selectedApartment} />
         )}
         {creatingApartment && selectedKitchenType && !selectedApartment && <ApartmentsCreator kitchenType={selectedKitchenType} />}
-        {/* Placeholder */}
         {!selectedProject && (
           <Flex align="center" justify="center" classNames="h-full">
             <Text as="h2" size="small">

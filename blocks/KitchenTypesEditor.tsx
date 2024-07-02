@@ -63,8 +63,6 @@ const KitchenTypesEditor = (props: KitchenTypesEditorProps) => {
           />
         </Flex>
       </Flex>
-      <FrontOptionsEditor kitchenType={props.kitchenType} />
-      <WorktopOptionsEditor kitchenType={props.kitchenType} />
       <Button
         text="Save Changes"
         onClick={handleTypeUpdate}
@@ -72,6 +70,10 @@ const KitchenTypesEditor = (props: KitchenTypesEditorProps) => {
         icon={SaveRounded}
         marginZero
       />
+      
+      <FrontOptionsEditor kitchenType={props.kitchenType} />
+      <WorktopOptionsEditor kitchenType={props.kitchenType} />
+
     </Flex>
   );
 };
