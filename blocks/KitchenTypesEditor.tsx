@@ -40,7 +40,7 @@ const KitchenTypesEditor = (props: KitchenTypesEditorProps) => {
   };
 
   return (
-    <Flex direction="column" align="stretch" gap={2}>
+    <Flex direction="column" align="stretch" gap={2} classNames='pb-8'>
       <Flex direction="column" align="stretch" gap={1} classNames="bg-primary px-1 py-2 rounded">
         <Flex justify="between" classNames="w-full">
           <Text as="h4" size="small">

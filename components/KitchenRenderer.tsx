@@ -16,6 +16,7 @@ import Box from './Box';
 import ItemList from './ItemList';
 import { blueprints } from './Blueprints';
 import { KitchenObject } from './Blueprints';
+import Flex from '@/Containers/Flex';
 
 type KitchenRendererProps = {
   front: Front | undefined;
@@ -68,7 +69,7 @@ const KitchenRenderer = (props: KitchenRendererProps) => {
         worktopColor={props.worktop?.color ? props.worktop.color : props.standardWorktop.color}
       />
       <ItemList horizontal between>
-        <div className="flex flex-row ml-2">
+          <Flex classNames='ml-2' gap={2}>
           <MenuItem
             icon={SensorDoorOutlined}
             text={
@@ -88,7 +89,7 @@ const KitchenRenderer = (props: KitchenRendererProps) => {
             noHover
           />
           <MenuItem icon={CreditCardOutlined} text={formatter.format(props.totalCost)} noHover />
-        </div>
+          </Flex>
         <div className="flex flex-row gap-2 mr-2">
           <Button text="Save Changes" icon={SaveRounded} onClick={props.saveChanges} loading={props.loading} />
           <Button text="Lock in changes" icon={LockRounded} onClick={() => setConfirmLock(true)} accent />

@@ -100,7 +100,7 @@ const EditProject = () => {
         )}
       </nav>
 
-      <Flex id="project-editor" as="section" direction="column" classNames="h-full max-h-full overflow-auto p-2" width='full'>
+      <Flex id="project-editor" as="section" direction="column" classNames="h-full max-h-full overflow-auto p-2 " width='full'>
         {creatingKitchenType && selectedProject && <KitchenTypesCreator project={selectedProject} />}
         {selectedProject && !selectedKitchenType && !creatingKitchenType && (
             <ProjectEditor />

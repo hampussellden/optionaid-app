@@ -1,11 +1,9 @@
 'use client';
 import React, { useEffect, useState, useContext } from 'react';
-import { createClient } from '@/utilities/supabase/client';
 import { Project } from '@/app/types';
 import { Front, Worktop } from '@/app/types';
 import Button from './Button';
 import { AddRounded } from '@mui/icons-material';
-import Box from './Box';
 import { MessagesContext, MessagesContextType } from '../app/admin/context/MessagesContext';
 import Text from './Text';
 import Flex from '@/Containers/Flex';
@@ -18,7 +16,6 @@ export type KitchenTypesCreatorProps = {
 };
 
 const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {
-  const supabase = createClient();
   const [loading, setLoading] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>('');
   const [standardFront, setStandardFront] = useState<Front | null>(null);
@@ -27,23 +24,6 @@ const KitchenTypesCreator = (props: KitchenTypesCreatorProps) => {
   const {addKitchenType} = useContext(ProjectsContext) as ProjectsContextType;
   const {frontTypes,fronts} = useContext(FrontsContext) as FrontsContextType;
   const {worktopTypes,worktops} = useContext(WorktopsContext) as WorktopContextType;
-  // useEffect(() => {
-  //   const fetchFrontsAndWorktops = async () => {
-  //     const { data: fronts } = await supabase
-  //       .from('fronts')
-  //       .select('*,front_types(*)')
-  //       .order('front_type_id', { ascending: true });
-  //     const { data: worktops } = await supabase
-  //       .from('worktops')
-  //       .select('*,worktop_types(*)')
-  //       .order('worktop_type_id', { ascending: true });
-  //     if (fronts && worktops) {
-  //       setFronts(fronts as Front[]);
-  //       setWorktops(worktops as Worktop[]);
-  //     }
-  //   };
-  //   fetchFrontsAndWorktops();
-  // }, []);
 
   const handleInputChange = (e: React.ChangeEvent<any>) => {
     setInputValue(e.target.value);

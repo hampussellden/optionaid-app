@@ -44,7 +44,6 @@ const KitchenScene = (props: KitchenSceneProps) => {
           polar={[-Math.PI / 12.5, Math.PI / 10]}
           azimuth={[-Math.PI / 5, Math.PI / 8]}
         >
-          <Edges />
           <Tap {...tap} />
           <Sink {...sink} />
           <Stove {...stove} />
@@ -65,7 +64,6 @@ const KitchenScene = (props: KitchenSceneProps) => {
           ))}
           {fridge && <Fridge {...fridge} />}
           {cupboard && <Cupboard color={frontColor} {...cupboard} />}
-          {false && <Cupboard color={frontColor} x={18.2} />}
         </PresentationControls>
 
         <Environment preset="sunset" background blur={0.8} />

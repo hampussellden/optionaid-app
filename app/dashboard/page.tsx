@@ -6,7 +6,6 @@ import { LockOpenOutlined, LockOutlined, LockRounded } from '@mui/icons-material
 import MenuItem from '../../components/MenuItem';
 import ClientApartmentEditor from '../../components/ClientApartmentEditor';
 import ItemList from '../../components/ItemList';
-import Box from '../../components/Box';
 import { dashboardApartmentsAllData } from '@/utilities/helpers/supabaseSelect';
 import Flex from '@/Containers/Flex';
 import Text from '@/components/Text';
@@ -49,36 +48,10 @@ const Dashboard = () => {
     setEditing(false);
   };
 
-  // return (
-  //   <section className="flex flex-col w-full gap-4 min-h-screen">
-  //     <Box>
-  //       <p className="font-bold text-2xl">Assigned apartments</p>
-  //       <ItemList horizontal>
-  //         {apartmentsOnUser &&
-  //           apartmentsOnUser.map((apartment) => (
-  //             <MenuItem
-  //               text={apartment?.kitchen_types?.projects?.name + ' - ' + apartment.name ?? ''}
-  //               icon={apartment.ready_for_order ? LockRounded : LockOpenOutlined}
-  //               onClick={() => handleSelectApartmentToEdit(apartment)}
-  //               active={selectedApartment?.id == apartment.id ? true : false}
-  //               key={apartment.id}
-  //             />
-  //           ))}
-  //       </ItemList>
-  //     </Box>
-  //     {editing && selectedApartment?.kitchen_types && (
-  //       <ClientApartmentEditor
-  //         apartment={selectedApartment}
-  //         kitchenType={selectedApartment.kitchen_types}
-  //         update={handleApartmentsLoading}
-  //       />
-  //     )}
-  //   </section>
-  // );
   return(
     <Flex as='section' direction='column' gap={4} width='full' id='dashboard' classNames=''>
-      <Flex width='full' direction='column' classNames='rounded bg-static p-2 px-4' gap={2}>
-        <Text as='h2' size='medium'>Assigned apartments</Text>
+      <Flex width='full' direction='column' classNames='rounded bg-static p-2' gap={4}>
+        <Text as='h3' size='medium'>Assigned apartments</Text>
         <ItemList horizontal>
           {apartmentsOnUser && 
           apartmentsOnUser.map((apartment) => (
